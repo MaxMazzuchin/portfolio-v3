@@ -1,0 +1,32 @@
+:root {
+    /* Inter Tight 500–800 (grotesca tipo Helvetica Bold, títulos) · Roboto Mono 100–700 + cursivas (texto y labels) · Space Mono para números.
+       Combinación en prueba; antes: Workbench + Courier Prime, y antes TASA Orbiter + VT323. Para cambiar, tocar solo --font y --font-text. */
+    --font: 'Inter Tight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-text: 'Roboto Mono', ui-monospace, Menlo, Consolas, monospace;
+    --num: 'Space Mono', ui-monospace, Menlo, Consolas, monospace;
+
+    --gutter: clamp(16px, 2.2vw, 32px);
+    --nav-h: 84px;
+
+    /* Oscuro por defecto, negro 100% */
+    --bg: #000;
+    --fg: #f1f1ee;
+    --muted: #8a8a84;
+    --line: rgba(241, 241, 238, 0.16);
+    --ghost: #0d0d0d; /* letras gigantes planas de fondo */
+
+    /* Se define por página / proyecto; por defecto es el color del texto, o sea que no tiñe nada. */
+    --accent: #f1f1ee;
+    --accent-ink: var(--accent);
+}
+
+:root[data-theme='light'] {
+    --bg: #ecece8;
+    --fg: #0a0a0a;
+    --muted: #6d6d68;
+    --line: rgba(10, 10, 10, 0.18);
+    --ghost: #e0e0db;
+    --accent-ink: color-mix(in srgb, var(--accent) 62%, #000);
+}
+
+

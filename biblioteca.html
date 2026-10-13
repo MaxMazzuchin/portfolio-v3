@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es" data-theme="dark" data-page="library">
+<head>
+<!--shell:head-->
+    <title>Biblioteca | Máximo Mazzuchin</title>
+    <meta name="description" content="Libros, música, videos y películas que acompañan el trabajo de Máximo Mazzuchin, diseñador gráfico en Córdoba, Argentina.">
+</head>
+<body>
+<!--shell:header-->
+
+    <main data-router-view data-page="library">
+        <section class="col-stage">
+            <div class="c-top mono">
+                <div class="c-switch" role="group" aria-label="Vista"><button type="button" data-view="wheel" class="is-on">Rueda</button>, <button type="button" data-view="list">Lista</button></div>
+                <div class="c-filters" data-c-filters></div>
+                <span class="num" data-c-count></span>
+            </div>
+            <div class="dbar c-dbar" data-dbar aria-hidden="true"></div>
+            <div class="c-list" data-c-list aria-live="polite"></div>
+            <div class="c-hit" data-c-hit></div>
+            <div class="c-index" data-c-index></div>
+            <figure class="c-preview" aria-hidden="true"><img alt=""></figure>
+            <p class="mono c-foot">
+                <span data-c-sub></span>
+                <a class="c-open" href="/biblioteca.html" data-c-open data-cursor-item data-cursor="Abrir">Abrir recurso ↗</a>
+                <span class="c-hint">Scroll / arrastrar / ← →</span>
+            </p>
+        </section>
+    </main>
+
+<!--shell:footer-->
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
