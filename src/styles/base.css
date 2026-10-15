@@ -207,7 +207,7 @@ main, .footer { position: relative; z-index: 1; }
 /* ---------------- Proyecto ---------------- */
 /* Left column (~30%) stays pinned while the gallery scrolls on the right. */
 .p-layout { display: grid; grid-template-columns: 30% minmax(0, 1fr); gap: var(--gutter); align-items: start; padding: calc(var(--nav-h) + 8px) var(--gutter) 40px; }
-.p-side { position: sticky; top: calc(var(--nav-h) + 8px); max-height: calc(100svh - var(--nav-h) - 24px); overflow-y: auto; scrollbar-width: none; display: grid; gap: 18px; align-content: start; }
+.p-side { position: sticky; top: calc(var(--nav-h) + 8px); max-height: calc(100svh - var(--nav-h) - 24px); overflow-y: auto; scrollbar-width: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; align-content: start; }
 .p-side::-webkit-scrollbar { display: none; }
 .p-meta { display: flex; justify-content: space-between; gap: 16px; color: var(--muted); font-size: 15px; }
 .p-meta .num { color: var(--accent-ink); font-size: 13px; }
@@ -217,13 +217,18 @@ main, .footer { position: relative; z-index: 1; }
 .p-side { --p: 0; }
 .p-side .dbar::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--line); }
 .p-side .dbar canvas { clip-path: inset(0 calc((1 - var(--p)) * 100%) 0 0); }
+.p-toc { display: grid; gap: 2px; font-size: 14px; color: var(--muted); }
+.p-toc a { display: flex; gap: 10px; align-items: baseline; padding: 5px 0; }
+.p-toc .num { font-size: 12px; color: var(--accent-ink); }
+.p-toc a:hover, .p-toc a.is-on { color: var(--fg); }
+.p-toc a.is-on { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 5px; }
 .p-pager { display: flex; justify-content: space-between; gap: 16px; padding-top: 14px; color: var(--muted); font-size: 15px; }
 .p-pager a { display: inline-flex; align-items: baseline; gap: 6px; min-width: 0; }
 .p-pager a:hover { color: var(--fg); }
 .p-pager .num { font-size: 12px; color: var(--accent-ink); }
 .p-pager-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .p-facts div { display: flex; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
-.p-facts dd { color: var(--fg); text-align: right; }
+.p-facts dd { color: var(--fg); text-align: right; min-width: 0; }
 
 /* Per-project gallery, same structure as V2: cover → single column → two-column grid. */
 .p-gallery { display: grid; gap: 24px; min-width: 0; }
@@ -234,6 +239,13 @@ main, .footer { position: relative; z-index: 1; }
 .g-grid .g-item { margin-bottom: 24px; break-inside: avoid; }
 .g-videos { display: flex; flex-direction: column; gap: 24px; }
 .g-videos video { width: 100%; aspect-ratio: 16 / 9; background: var(--line); object-fit: contain; }
+
+/* Case-study chapters woven into the gallery. */
+.p-chapter { display: grid; gap: 12px; max-width: 60ch; padding: clamp(20px, 4vw, 56px) 0; scroll-margin-top: calc(var(--nav-h) + 8px); }
+.p-chapter-n { color: var(--muted); font-size: 13px; }
+.p-chapter-n .num { color: var(--accent-ink); margin-right: 8px; }
+.p-chapter-h { font-size: clamp(24px, 2.4vw, 40px); font-weight: 600; line-height: 1; letter-spacing: -0.03em; text-transform: uppercase; }
+.p-chapter-p { font-family: var(--font-text); font-weight: 300; font-size: clamp(15px, 1.15vw, 18px); line-height: 1.5; }
 
 .p-next { display: block; padding: 20px var(--gutter) 40px; border-top: 1px solid var(--line); }
 .p-next-label { display: flex; justify-content: space-between; color: var(--muted); font-size: 22px; }
@@ -316,10 +328,13 @@ main, .footer { position: relative; z-index: 1; }
     .about-n, .about-h, .about-p, .about-figure, .about-link, .about-big { grid-column: 1 / -1; }
     .about-figure { max-width: 320px; }
 
-    .p-layout { grid-template-columns: 1fr; gap: 28px; }
+    .p-layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .p-facts dd { overflow-wrap: anywhere; }
+    .p-meta { flex-wrap: wrap; }
     .p-side { position: static; max-height: none; overflow: visible; }
     .p-title { font-size: 14vw; }
     .p-desc { font-size: 16px; }
+    .p-chapter { padding: 12px 0; }
     .p-meta > :first-child { white-space: nowrap; }
     .g-grid { column-count: 1; }
     .footer { grid-template-columns: 1fr 1fr; }

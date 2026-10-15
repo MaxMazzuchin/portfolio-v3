@@ -69,7 +69,7 @@ function seo() {
         },
         async generateBundle() {
             if (!SITE) return; // sin URL absoluta un sitemap no sirve
-            const { projects } = await import(pathToFileURL(resolve(root, 'src/data/projects.js')).href);
+            const { projects } = await import(pathToFileURL(resolve(root, 'src/data/work.js')).href);
             const urls = [
                 ...['index.html', 'trabajo.html', 'biblioteca.html', 'sobre-mi.html'].map(routeOf),
                 ...projects.map((p) => `/proyecto.html?p=${p.slug}`),

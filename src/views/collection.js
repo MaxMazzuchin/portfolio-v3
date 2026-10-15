@@ -1,4 +1,4 @@
-import { projects } from '../data/projects.js';
+import { projects } from '../data/work.js';
 import { library, kinds } from '../data/library.js';
 import { accentOf } from '../data/accents.js';
 import { gl } from '../gl/index.js';
