@@ -1,7 +1,56 @@
-// Datos extra por proyecto (clave = slug). Vacío: cada proyecto muestra su descripción original del V2.
+// Datos extra por proyecto (clave = slug).
 //
-// Para usarlo, agregá una entrada por slug:
-//   'mi-proyecto': { context: '...', result: '...', year: '2025', client: '...', role: '...', tools: ['...'] }
-// context reemplaza la descripción bajo el título; result sale después de la portada.
-// Lo que diga [CONFIRMAR] o esté vacío no se muestra.
-export const cases = {};
+// context   qué es el proyecto y qué hice. Reemplaza la descripción bajo el título.
+// result    cómo quedó. Sale justo después de la portada.
+// client, year, role, tools   van a la ficha. Lo que diga [CONFIRMAR] o esté vacío no se muestra.
+export const cases = {
+    'album-artwork': {
+        context: 'Portadas para singles, EPs y discos de artistas de música. Trabajo cada tapa desde la tipografía y el contraste, sin ilustrar la canción de forma literal.',
+        result: 'Tapas que se leen igual en la miniatura de una plataforma que impresas en grande.',
+    },
+    'pone-atencion': {
+        client: 'Sin Datos',
+        context: 'Portada y sistema visual del segundo disco de Sin Datos. Mezclé trazos a mano y elementos orgánicos con la composición digital.',
+        result: 'Una tapa con la mano visible y un lenguaje que se aplicó al resto del lanzamiento.',
+    },
+    'sin-datos': {
+        client: 'Sin Datos',
+        context: 'Flyers de shows y piezas para redes de Sin Datos, banda de rock de Argentina.',
+        result: 'Una línea gráfica que se mantiene de una fecha a la otra.',
+    },
+    'i-life': {
+        client: 'I-Life',
+        context: 'Once11 es una cápsula de estampas para I-Life, marca de ropa deportiva con más de 10 años. Las gráficas toman referencias del barrio de Once.',
+        result: 'Estampas de estética streetwear para acercar la marca a un público más joven.',
+    },
+    outframe: {
+        context: 'Publicación sobre el fotógrafo Chema Madoz, hecha para una estudiante universitaria de España. Elegí tipografías y paleta, y armé la maquetación.',
+        result: 'Una publicación con jerarquías claras y las fotos al frente.',
+    },
+    'exp-grafica': {
+        client: 'Personal',
+        context: 'Serie personal, sin cliente ni brief. La uso para probar tipografías, texturas y formas de componer.',
+        result: '43 piezas, y sigue sumando.',
+    },
+    '100-posters': {
+        client: 'Personal',
+        context: '100 pósters en 24 horas. La regla era no repetir ninguno.',
+        result: '100 piezas distintas en un día, resueltas con sistemas simples y decisiones tipográficas rápidas.',
+    },
+    d2x: {
+        client: 'D2X',
+        context: 'Pieza editorial sobre D2X, artista emergente de Chicago, armada a partir de una entrevista exclusiva.',
+        result: 'La entrevista ordenada en una pieza de tono documental, con la identidad del artista.',
+    },
+    nyro: {
+        client: 'Nyro',
+        context: 'Identidad de marca para Nyro, empresa de analytics orientada a decisiones basadas en datos.',
+        result: 'Una marca que se aleja de los recursos gastados del rubro.',
+    },
+    touchdesigner: {
+        client: 'Personal',
+        tools: ['TouchDesigner'],
+        context: 'Loops, sistemas reactivos y piezas en vivo hechas en TouchDesigner. Es parte del camino hacia visuales para shows.',
+        result: 'Motion directo, pensado para pantalla.',
+    },
+};
