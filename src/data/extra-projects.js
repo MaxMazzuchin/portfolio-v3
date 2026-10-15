@@ -83,7 +83,13 @@ export const extras = [
         "sections": [
             {
                 "kind": "videos",
+                "loop": true,
                 "videos": [
+                    {
+                        "src": "/videos/taylor-swift/video-4.mp4",
+                        "w": 904,
+                        "h": 1544
+                    },
                     {
                         "src": "/videos/taylor-swift/video-1.mp4",
                         "w": 1280,
@@ -98,11 +104,6 @@ export const extras = [
                         "src": "/videos/taylor-swift/video-3.mp4",
                         "w": 1280,
                         "h": 720
-                    },
-                    {
-                        "src": "/videos/taylor-swift/video-4.mp4",
-                        "w": 1080,
-                        "h": 1920
                     }
                 ]
             }
@@ -177,7 +178,7 @@ export const extras = [
         "type": "Exploración visual / Personal",
         "description": "[CONFIRMAR] Una o dos frases: qué es el proyecto y cuál fue el enfoque.",
         "cover": {
-            "src": "/images/projects/gracias/cover.webp",
+            "src": "/images/projects/gracias/grid-4.webp",
             "w": 1080,
             "h": 1440
         },
@@ -185,6 +186,16 @@ export const extras = [
             {
                 "kind": "grid",
                 "images": [
+                    {
+                        "src": "/images/projects/gracias/cover.webp",
+                        "w": 1080,
+                        "h": 1440
+                    },
+                    {
+                        "src": "/images/projects/gracias/grid-4.webp",
+                        "w": 1080,
+                        "h": 1440
+                    },
                     {
                         "src": "/images/projects/gracias/grid-1.webp",
                         "w": 1080,
@@ -197,11 +208,6 @@ export const extras = [
                     },
                     {
                         "src": "/images/projects/gracias/grid-3.webp",
-                        "w": 1080,
-                        "h": 1440
-                    },
-                    {
-                        "src": "/images/projects/gracias/grid-4.webp",
                         "w": 1080,
                         "h": 1440
                     }

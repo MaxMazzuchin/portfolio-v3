@@ -232,10 +232,12 @@ main, .footer { position: relative; z-index: 1; }
 .g-column { display: flex; flex-direction: column; gap: 24px; }
 .g-grid { column-count: 2; column-gap: 24px; }
 .g-grid .g-item { margin-bottom: 24px; break-inside: avoid; }
+/* Equal grid: every piece at the same size, read left to right. */
+.g-grid.g-equal { column-count: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.g-grid.g-equal .g-item { margin-bottom: 0; }
 .g-videos { display: flex; flex-direction: column; gap: 24px; }
-.g-videos video { width: 100%; aspect-ratio: var(--ar, 16 / 9); background: var(--line); object-fit: contain; }
-/* Vertical videos: keep them within the screen height and centered instead of a column-wide tower. */
-.g-videos video.is-tall { width: min(100%, calc(85svh * var(--r))); align-self: center; }
+/* Each video fits fully on screen (no scrolling to see the rest): width follows the height that is left under the nav. */
+.g-videos video { width: min(100%, calc((100svh - var(--nav-h) - 48px) * var(--r, 1.7778))); aspect-ratio: var(--ar, 16 / 9); align-self: center; background: var(--line); object-fit: contain; }
 
 /* Result text right after the cover. */
 .p-chapter { display: grid; gap: 12px; max-width: 60ch; padding: clamp(20px, 4vw, 56px) 0; scroll-margin-top: calc(var(--nav-h) + 8px); }
@@ -332,6 +334,7 @@ main, .footer { position: relative; z-index: 1; }
     .p-chapter { padding: 12px 0; }
     .p-meta > :first-child { white-space: nowrap; }
     .g-grid { column-count: 1; }
+    .g-grid.g-equal { grid-template-columns: minmax(0, 1fr); }
     .footer { grid-template-columns: 1fr 1fr; }
     .footer > :last-child { text-align: left; }
     .lb-title { display: none; }

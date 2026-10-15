@@ -29,13 +29,17 @@ const withAdditions = (p) => {
     return { ...p, sections };
 };
 
+// Proyectos sin portada destacada: el título y después todas las piezas al mismo tamaño en una grilla
+// (series de portadas, estampitas). Los demás arrancan con la portada grande.
+const EQUAL = new Set(['album-artwork', 'gracias', 'taylor-swift']);
+
 const rank = (slug) => { const i = ORDER.indexOf(slug); return i < 0 ? ORDER.length : i; };
 
 export const projects = [...v2.filter((p) => !HIDDEN.has(p.slug)), ...extras]
     .map(withAdditions)
     .map((p, i) => ({ p, i }))
     .sort((a, b) => rank(a.p.slug) - rank(b.p.slug) || a.i - b.i)
-    .map(({ p }, i) => ({ ...p, index: pad(i + 1), case: cases[p.slug] || null }));
+    .map(({ p }, i) => ({ ...p, index: pad(i + 1), case: cases[p.slug] || null, layout: EQUAL.has(p.slug) ? 'equal' : 'hero' }));
 
 export const bySlug = (slug) => projects.find((p) => p.slug === slug);
 

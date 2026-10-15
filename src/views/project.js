@@ -21,31 +21,46 @@ export function mountProject(view) {
     const prev = projects[(at - 1 + projects.length) % projects.length];
 
     // Every image, in page order: this is what the lightbox walks through.
-    const shots = [p.cover];
+    const equal = p.layout === 'equal';
+    const shots = [];
     let n = 0;
     const fig = (s, cls) => {
         const i = n++;
-        // The cover is the first thing on screen: load it right away; the rest wait until they get close.
+        // The first piece is the first thing on screen: load it right away; the rest wait until they get close.
         const load = i === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
         return `<figure class="${cls}" style="--ar:${s.w}/${s.h}" data-cursor-item data-cursor="Ampliar" data-open="${i}">
             <img data-gl-img src="${s.src}" alt="${esc(p.title)} — ${i + 1}" width="${s.w}" height="${s.h}" ${load} decoding="async">
         </figure>`;
     };
 
-    const cover = fig(p.cover, 'g-cover');
-    const sections = p.sections.map((sec) => {
-        if (sec.kind === 'videos') {
-            // A video is a path (V2) or { src, w, h }: with w/h the box keeps the real proportion (vertical or wide).
-            return `<div class="g-videos">${sec.videos.map((v, i) => {
-                const src = typeof v === 'string' ? v : v.src;
-                const ar = typeof v === 'string' ? '' : ` style="--ar:${v.w}/${v.h};--r:${(v.w / v.h).toFixed(4)}"`;
-                const tall = typeof v !== 'string' && v.h > v.w ? ' is-tall' : '';
-                return `<video class="g-video${tall}"${ar} data-src="${src}" controls playsinline loop muted preload="none" aria-label="${esc(p.title)} — video ${i + 1}"></video>`;
-            }).join('')}</div>`;
-        }
-        sec.images.forEach((s) => shots.push(s));
-        return `<div class="${sec.kind === 'grid' ? 'g-grid' : 'g-column'}">${sec.images.map((s) => fig(s, 'g-item')).join('')}</div>`;
-    }).join('');
+    // A video is a path (V2) or { src, w, h }: with w/h the box keeps the real proportion (vertical or wide).
+    // A section with loop: true plays as a silent loop with no controls (short edits, animations).
+    const videos = (sec) => `<div class="g-videos">${sec.videos.map((v, i) => {
+        const src = typeof v === 'string' ? v : v.src;
+        const ar = typeof v === 'string' ? '' : ` style="--ar:${v.w}/${v.h};--r:${(v.w / v.h).toFixed(4)}"`;
+        return `<video class="g-video"${ar} data-src="${src}" ${sec.loop ? '' : 'controls '}playsinline loop muted preload="none" aria-label="${esc(p.title)} — video ${i + 1}"></video>`;
+    }).join('')}</div>`;
+
+    let cover = '';
+    let sections;
+    if (equal) {
+        // No hero: every piece goes in one grid at the same size. The cover only feeds the wheel/list,
+        // and joins the grid unless it is already one of its pieces.
+        const imgs = p.sections.filter((sec) => sec.kind !== 'videos').flatMap((sec) => sec.images);
+        // A video-only project has no pieces to show as images: its cover stays out and the gallery starts with the video.
+        const all = !imgs.length ? [] : imgs.some((x) => x.src === p.cover.src) ? imgs : [p.cover, ...imgs];
+        all.forEach((x) => shots.push(x));
+        sections = (all.length ? `<div class="g-grid g-equal">${all.map((x) => fig(x, 'g-item')).join('')}</div>` : '')
+            + p.sections.filter((sec) => sec.kind === 'videos').map(videos).join('');
+    } else {
+        shots.push(p.cover);
+        cover = fig(p.cover, 'g-cover');
+        sections = p.sections.map((sec) => {
+            if (sec.kind === 'videos') return videos(sec);
+            sec.images.forEach((x) => shots.push(x));
+            return `<div class="${sec.kind === 'grid' ? 'g-grid' : 'g-column'}">${sec.images.map((x) => fig(x, 'g-item')).join('')}</div>`;
+        }).join('');
+    }
 
     const pieces = shots.length + p.sections.filter((s) => s.kind === 'videos').reduce((a, s) => a + s.videos.length, 0);
 
