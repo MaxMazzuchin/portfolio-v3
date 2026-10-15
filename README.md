@@ -37,7 +37,7 @@ Requiere Node 20+. No hay variables de entorno ni backend.
   ```
   Las imágenes viven en `public/images/projects/<slug>/` (`cover.webp`, `image-N.webp` para columna única, `grid-N.webp` para grilla de 2 columnas) y los videos en `public/videos/`.
 - **Proyectos nuevos (que no están en el V2):** `node scripts/add-project.mjs <slug> <carpeta-con-imagenes> --title "TÍTULO" --type "Tipo" --grid N`. Ordena las imágenes por nombre (la primera es la portada), las pasa a webp en `public/images/projects/<slug>/` y agrega la entrada a `src/data/extra-projects.js` (a mano, no se pisa al regenerar el V2). Después completá la descripción, el caso en `cases.js` y un color en `accents.js`.
-- **Caso de estudio de cada proyecto (contexto, desafío, proceso, resultado):** `src/data/cases.js`, a mano, una entrada por slug. Cada paso de `process` lleva `after` = cuántas imágenes de la galería se ven antes de ese texto. Año, cliente, rol y herramientas se muestran solo si están cargados: lo que diga `[CONFIRMAR]` o esté vacío queda oculto.
+- **Contexto y resultado de cada proyecto:** `src/data/cases.js`, a mano, una entrada por slug. `context` (qué es y qué hice) sale bajo el título; `result` sale justo después de la portada. Año, cliente, rol y herramientas se muestran solo si están cargados: lo que diga `[CONFIRMAR]` o esté vacío queda oculto.
 - Las vistas leen `src/data/work.js`, que junta `projects.js` + `extra-projects.js` + `cases.js` y recalcula el número de cada proyecto.
 - **Colores de acento por proyecto:** `src/data/accents.js`.
 - **Textos del home / sobre mí:** directamente en `index.html` y `sobre-mi.html`.

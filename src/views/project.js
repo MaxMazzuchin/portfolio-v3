@@ -2,7 +2,6 @@ import { projects, bySlug, known } from '../data/work.js';
 import { accentOf } from '../data/accents.js';
 import { openLightbox } from '../core/lightbox.js';
 import { setAccent } from '../core/accent.js';
-import { scroll } from '../core/scroll.js';
 
 const pad = (n) => String(n).padStart(2, '0');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -10,8 +9,8 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 /**
  * Renders the project named by ?p=<slug>. The gallery follows the V2 structure, per project:
  * cover → single column (column) → two-column grid (grid) → videos, whichever the project has.
- * If the project has a case study (data/cases.js), its chapters are woven into the gallery:
- * Contexto + Desafío after the cover, each process step after `step.after` gallery pieces, Resultado after the last step.
+ * If the project has a case (data/cases.js): its context is the lead in the side column and its
+ * result goes right after the cover.
  */
 export function mountProject(view) {
     const slug = new URLSearchParams(location.search).get('p');
@@ -32,60 +31,26 @@ export function mountProject(view) {
             <img data-gl-img src="${s.src}" alt="${esc(p.title)} — ${i + 1}" width="${s.w}" height="${s.h}" ${load} decoding="async">
         </figure>`;
     };
-    const vid = (v, i) => `<video data-src="${v}" controls playsinline loop muted preload="none" aria-label="${esc(p.title)} — video ${i + 1}"></video>`;
 
-    // Built first so the cover is piece 0 for the lightbox.
     const cover = fig(p.cover, 'g-cover');
-
-    // ---- case chapters ----
-    const chapter = (id, num, label, title, text) => `
-        <article class="p-chapter" id="${id}" data-reveal>
-            <p class="mono p-chapter-n"><span class="num">${num}</span> ${esc(label)}</p>
-            ${title ? `<h2 class="p-chapter-h">${esc(title)}</h2>` : ''}
-            <p class="p-chapter-p">${esc(text)}</p>
-        </article>`;
-
-    const steps = c ? (c.process || []).filter((s) => known(s.text)) : [];
-    const intro = c ? [
-        known(c.context) && chapter('c-contexto', '01', 'Contexto', '', c.context),
-        known(c.challenge) && chapter('c-desafio', '02', 'Desafío', '', c.challenge),
-    ].filter(Boolean).join('') : '';
-
-    // Inserts keyed by "after N gallery pieces". Sorted by position; the sort is stable, so Resultado
-    // (pushed last, at the last step's position) comes after that step.
-    const inserts = steps.map((s, i) => ({
-        after: s.after || 0,
-        html: chapter(i === 0 ? 'c-proceso' : `c-paso-${i + 1}`, pad(i + 3), i === 0 ? 'Proceso' : `Proceso ${pad(i + 1)}`, s.title, s.text),
-    }));
-    if (c && known(c.result)) {
-        const last = inserts.length ? inserts[inserts.length - 1].after : 0;
-        inserts.push({ after: last, html: chapter('c-resultado', pad(inserts.length + 3), 'Resultado', '', c.result) });
-    }
-    inserts.sort((a, b) => a.after - b.after);
-
-    // Walk the pieces (images or videos) in order, closing the current container whenever an insert is due.
-    let placed = 0;
-    let html = '';
-    const flush = () => {
-        while (inserts.length && inserts[0].after <= placed) html += inserts.shift().html;
-    };
-    flush();
-    for (const sec of p.sections) {
-        const items = sec.kind === 'videos' ? sec.videos : sec.images;
-        const cls = sec.kind === 'videos' ? 'g-videos' : sec.kind === 'grid' ? 'g-grid' : 'g-column';
-        let chunk = '';
-        const close = () => { if (chunk) html += `<div class="${cls}">${chunk}</div>`; chunk = ''; };
-        items.forEach((it, i) => {
-            if (sec.kind === 'videos') chunk += vid(it, i);
-            else { shots.push(it); chunk += fig(it, 'g-item'); }
-            placed++;
-            if (inserts.length && inserts[0].after <= placed) { close(); flush(); }
-        });
-        close();
-    }
-    html += inserts.map((x) => x.html).join('');
+    const sections = p.sections.map((sec) => {
+        if (sec.kind === 'videos') {
+            return `<div class="g-videos">${sec.videos.map((v, i) => `
+                <video data-src="${v}" controls playsinline loop muted preload="none" aria-label="${esc(p.title)} — video ${i + 1}"></video>`).join('')}</div>`;
+        }
+        sec.images.forEach((s) => shots.push(s));
+        return `<div class="${sec.kind === 'grid' ? 'g-grid' : 'g-column'}">${sec.images.map((s) => fig(s, 'g-item')).join('')}</div>`;
+    }).join('');
 
     const pieces = shots.length + p.sections.filter((s) => s.kind === 'videos').reduce((a, s) => a + s.videos.length, 0);
+
+    // Lead: the case's context if there is one, otherwise the project description. Hidden while it is a placeholder.
+    const lead = c && known(c.context) ? c.context : p.description;
+    const result = c && known(c.result) ? `
+        <article class="p-chapter" data-reveal>
+            <p class="mono p-chapter-n">Resultado</p>
+            <p class="p-chapter-p">${esc(c.result)}</p>
+        </article>` : '';
 
     // Side column facts: only what is confirmed.
     const facts = [
@@ -98,12 +63,6 @@ export function mountProject(view) {
         ['Piezas', pad(pieces)],
     ].filter(Boolean);
 
-    const toc = [
-        ['c-contexto', 'Contexto', known(c?.context)],
-        ['c-proceso', 'Proceso', steps.length > 0],
-        ['c-resultado', 'Resultado', known(c?.result)],
-    ].filter((t) => t[2]);
-
     document.title = `${p.title} — ${p.type} | Máximo Mazzuchin`;
     setAccent(accentOf(p.slug));
 
@@ -113,19 +72,16 @@ export function mountProject(view) {
                 <p class="mono p-meta"><span><span class="num">${p.index}</span> / ${pad(projects.length)}</span><span>${esc(p.type)}</span></p>
                 <h1 class="p-title">${esc(p.title)}</h1>
                 <div class="dbar" data-dbar></div>
-                ${known(p.description) ? `<p class="p-desc" data-reveal>${esc(p.description)}</p>` : ''}
+                ${known(lead) ? `<p class="p-desc" data-reveal>${esc(lead)}</p>` : ''}
                 <dl class="p-facts mono">
                     ${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}
                 </dl>
-                ${toc.length ? `<nav class="p-toc mono" aria-label="Capítulos">
-                    ${toc.map(([id, label], i) => `<a href="#${id}" data-toc="${id}"><span class="num">${pad(i + 1)}</span> ${label}</a>`).join('')}
-                </nav>` : ''}
                 <nav class="p-pager mono" aria-label="Otros proyectos">
                     <a href="/proyecto.html?p=${prev.slug}" data-cursor-item data-cursor="Anterior"><span>←</span> <span class="num">${prev.index}</span> <span class="p-pager-name">${esc(prev.title)}</span></a>
                     <a href="/proyecto.html?p=${next.slug}" data-cursor-item data-cursor="Siguiente"><span class="p-pager-name">${esc(next.title)}</span> <span class="num">${next.index}</span> <span>→</span></a>
                 </nav>
             </aside>
-            <section class="p-gallery">${cover}${intro}${html}</section>
+            <section class="p-gallery">${cover}${result}${sections}</section>
         </div>
         <a class="p-next" href="/proyecto.html?p=${next.slug}" data-cursor-item data-cursor="Siguiente">
             <span class="mono p-next-label"><span>Siguiente — ${next.index}</span><span>↗</span></span>
@@ -133,13 +89,6 @@ export function mountProject(view) {
         </a>`;
 
     const onClick = (e) => {
-        const a = e.target.closest('a[data-toc]');
-        if (a) {
-            e.preventDefault();
-            const el = view.querySelector(`#${a.dataset.toc}`);
-            if (el) scroll.to(el, { offset: -90 });
-            return;
-        }
         const t = e.target.closest('[data-open]');
         if (!t) return;
         openLightbox({ images: shots, index: Number(t.dataset.open), title: p.title });
@@ -155,16 +104,6 @@ export function mountProject(view) {
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', onScroll);
     onScroll();
-
-    // Highlight the chapter in the index: the last chapter whose top has passed the upper third of the viewport.
-    const links = [...view.querySelectorAll('a[data-toc]')];
-    const chapters = links.map((a) => view.querySelector(`#${a.dataset.toc}`));
-    const onToc = () => {
-        let cur = -1;
-        chapters.forEach((el, i) => { if (el && el.getBoundingClientRect().top < innerHeight * 0.4) cur = i; });
-        links.forEach((a, i) => a.classList.toggle('is-on', i === cur));
-    };
-    if (links.length) { addEventListener('scroll', onToc, { passive: true }); onToc(); }
 
     // Videos: only the ones near the viewport hold a src, so browsing never downloads them all.
     const io = new IntersectionObserver((entries) => {
@@ -184,7 +123,6 @@ export function mountProject(view) {
     return () => {
         view.removeEventListener('click', onClick);
         removeEventListener('scroll', onScroll);
-        removeEventListener('scroll', onToc);
         removeEventListener('resize', onScroll);
         io.disconnect();
     };
