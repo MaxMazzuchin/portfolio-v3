@@ -140,6 +140,44 @@ export const extras = [
                 ]
             }
         ]
+    },
+    {
+        "slug": "gracias",
+        "title": "GRACIAS",
+        "type": "Exploración visual / Personal",
+        "description": "[CONFIRMAR] Una o dos frases: qué es el proyecto y cuál fue el enfoque.",
+        "cover": {
+            "src": "/images/projects/gracias/cover.webp",
+            "w": 1080,
+            "h": 1440
+        },
+        "sections": [
+            {
+                "kind": "grid",
+                "images": [
+                    {
+                        "src": "/images/projects/gracias/grid-1.webp",
+                        "w": 1080,
+                        "h": 1440
+                    },
+                    {
+                        "src": "/images/projects/gracias/grid-2.webp",
+                        "w": 1080,
+                        "h": 1440
+                    },
+                    {
+                        "src": "/images/projects/gracias/grid-3.webp",
+                        "w": 1080,
+                        "h": 1440
+                    },
+                    {
+                        "src": "/images/projects/gracias/grid-4.webp",
+                        "w": 1080,
+                        "h": 1440
+                    }
+                ]
+            }
+        ]
     }
 ];
 
@@ -168,36 +206,11 @@ export const additions = {
         },
         {
             "src": "/images/projects/exp-grafica/grid-48.webp",
-            "w": 1080,
-            "h": 1440
-        },
-        {
-            "src": "/images/projects/exp-grafica/grid-49.webp",
-            "w": 1080,
-            "h": 1440
-        },
-        {
-            "src": "/images/projects/exp-grafica/grid-50.webp",
-            "w": 1080,
-            "h": 1440
-        },
-        {
-            "src": "/images/projects/exp-grafica/grid-51.webp",
-            "w": 1080,
-            "h": 1440
-        },
-        {
-            "src": "/images/projects/exp-grafica/grid-52.webp",
-            "w": 1080,
-            "h": 1440
-        },
-        {
-            "src": "/images/projects/exp-grafica/grid-53.webp",
             "w": 1600,
             "h": 2133
         },
         {
-            "src": "/images/projects/exp-grafica/grid-54.webp",
+            "src": "/images/projects/exp-grafica/grid-49.webp",
             "w": 1600,
             "h": 2263
         }

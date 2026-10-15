@@ -15,6 +15,7 @@ const ORDER = [
     'i-life', 'nyro', 'outframe', 'd2x',
     'exp-grafica', '100-posters',
     'asap-rocky-x-mazzu', 'animacion',
+    'gracias',
 ];
 
 // Piezas que se suman a la grilla de un proyecto del V2 (por ejemplo las nuevas de Exp. Gráfica).

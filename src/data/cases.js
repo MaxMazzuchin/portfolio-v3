@@ -30,7 +30,7 @@ export const cases = {
     'exp-grafica': {
         client: 'Personal',
         context: 'Serie personal, sin cliente ni brief. La uso para probar tipografías, texturas y formas de componer.',
-        result: '54 piezas, y sigue sumando.',
+        result: '49 piezas, y sigue sumando.',
     },
     '100-posters': {
         client: 'Personal',
@@ -50,6 +50,15 @@ export const cases = {
     curu: {
         client: 'Curu',
         context: 'Portada de Noches de Papel y flyer animado del show del 31/10 para Curu, artista de música.',
+    },
+    'asap-rocky-x-mazzu': {
+        client: 'Personal',
+        tools: ['After Effects'],
+        context: 'Serie de edits de un proyecto personal, hechos en After Effects.',
+    },
+    gracias: {
+        client: 'Personal',
+        context: 'Serie de estampitas con momentos del último partido del Mundial entre Argentina y España. Es un agradecimiento a los jugadores argentinos que lo dieron todo en la cancha.',
     },
     animacion: {
         client: 'Personal',

@@ -12,6 +12,7 @@ export const accents = {
     nyro: '#c7f24b',
     animacion: '#ff3d3d',
     curu: '#d9b38c',
+    gracias: '#74c7ec',
     'asap-rocky-x-mazzu': '#ff7a2f',
 };
 
