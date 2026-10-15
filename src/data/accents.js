@@ -10,7 +10,9 @@ export const accents = {
     '100-posters': '#ff9f1c',
     d2x: '#4dd4ff',
     nyro: '#c7f24b',
-    touchdesigner: '#ff3d3d',
+    animacion: '#ff3d3d',
+    curu: '#d9b38c',
+    'asap-rocky-x-mazzu': '#ff7a2f',
 };
 
 export const accentOf = (slug) => accents[slug] || '#c7f24b';

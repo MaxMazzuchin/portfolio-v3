@@ -30,7 +30,7 @@ export const cases = {
     'exp-grafica': {
         client: 'Personal',
         context: 'Serie personal, sin cliente ni brief. La uso para probar tipografías, texturas y formas de componer.',
-        result: '43 piezas, y sigue sumando.',
+        result: '54 piezas, y sigue sumando.',
     },
     '100-posters': {
         client: 'Personal',
@@ -47,10 +47,13 @@ export const cases = {
         context: 'Identidad de marca para Nyro, empresa de analytics orientada a decisiones basadas en datos.',
         result: 'Una marca que se aleja de los recursos gastados del rubro.',
     },
-    touchdesigner: {
+    curu: {
+        client: 'Curu',
+        context: 'Portada de Noches de Papel y flyer animado del show del 31/10 para Curu, artista de música.',
+    },
+    animacion: {
         client: 'Personal',
-        tools: ['TouchDesigner'],
-        context: 'Loops, sistemas reactivos y piezas en vivo hechas en TouchDesigner. Es parte del camino hacia visuales para shows.',
+        context: 'Loops, sistemas reactivos y otras piezas en movimiento. Varias están hechas en TouchDesigner. Es parte del camino hacia visuales para shows.',
         result: 'Motion directo, pensado para pantalla.',
     },
 };

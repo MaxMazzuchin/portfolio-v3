@@ -233,7 +233,9 @@ main, .footer { position: relative; z-index: 1; }
 .g-grid { column-count: 2; column-gap: 24px; }
 .g-grid .g-item { margin-bottom: 24px; break-inside: avoid; }
 .g-videos { display: flex; flex-direction: column; gap: 24px; }
-.g-videos video { width: 100%; aspect-ratio: 16 / 9; background: var(--line); object-fit: contain; }
+.g-videos video { width: 100%; aspect-ratio: var(--ar, 16 / 9); background: var(--line); object-fit: contain; }
+/* Vertical videos: keep them within the screen height and centered instead of a column-wide tower. */
+.g-videos video.is-tall { width: min(100%, calc(85svh * var(--r))); align-self: center; }
 
 /* Result text right after the cover. */
 .p-chapter { display: grid; gap: 12px; max-width: 60ch; padding: clamp(20px, 4vw, 56px) 0; scroll-margin-top: calc(var(--nav-h) + 8px); }

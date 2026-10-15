@@ -20,7 +20,9 @@ const pub = path.join(root, 'public');
 
 const ctx = vm.createContext({ document: { addEventListener() {} } });
 vm.runInContext(fs.readFileSync(path.join(v2Dir, 'script.js'), 'utf8'), ctx);
-const data = vm.runInContext('projectsData', ctx);
+// Proyectos del V2 que ya no viven en projects.js: se reemplazaron por uno nuevo (src/data/extra-projects.js).
+const SKIP = new Set(['touchdesigner']);
+const data = vm.runInContext('projectsData', ctx).filter((p) => !SKIP.has(p.slug));
 
 function img(slug, file) {
     const abs = path.join(pub, 'images/projects', slug, file);

@@ -35,8 +35,13 @@ export function mountProject(view) {
     const cover = fig(p.cover, 'g-cover');
     const sections = p.sections.map((sec) => {
         if (sec.kind === 'videos') {
-            return `<div class="g-videos">${sec.videos.map((v, i) => `
-                <video data-src="${v}" controls playsinline loop muted preload="none" aria-label="${esc(p.title)} — video ${i + 1}"></video>`).join('')}</div>`;
+            // A video is a path (V2) or { src, w, h }: with w/h the box keeps the real proportion (vertical or wide).
+            return `<div class="g-videos">${sec.videos.map((v, i) => {
+                const src = typeof v === 'string' ? v : v.src;
+                const ar = typeof v === 'string' ? '' : ` style="--ar:${v.w}/${v.h};--r:${(v.w / v.h).toFixed(4)}"`;
+                const tall = typeof v !== 'string' && v.h > v.w ? ' is-tall' : '';
+                return `<video class="g-video${tall}"${ar} data-src="${src}" controls playsinline loop muted preload="none" aria-label="${esc(p.title)} — video ${i + 1}"></video>`;
+            }).join('')}</div>`;
         }
         sec.images.forEach((s) => shots.push(s));
         return `<div class="${sec.kind === 'grid' ? 'g-grid' : 'g-column'}">${sec.images.map((s) => fig(s, 'g-item')).join('')}</div>`;

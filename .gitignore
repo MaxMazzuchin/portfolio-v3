@@ -3,3 +3,6 @@ dist
 .DS_Store
 
 .claude/settings.local.json
+
+# Archivos originales sin comprimir (no se suben)
+originales/
