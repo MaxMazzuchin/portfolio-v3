@@ -11,6 +11,7 @@ import { mountDbars } from '../core/dbar.js';
 const pad = (n) => String(n).padStart(2, '0');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const VIEW_KEY = 'col-view';
+const SAMPLE_DESC = 'Texto de ejemplo. Acá va una nota breve tuya: por qué esta pieza te importa, qué te dejó y en qué momento la volvés a mirar. Entre dos y cuatro líneas alcanzan.';
 
 /** Each collection maps its data to the same item shape: { name, sub, meta, cover, accent, href|url, group }. */
 const CONFIGS = {
@@ -28,7 +29,8 @@ const CONFIGS = {
         filters: true,
         items: () => library.map((e) => ({
             key: e.slug, name: e.author, sub: e.title, meta: e.year, group: e.kind, subLabel: kinds[e.kind].singular,
-            cover: e.cover || null, accent: e.accent, url: e.url, placeholder: e.placeholder,
+            cover: e.cover || null, accent: e.accent, url: e.url, placeholder: e.placeholder, desc: e.desc || (e.placeholder ? SAMPLE_DESC : ''),
+            kindLabel: kinds[e.kind].singular, year: e.year, title: e.title, author: e.author,
             gen: { kindLabel: kinds[e.kind].singular, author: e.author, title: e.title, accent: e.accent },
         })),
     },
@@ -83,6 +85,7 @@ function collection(kind, view) {
     let items = [];
     let filter = 'all';
     let mode = 'wheel';
+    let switching = false;
     try { mode = localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'wheel'; } catch { /* storage unavailable */ }
     if (!gl.ok) mode = 'list';
 
@@ -109,13 +112,93 @@ function collection(kind, view) {
             openEl.target = '_blank';
             openEl.rel = 'noopener';
             openEl.removeAttribute('aria-disabled');
-            openEl.textContent = cfg.openLabel;
+            openEl.textContent = item.desc ? 'Ver ficha ↗' : cfg.openLabel;
         } else {
             openEl.removeAttribute('href');
             openEl.setAttribute('aria-disabled', 'true');
             openEl.textContent = 'Sin link (ejemplo)';
         }
     }
+
+    /* Ficha: la ventana baja desde arriba (como en CRL) sobre la rueda; al cerrar vuelve a subir. */
+    let sheet = null;
+    let sheetOpen = false;
+    let lastFocus = null;
+    if (cfg.filters) {
+        sheet = document.createElement('div');
+        sheet.className = 'c-sheet';
+        sheet.inert = true;
+        sheet.innerHTML = `
+            <button type="button" class="c-sheet-scrim" tabindex="-1" aria-label="Cerrar ficha" data-sheet-close></button>
+            <section class="c-win" role="dialog" aria-modal="true" aria-labelledby="c-sheet-title">
+                <header class="mono c-win-bar"><span data-sheet-bar></span><button type="button" data-sheet-close>Cerrar ×</button></header>
+                <div class="c-win-main">
+                    <img class="c-win-cover" alt="">
+                    <div class="c-win-body">
+                        <p class="mono c-win-meta"><span data-sheet-kind></span><span data-sheet-year></span></p>
+                        <h2 class="c-win-author" id="c-sheet-title" data-sheet-author></h2>
+                        <p class="c-win-title" data-sheet-title></p>
+                        <p class="c-win-desc" data-sheet-desc></p>
+                        <div class="mono c-win-actions"><a class="c-open" data-sheet-link target="_blank" rel="noopener">Abrir recurso ↗</a></div>
+                    </div>
+                </div>
+            </section>`;
+        stage.appendChild(sheet);
+    }
+    const sq = (sel) => sheet.querySelector(sel);
+
+    function openSheet(i) {
+        const it = items[i];
+        if (!sheet || !it) return;
+        sq('.c-win-cover').src = it.cover;
+        sq('[data-sheet-bar]').textContent = `Ficha ${pad(i + 1)} / ${pad(items.length)}`;
+        sq('[data-sheet-kind]').textContent = it.kindLabel;
+        sq('[data-sheet-year]').textContent = `(${it.year})`;
+        sq('[data-sheet-author]').textContent = it.author;
+        sq('[data-sheet-title]').textContent = it.title;
+        sq('[data-sheet-desc]').textContent = it.desc;
+        const link = sq('[data-sheet-link]');
+        if (it.url) { link.href = it.url; link.removeAttribute('aria-disabled'); link.textContent = cfg.openLabel; }
+        else { link.removeAttribute('href'); link.setAttribute('aria-disabled', 'true'); link.textContent = 'Sin link (ejemplo)'; }
+        sheet.style.setProperty('--accent', it.accent);
+        lastFocus = document.activeElement;
+        sheetOpen = true;
+        sheet.inert = false;
+        sheet.classList.add('is-open');
+        sq('.c-win-bar button').focus({ preventScroll: true });
+    }
+
+    function closeSheet() {
+        if (!sheetOpen) return;
+        sheetOpen = false;
+        sheet.inert = true;
+        sheet.classList.remove('is-open');
+        lastFocus?.focus?.({ preventScroll: true });
+    }
+
+    /** Abre la ficha si la entrada tiene descripción; si no, va directo al link. */
+    function activate(i) {
+        const it = items[i];
+        if (!it) return;
+        if (sheet && it.desc) openSheet(i);
+        else if (it.href || it.url) openEl.click();
+    }
+
+    // Registrado antes que la rueda: mientras la ficha está abierta, scroll y teclas no llegan a la rueda.
+    const onGuard = (e) => {
+        if (!sheetOpen) return;
+        if (e.type === 'wheel') { e.stopImmediatePropagation(); return; }
+        if (e.key === 'Escape') { e.preventDefault(); closeSheet(); }
+        else if (e.key === 'Tab') {
+            const f = [...sheet.querySelectorAll('a[href], button:not(.c-sheet-scrim)')];
+            const at = f.indexOf(document.activeElement);
+            e.preventDefault();
+            f[(at + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+        }
+        e.stopImmediatePropagation();
+    };
+    addEventListener('wheel', onGuard, { passive: true });
+    addEventListener('keydown', onGuard);
 
     function render(next) {
         wheel?.dispose();
@@ -156,10 +239,7 @@ function collection(kind, view) {
                 idxRows.forEach((r, k) => r.classList.toggle('is-active', k === i));
                 mountDbars(view);
             },
-            onOpen(i) {
-                const it = items[i];
-                if (it && (it.href || it.url)) openEl.click();
-            },
+            onOpen: activate,
         };
 
         wheel = gl.ok
@@ -179,6 +259,8 @@ function collection(kind, view) {
     }
 
     const onClick = (e) => {
+        if (e.target.closest('[data-sheet-close]')) { closeSheet(); return; }
+        if (e.target.closest('[data-c-open]') && sheet && items[wheel.active]?.desc) { e.preventDefault(); activate(wheel.active); return; }
         const f = e.target.closest('[data-f]');
         if (f) {
             filter = f.dataset.f;
@@ -188,15 +270,21 @@ function collection(kind, view) {
         }
         const v = e.target.closest('[data-view]');
         if (v) {
-            mode = v.dataset.view;
-            try { localStorage.setItem(VIEW_KEY, mode); } catch { /* storage unavailable */ }
-            applyMode();
+            if (v.dataset.view === mode || switching) return;
+            switching = true;
+            // Same dither curtain as page changes: cover, swap the view underneath, uncover.
+            gl.cover().then(() => {
+                mode = v.dataset.view;
+                try { localStorage.setItem(VIEW_KEY, mode); } catch { /* storage unavailable */ }
+                if (!disposed) applyMode();
+                return gl.uncover();
+            }).finally(() => { switching = false; });
             return;
         }
         const row = e.target.closest('.ci-row');
         if (row) {
             const i = Number(row.dataset.i);
-            if (i === wheel.active) { if (items[i].href || items[i].url) openEl.click(); } else wheel.goTo(i);
+            if (i === wheel.active) activate(i); else wheel.goTo(i);
         }
     };
     const onOver = (e) => {
@@ -219,6 +307,8 @@ function collection(kind, view) {
     return () => {
         disposed = true;
         removeEventListener('resize', onResize);
+        removeEventListener('wheel', onGuard);
+        removeEventListener('keydown', onGuard);
         view.removeEventListener('click', onClick);
         view.removeEventListener('pointerover', onOver);
         wheel?.dispose();

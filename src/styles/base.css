@@ -34,6 +34,7 @@ sup { line-height: 0; }
 
 /* WebGL layer sits behind the DOM; content stays transparent so it shows through. */
 .gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.gl-top .gl { z-index: 100; } /* durante la transición el canvas pasa por encima de la navbar (z-index 20) */
 main, .footer { position: relative; z-index: 1; }
 
 /* Once the GL layer has taken over an element, the DOM copy stays for layout/SEO/a11y but is invisible. */
@@ -150,6 +151,29 @@ main, .footer { position: relative; z-index: 1; }
 .c-open { pointer-events: auto; color: var(--fg); border-bottom: 2px solid var(--accent); padding-bottom: 2px; }
 .c-open[aria-disabled='true'] { color: var(--muted); border-bottom-style: dashed; cursor: default; }
 .c-hint { text-align: right; }
+
+/* Ficha de la biblioteca: la ventana baja desde arriba (como en CRL) sobre la rueda. Cuerpo monocromo invertido; el acento solo marca el tipo. */
+.c-sheet { position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: stretch; padding-top: var(--nav-h); visibility: hidden; transition: visibility 0s 0.7s; }
+.c-sheet.is-open { visibility: visible; transition-delay: 0s; }
+.c-sheet-scrim { position: absolute; inset: 0; background: color-mix(in srgb, var(--bg) 70%, transparent); opacity: 0; transition: opacity 0.5s ease; cursor: pointer; }
+.c-sheet.is-open .c-sheet-scrim { opacity: 1; }
+.c-win { position: relative; display: flex; flex-direction: column; max-height: calc(100% - 24px); background: var(--fg); color: var(--bg); border-bottom: 2px solid var(--accent); transform: translateY(-110%); transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1); }
+.c-sheet.is-open .c-win { transform: none; }
+.c-win-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 8px var(--gutter); background: var(--bg); color: var(--fg); border-bottom: 2px solid var(--accent); font-size: 14px; text-transform: uppercase; }
+.c-win-bar button { font: inherit; text-transform: inherit; color: inherit; text-decoration: underline; text-underline-offset: 4px; }
+.c-win-main { display: grid; grid-template-columns: clamp(150px, 20vw, 280px) minmax(0, 1fr); gap: clamp(18px, 2.6vw, 40px); padding: clamp(16px, 2.4vw, 32px) var(--gutter); overflow-y: auto; }
+.c-win-cover { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border: 2px solid var(--bg); }
+.c-win-body { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.c-win-meta { display: flex; justify-content: space-between; font-size: 15px; text-transform: uppercase; }
+.c-win-author { font-size: clamp(30px, 4.4vw, 68px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.95; text-transform: uppercase; overflow-wrap: anywhere; }
+.c-win-title { font-family: var(--font-text); font-size: clamp(15px, 1.5vw, 24px); line-height: 1.15; font-style: italic; }
+.c-win-desc { max-width: 44em; margin-top: 10px; font-family: var(--font-text); font-weight: 300; font-size: clamp(14px, 1.2vw, 19px); line-height: 1.4; }
+.c-win-actions { margin-top: auto; padding-top: 16px; font-size: 20px; text-transform: uppercase; }
+.c-win-actions .c-open { color: var(--bg); border-bottom-color: var(--bg); }
+.c-win-actions .c-open[aria-disabled='true'] { color: var(--bg); opacity: 0.6; }
+.c-win-bar :focus-visible { outline-color: var(--accent); }
+.c-win-main :focus-visible { outline-color: var(--bg); }
+
 
 /* ---------------- Sobre mí ---------------- */
 .about { position: relative; min-height: 100svh; overflow: hidden; padding: calc(var(--nav-h) + 28px) var(--gutter) 60px; }
@@ -283,6 +307,8 @@ main, .footer { position: relative; z-index: 1; }
     .ci-row { grid-template-columns: 36px 1fr; }
     .ci-row > :nth-child(3) { display: none; }
     .c-preview { width: 110px; bottom: 116px; }
+    .c-win-main { grid-template-columns: 96px minmax(0, 1fr); gap: 14px; }
+    .c-win-author { font-size: 9vw; }
 
     .about-statement { text-indent: 0; font-size: 7vw; }
     .about-side { margin-left: 0; }
@@ -303,11 +329,5 @@ main, .footer { position: relative; z-index: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .nav a::after, .theme-toggle::after, .home-enter-arrow { transition: none; }
+    .nav a::after, .theme-toggle::after, .home-enter-arrow, .c-sheet-scrim, .c-win { transition: none; }
 }
-
-
-
-
-
-

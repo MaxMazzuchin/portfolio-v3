@@ -166,23 +166,27 @@ export const gl = {
         u.uDir.value = dir;
         u.uProgress.value = from;
         this.curtain.visible = true;
+        document.documentElement.classList.add('gl-top'); // la cortina también tapa la navbar
         return new Promise((resolve) => {
             gsap.to(u.uProgress, {
                 value: to, duration, ease: 'power2.inOut',
-                onComplete: () => { if (to === 0) this.curtain.visible = false; resolve(); },
+                onComplete: () => {
+                    if (to === 0) { this.curtain.visible = false; document.documentElement.classList.remove('gl-top'); }
+                    resolve();
+                },
             });
         });
     },
 
-    /** Cover the screen. The colour is frozen at the start so a theme flip underneath is invisible. */
-    cover() {
+    /** Cover the screen. Color = fondo del tema actual (negro en oscuro, claro en claro), congelado al empezar so a theme flip underneath is invisible. */
+    cover(colorVar = '--bg') {
         if (!this.ok || reduced) return Promise.resolve();
-        this.tMat.uniforms.uColor.value.copy(this.U.uFg.value);
-        return this._sweep(0, 1, 0, 0.75);
+        this.tMat.uniforms.uColor.value.set(...cssColor(colorVar));
+        return this._sweep(0, 1, 0, 0.55);
     },
 
     uncover() {
         if (!this.ok || reduced) return Promise.resolve();
-        return this._sweep(1, 0, 1, 0.85);
+        return this._sweep(1, 0, 1, 0.6);
     },
 };
