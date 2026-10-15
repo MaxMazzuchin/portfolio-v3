@@ -214,6 +214,104 @@ export const extras = [
                 ]
             }
         ]
+    },
+    {
+        "slug": "contigiani-brinon",
+        "title": "CONTIGIANI BRIÑÓN",
+        "type": "Identidad de marca / Manual de marca",
+        "description": "Identidad visual completa para Contigiani Briñón, una inmobiliaria de Córdoba: logo, paleta, tipografía, manual de marca y piezas para papelería, redes y cartelería.",
+        "cover": {
+            "src": "/images/projects/contigiani-brinon/cover.webp",
+            "w": 2400,
+            "h": 1350
+        },
+        "sections": [
+            {
+                "kind": "column",
+                "images": [
+                    {
+                        "src": "/images/projects/contigiani-brinon/image-1.webp",
+                        "w": 2400,
+                        "h": 1350
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/image-2.webp",
+                        "w": 2400,
+                        "h": 1350
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/image-3.webp",
+                        "w": 2400,
+                        "h": 1350
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/image-4.webp",
+                        "w": 2400,
+                        "h": 1350
+                    }
+                ]
+            },
+            {
+                "kind": "grid",
+                "images": [
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-1.webp",
+                        "w": 1800,
+                        "h": 1013
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-2.webp",
+                        "w": 1800,
+                        "h": 1013
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-3.webp",
+                        "w": 1800,
+                        "h": 1013
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-4.webp",
+                        "w": 1800,
+                        "h": 1013
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-5.webp",
+                        "w": 1800,
+                        "h": 1013
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-6.webp",
+                        "w": 1800,
+                        "h": 1013
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-7.webp",
+                        "w": 1800,
+                        "h": 1013
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-8.webp",
+                        "w": 1080,
+                        "h": 1350
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-9.webp",
+                        "w": 1080,
+                        "h": 1350
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-10.webp",
+                        "w": 1080,
+                        "h": 1350
+                    },
+                    {
+                        "src": "/images/projects/contigiani-brinon/grid-11.webp",
+                        "w": 1080,
+                        "h": 1350
+                    }
+                ]
+            }
+        ]
     }
 ];
 

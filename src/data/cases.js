@@ -47,6 +47,11 @@ export const cases = {
         context: 'Identidad de marca para Nyro, empresa de analytics orientada a decisiones basadas en datos.',
         result: 'Una marca que se aleja de los recursos gastados del rubro.',
     },
+    'contigiani-brinon': {
+        client: 'Contigiani Briñón',
+        context: 'Identidad completa para Contigiani Briñón, una inmobiliaria de Córdoba. El logo junta un edificio de líneas quebradas con el monograma CB, y abajo va el rubro: Bienes Raíces. Armé el manual con el uso del logo, la paleta (azul, rojo, negro y blanco), Montserrat como tipografía y los usos incorrectos.',
+        result: 'Una marca sobria que se reconoce rápido, con el rojo reservado para el dato que importa. Se aplicó en tarjetas, papelería, redes, cartel de venta y los posts de cada propiedad.',
+    },
     curu: {
         client: 'Curu',
         context: 'Portadas, Spotify Canvas, anuncio de lanzamiento y flyer animado del show del 31/10 para Curu, artista de música.',

@@ -9,8 +9,8 @@ export const projects = [
   "description": "Recopilación de arte de tapa para artistas. El enfoque personal fue tipográfico y de alto contraste, evitando la representación literal para construir narrativas visuales que funcionan tanto en digital como en gran formato físico.",
   "cover": {
    "src": "/images/projects/album-artwork/cover.webp",
-   "w": 1080,
-   "h": 1080
+   "w": 2400,
+   "h": 2400
   },
   "sections": [
    {
@@ -33,8 +33,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/album-artwork/image-4.webp",
-      "w": 1080,
-      "h": 1080
+      "w": 1920,
+      "h": 1920
      },
      {
       "src": "/images/projects/album-artwork/image-5.webp",
@@ -48,18 +48,18 @@ export const projects = [
      },
      {
       "src": "/images/projects/album-artwork/image-7.webp",
-      "w": 1080,
-      "h": 1080
+      "w": 2400,
+      "h": 2400
      },
      {
       "src": "/images/projects/album-artwork/image-8.webp",
-      "w": 1080,
-      "h": 1080
+      "w": 1920,
+      "h": 1920
      },
      {
       "src": "/images/projects/album-artwork/image-9.webp",
-      "w": 1080,
-      "h": 1080
+      "w": 1920,
+      "h": 1920
      },
      {
       "src": "/images/projects/album-artwork/image-10.webp",
@@ -68,8 +68,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/album-artwork/image-11.webp",
-      "w": 1080,
-      "h": 1080
+      "w": 2400,
+      "h": 2400
      }
     ]
    }
@@ -365,37 +365,37 @@ export const projects = [
      {
       "src": "/images/projects/outframe/image-1.webp",
       "w": 2400,
-      "h": 1721
+      "h": 1720
      },
      {
       "src": "/images/projects/outframe/image-2.webp",
       "w": 2400,
-      "h": 1721
+      "h": 1720
      },
      {
       "src": "/images/projects/outframe/image-3.webp",
       "w": 2400,
-      "h": 1721
+      "h": 1720
      },
      {
       "src": "/images/projects/outframe/image-4.webp",
       "w": 2400,
-      "h": 1721
+      "h": 1720
      },
      {
       "src": "/images/projects/outframe/image-5.webp",
       "w": 2400,
-      "h": 1721
+      "h": 1720
      },
      {
       "src": "/images/projects/outframe/image-6.webp",
       "w": 2400,
-      "h": 1721
+      "h": 1720
      },
      {
       "src": "/images/projects/outframe/image-7.webp",
-      "w": 1600,
-      "h": 2400
+      "w": 2400,
+      "h": 3600
      }
     ]
    }
@@ -409,8 +409,8 @@ export const projects = [
   "description": "Un laboratorio visual en curso. Cada pieza es una excusa para expandir el vocabulario gráfico más allá de las soluciones predecibles, con base técnica suficiente como para que lo disruptivo no pierda claridad.",
   "cover": {
    "src": "/images/projects/exp-grafica/cover.webp",
-   "w": 1080,
-   "h": 608
+   "w": 1920,
+   "h": 1080
   },
   "sections": [
    {
@@ -418,78 +418,78 @@ export const projects = [
     "images": [
      {
       "src": "/images/projects/exp-grafica/grid-1.webp",
-      "w": 1080,
-      "h": 1080
+      "w": 1440,
+      "h": 1440
      },
      {
       "src": "/images/projects/exp-grafica/grid-2.webp",
-      "w": 810,
-      "h": 1080
+      "w": 1800,
+      "h": 2400
      },
      {
       "src": "/images/projects/exp-grafica/grid-3.webp",
-      "w": 864,
-      "h": 1080
+      "w": 1080,
+      "h": 1350
      },
      {
       "src": "/images/projects/exp-grafica/grid-4.webp",
-      "w": 864,
-      "h": 1080
+      "w": 1080,
+      "h": 1350
      },
      {
       "src": "/images/projects/exp-grafica/grid-5.webp",
-      "w": 864,
-      "h": 1080
+      "w": 1080,
+      "h": 1350
      },
      {
       "src": "/images/projects/exp-grafica/grid-6.webp",
-      "w": 810,
-      "h": 1080
+      "w": 1800,
+      "h": 2400
      },
      {
       "src": "/images/projects/exp-grafica/grid-7.webp",
-      "w": 607,
-      "h": 1080
+      "w": 1800,
+      "h": 3200
      },
      {
       "src": "/images/projects/exp-grafica/grid-8.webp",
-      "w": 607,
-      "h": 1080
+      "w": 1800,
+      "h": 3200
      },
      {
       "src": "/images/projects/exp-grafica/grid-9.webp",
-      "w": 608,
-      "h": 1080
+      "w": 1080,
+      "h": 1920
      },
      {
       "src": "/images/projects/exp-grafica/grid-10.webp",
-      "w": 764,
-      "h": 1080
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/exp-grafica/grid-11.webp",
-      "w": 764,
-      "h": 1080
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/exp-grafica/grid-12.webp",
-      "w": 864,
-      "h": 1080
+      "w": 1080,
+      "h": 1350
      },
      {
       "src": "/images/projects/exp-grafica/grid-13.webp",
-      "w": 864,
-      "h": 1080
+      "w": 1080,
+      "h": 1350
      },
      {
       "src": "/images/projects/exp-grafica/grid-14.webp",
-      "w": 764,
-      "h": 1080
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/exp-grafica/grid-15.webp",
-      "w": 764,
-      "h": 1080
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/exp-grafica/grid-16.webp",
@@ -498,73 +498,73 @@ export const projects = [
      },
      {
       "src": "/images/projects/exp-grafica/grid-17.webp",
-      "w": 764,
-      "h": 1080
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/exp-grafica/grid-18.webp",
-      "w": 608,
-      "h": 1080
+      "w": 1080,
+      "h": 1920
      },
      {
       "src": "/images/projects/exp-grafica/grid-19.webp",
-      "w": 764,
-      "h": 1080
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/exp-grafica/grid-20.webp",
-      "w": 810,
-      "h": 1080
+      "w": 1080,
+      "h": 1440
      },
      {
       "src": "/images/projects/exp-grafica/grid-21.webp",
-      "w": 1080,
-      "h": 1080
+      "w": 1440,
+      "h": 1440
      },
      {
       "src": "/images/projects/exp-grafica/grid-22.webp",
-      "w": 1080,
-      "h": 1080
+      "w": 1440,
+      "h": 1440
      },
      {
       "src": "/images/projects/exp-grafica/grid-23.webp",
-      "w": 1080,
-      "h": 608
+      "w": 1800,
+      "h": 1013
      },
      {
       "src": "/images/projects/exp-grafica/grid-24.webp",
-      "w": 1080,
-      "h": 608
+      "w": 1800,
+      "h": 1013
      },
      {
       "src": "/images/projects/exp-grafica/grid-25.webp",
-      "w": 608,
-      "h": 1080
+      "w": 1800,
+      "h": 3200
      },
      {
       "src": "/images/projects/exp-grafica/grid-26.webp",
-      "w": 810,
-      "h": 1080
+      "w": 1080,
+      "h": 1440
      },
      {
       "src": "/images/projects/exp-grafica/grid-27.webp",
-      "w": 764,
-      "h": 1080
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/exp-grafica/grid-28.webp",
-      "w": 608,
-      "h": 1080
+      "w": 1080,
+      "h": 1920
      },
      {
       "src": "/images/projects/exp-grafica/grid-29.webp",
-      "w": 810,
-      "h": 1080
+      "w": 1080,
+      "h": 1440
      },
      {
       "src": "/images/projects/exp-grafica/grid-30.webp",
-      "w": 810,
-      "h": 1080
+      "w": 1080,
+      "h": 1440
      },
      {
       "src": "/images/projects/exp-grafica/grid-31.webp",
@@ -573,13 +573,13 @@ export const projects = [
      },
      {
       "src": "/images/projects/exp-grafica/grid-32.webp",
-      "w": 1080,
-      "h": 1080
+      "w": 1800,
+      "h": 1800
      },
      {
       "src": "/images/projects/exp-grafica/grid-33.webp",
-      "w": 864,
-      "h": 1080
+      "w": 1080,
+      "h": 1350
      },
      {
       "src": "/images/projects/exp-grafica/grid-34.webp",
@@ -588,48 +588,48 @@ export const projects = [
      },
      {
       "src": "/images/projects/exp-grafica/grid-35.webp",
-      "w": 864,
-      "h": 1080
+      "w": 1080,
+      "h": 1350
      },
      {
       "src": "/images/projects/exp-grafica/grid-36.webp",
-      "w": 810,
-      "h": 1080
+      "w": 1080,
+      "h": 1440
      },
      {
       "src": "/images/projects/exp-grafica/grid-37.webp",
-      "w": 1080,
-      "h": 1080
+      "w": 1800,
+      "h": 1800
      },
      {
       "src": "/images/projects/exp-grafica/grid-38.webp",
-      "w": 764,
-      "h": 1080
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/exp-grafica/grid-39.webp",
-      "w": 499,
-      "h": 1080
+      "w": 1170,
+      "h": 2532
      },
      {
       "src": "/images/projects/exp-grafica/grid-40.webp",
-      "w": 499,
-      "h": 1080
+      "w": 1170,
+      "h": 2532
      },
      {
       "src": "/images/projects/exp-grafica/grid-41.webp",
-      "w": 864,
-      "h": 1080
+      "w": 1080,
+      "h": 1350
      },
      {
       "src": "/images/projects/exp-grafica/grid-42.webp",
-      "w": 810,
-      "h": 1080
+      "w": 1080,
+      "h": 1440
      },
      {
       "src": "/images/projects/exp-grafica/grid-43.webp",
-      "w": 764,
-      "h": 1080
+      "w": 1754,
+      "h": 2480
      }
     ]
    }
@@ -657,8 +657,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-2.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-3.webp",
@@ -667,18 +667,18 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-4.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-5.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-6.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-7.webp",
@@ -692,8 +692,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-9.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-10.webp",
@@ -707,8 +707,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-12.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-13.webp",
@@ -732,13 +732,13 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-17.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-18.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-19.webp",
@@ -762,8 +762,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-23.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-24.webp",
@@ -797,13 +797,13 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-30.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-31.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-32.webp",
@@ -812,13 +812,13 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-33.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-34.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-35.webp",
@@ -827,8 +827,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-36.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-37.webp",
@@ -837,8 +837,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-38.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-39.webp",
@@ -857,13 +857,13 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-42.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-43.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-44.webp",
@@ -872,8 +872,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-45.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-46.webp",
@@ -892,8 +892,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-49.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-50.webp",
@@ -902,13 +902,13 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-51.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-52.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-53.webp",
@@ -917,8 +917,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-54.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-55.webp",
@@ -932,13 +932,13 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-57.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-58.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-59.webp",
@@ -947,8 +947,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-60.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-61.webp",
@@ -997,13 +997,13 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-70.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-71.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-72.webp",
@@ -1012,13 +1012,13 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-73.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-74.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-75.webp",
@@ -1037,8 +1037,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-78.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-79.webp",
@@ -1057,13 +1057,13 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-82.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-83.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-84.webp",
@@ -1072,53 +1072,53 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-85.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-86.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-87.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-88.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-89.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-90.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-91.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-92.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-93.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-94.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-95.webp",
@@ -1132,8 +1132,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-97.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      },
      {
       "src": "/images/projects/100-posters/grid-98.webp",
@@ -1142,8 +1142,8 @@ export const projects = [
      },
      {
       "src": "/images/projects/100-posters/grid-99.webp",
-      "w": 1698,
-      "h": 2400
+      "w": 1800,
+      "h": 2546
      }
     ]
    }
@@ -1166,8 +1166,8 @@ export const projects = [
     "images": [
      {
       "src": "/images/projects/d2x/image-1.webp",
-      "w": 683,
-      "h": 2400
+      "w": 1920,
+      "h": 6750
      }
     ]
    }
@@ -1231,7 +1231,7 @@ export const projects = [
      {
       "src": "/images/projects/nyro/image-9.webp",
       "w": 2400,
-      "h": 801
+      "h": 800
      }
     ]
    }

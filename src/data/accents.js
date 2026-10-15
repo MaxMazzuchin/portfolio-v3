@@ -10,6 +10,7 @@ export const accents = {
     '100-posters': '#ff9f1c',
     d2x: '#4dd4ff',
     nyro: '#c7f24b',
+    'contigiani-brinon': '#3b7bff',
     animacion: '#ff3d3d',
     curu: '#d9b38c',
     gracias: '#74c7ec',

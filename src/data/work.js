@@ -12,7 +12,7 @@ const HIDDEN = new Set(['touchdesigner']);
 // Orden en la rueda y en la lista, por afinidad. Lo que no esté acá va al final, en el orden en que se agregó.
 const ORDER = [
     'album-artwork', 'curu', 'pone-atencion', 'sin-datos',
-    'i-life', 'nyro', 'outframe', 'd2x',
+    'i-life', 'nyro', 'contigiani-brinon', 'outframe', 'd2x',
     'exp-grafica', '100-posters',
     'taylor-swift', 'animacion',
     'gracias',
