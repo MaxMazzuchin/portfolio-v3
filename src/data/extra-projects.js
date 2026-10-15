@@ -29,8 +29,38 @@ export const extras = [
         },
         "sections": [
             {
+                "kind": "column",
+                "images": [
+                    {
+                        "src": "/images/projects/curu/image-1.webp",
+                        "w": 1080,
+                        "h": 1080
+                    },
+                    {
+                        "src": "/images/projects/curu/image-2.webp",
+                        "w": 1080,
+                        "h": 1080
+                    },
+                    {
+                        "src": "/images/projects/curu/image-3.webp",
+                        "w": 800,
+                        "h": 800
+                    }
+                ]
+            },
+            {
                 "kind": "videos",
                 "videos": [
+                    {
+                        "src": "/videos/curu/video-3.mp4",
+                        "w": 1080,
+                        "h": 1920
+                    },
+                    {
+                        "src": "/videos/curu/video-2.mp4",
+                        "w": 1080,
+                        "h": 1920
+                    },
                     {
                         "src": "/videos/curu/video-1.mp4",
                         "w": 1080,
