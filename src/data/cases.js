@@ -51,7 +51,7 @@ export const cases = {
         client: 'Curu',
         context: 'Portada de Noches de Papel y flyer animado del show del 31/10 para Curu, artista de música.',
     },
-    'asap-rocky-x-mazzu': {
+    'taylor-swift': {
         client: 'Personal',
         tools: ['After Effects'],
         context: 'Serie de edits de un proyecto personal, hechos en After Effects.',

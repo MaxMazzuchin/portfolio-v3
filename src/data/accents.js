@@ -13,7 +13,7 @@ export const accents = {
     animacion: '#ff3d3d',
     curu: '#d9b38c',
     gracias: '#74c7ec',
-    'asap-rocky-x-mazzu': '#ff7a2f',
+    'taylor-swift': '#ff7a2f',
 };
 
 export const accentOf = (slug) => accents[slug] || '#c7f24b';

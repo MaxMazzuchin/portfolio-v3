@@ -41,12 +41,12 @@ export const extras = [
         ]
     },
     {
-        "slug": "asap-rocky-x-mazzu",
-        "title": "ASAP ROCKY × MAZZU",
+        "slug": "taylor-swift",
+        "title": "TAYLOR SWIFT",
         "type": "Video / Motion",
         "description": "[CONFIRMAR] Una o dos frases: qué es el proyecto y cuál fue el enfoque.",
         "cover": {
-            "src": "/images/projects/asap-rocky-x-mazzu/cover.webp",
+            "src": "/images/projects/taylor-swift/cover.webp",
             "w": 1280,
             "h": 720
         },
@@ -55,22 +55,22 @@ export const extras = [
                 "kind": "videos",
                 "videos": [
                     {
-                        "src": "/videos/asap-rocky-x-mazzu/video-1.mp4",
+                        "src": "/videos/taylor-swift/video-1.mp4",
                         "w": 1280,
                         "h": 720
                     },
                     {
-                        "src": "/videos/asap-rocky-x-mazzu/video-2.mp4",
+                        "src": "/videos/taylor-swift/video-2.mp4",
                         "w": 1280,
                         "h": 720
                     },
                     {
-                        "src": "/videos/asap-rocky-x-mazzu/video-3.mp4",
+                        "src": "/videos/taylor-swift/video-3.mp4",
                         "w": 1280,
                         "h": 720
                     },
                     {
-                        "src": "/videos/asap-rocky-x-mazzu/video-4.mp4",
+                        "src": "/videos/taylor-swift/video-4.mp4",
                         "w": 1080,
                         "h": 1920
                     }

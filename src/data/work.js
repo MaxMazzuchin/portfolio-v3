@@ -14,7 +14,7 @@ const ORDER = [
     'album-artwork', 'curu', 'pone-atencion', 'sin-datos',
     'i-life', 'nyro', 'outframe', 'd2x',
     'exp-grafica', '100-posters',
-    'asap-rocky-x-mazzu', 'animacion',
+    'taylor-swift', 'animacion',
     'gracias',
 ];
 
