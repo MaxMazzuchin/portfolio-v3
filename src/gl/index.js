@@ -24,6 +24,7 @@ export const gl = {
     ok: false,
     revealEnabled: false,
     items: [],
+    seen: new WeakSet(), // elementos cuya animación de entrada ya se mostró
 
     init(canvas) {
         let renderer;
@@ -88,7 +89,13 @@ export const gl = {
         });
 
         this.resize();
-        addEventListener('resize', () => { this.resize(); this.queueRebuild(); });
+        // En el celular la barra del navegador aparece y desaparece al hacer scroll y dispara 'resize' solo con el alto: eso no necesita
+        // rearmar nada (las imágenes siguen su rectángulo cada frame). Solo un cambio de ANCHO (rotar, redimensionar) re-escanea el texto.
+        let lastW = window.innerWidth;
+        addEventListener('resize', () => {
+            this.resize();
+            if (window.innerWidth !== lastW) { lastW = window.innerWidth; this.queueRebuild(); }
+        });
         addEventListener('pointermove', (e) => {
             this.frame.mouse.x = e.clientX;
             this.frame.mouse.y = e.clientY;

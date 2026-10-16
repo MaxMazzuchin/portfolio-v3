@@ -54,7 +54,7 @@
 .ny-font--spline { left: calc(var(--u) * 60); font-family: 'Spline Sans', 'Inter Tight', sans-serif; }
 .ny-font--switzer { left: calc(var(--u) * 1060); font-family: 'Switzer', 'Inter Tight', sans-serif; --w0: 300; --w1: 500; --w2: 700; }
 .ny-fname { font-size: calc(var(--u) * 150); line-height: 1; font-weight: 700; letter-spacing: -0.03em; margin-bottom: calc(var(--u) * 60); }
-.ny-fhead { display: grid; grid-template-columns: calc(var(--u) * 90) calc(var(--u) * 95) calc(var(--u) * 160); margin-left: auto; width: calc(var(--u) * 345); font-family: 'Switzer', 'Inter Tight', sans-serif; font-size: max(10px, calc(var(--u) * 24)); text-align: right; padding-bottom: calc(var(--u) * 14); }
+.ny-fhead { display: grid; grid-template-columns: calc(var(--u) * 90) calc(var(--u) * 95) calc(var(--u) * 160); margin-left: auto; width: calc(var(--u) * 345); font-family: 'Switzer', 'Inter Tight', sans-serif; font-size: calc(var(--u) * 24); text-align: right; padding-bottom: calc(var(--u) * 14); }
 .ny-fhead span:first-child { text-align: left; }
 .ny-fbody { display: flex; justify-content: space-between; border-top: 1px solid var(--ny-line); padding-top: calc(var(--u) * 44); }
 .ny-alpha p { font-size: calc(var(--u) * 42); line-height: 1.25; font-weight: 500; letter-spacing: -0.01em; }
@@ -109,24 +109,7 @@
 .ny-ban-cap { left: calc(var(--u) * 30); bottom: calc(var(--u) * 20); font-size: max(10px, calc(var(--u) * 20)); color: #77786f; z-index: 1; }
 
 /* ---------- Mobile ---------- */
-@media (max-width: 800px) {
-    .ny-hero { aspect-ratio: 4 / 3; }
-    .ny-hero-logo { left: 6%; right: 6%; margin-top: -14%; }
-    /* Tipografía y eslogan se reordenan en columna; el resto (stickers, libreta, patrón, banner) escala como un conjunto. */
-    .ny-typ, .ny-lock { --u: 0.6px; aspect-ratio: auto; display: flex; flex-direction: column; gap: 28px; padding: 18px 16px 28px; }
-    .ny-typ > *, .ny-lock > * { position: static; }
-    .ny-typ .ny-sl-head { font-size: 13px; }
-    .ny-font { width: auto; }
-    .ny-fname { font-size: 40px; margin-bottom: 16px; }
-    .ny-alpha p { font-size: 15px; }
-    .ny-alpha .ny-nums { margin-top: 24px; }
-    .ny-wcols { height: 250px; margin-top: 0; }
-    .ny-w0 { width: 54px; } .ny-w1 { width: 58px; } .ny-w2 { width: 96px; }
-    .ny-fhead { grid-template-columns: 54px 58px 96px; width: 208px; }
-    .ny-wcol span { font-size: 330px; left: -20px; bottom: -36px; }
-    .ny-lock-logo, .ny-lock-text { width: auto; }
-    .ny-lock-h { font-size: 40px; }
-    .ny-lock-s { font-size: 16px; margin-top: 12px; }
-}
+/* Sin reglas propias: las láminas son diseños vectoriales y en el celular se ven igual que en escritorio, solo más chicas
+   (1 u = 0.05cqw del ancho de la lámina). No reordenar ni dejar que el texto cambie de renglón. */
 
 @media (prefers-reduced-motion: reduce) { .ny-manual * { transition: none; } }

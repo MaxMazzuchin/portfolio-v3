@@ -15,6 +15,7 @@ function revealOnce(item, G, rect) {
     if (item.revealed || !G.frame.reveal) return;
     if (rect.top > G.frame.vh * 0.94) return;
     item.revealed = true;
+    G.seen.add(item.el); // sobrevive a un rebuild (resize) mientras el elemento siga en la página
     gsap.to(item.mat.uniforms.uReveal, { value: 1, duration: 1.2, ease: 'power2.out', delay: item.delay || 0 });
 }
 
@@ -68,14 +69,14 @@ export function createTextItem(el, G) {
     tex.generateMipmaps = false;
     tex.minFilter = THREE.LinearFilter;
 
-    const mat = G.material(textFrag, { uTex: { value: tex }, uReveal: { value: 0 } });
+    const mat = G.material(textFrag, { uTex: { value: tex }, uReveal: { value: G.seen.has(el) ? 1 : 0 } });
     const mesh = new THREE.Mesh(G.geo, mat);
     mesh.visible = false;
     G.scene.add(mesh);
     el.classList.add('gl-hidden');
 
     const item = {
-        el, mesh, mat, revealed: false,
+        el, mesh, mat, revealed: G.seen.has(el),
         update(r) {
             const vis = r.bottom > 0 && r.top < G.frame.vh;
             mesh.visible = vis;
@@ -112,6 +113,7 @@ export function imageMaterial(G) {
 
 export function createImageItem(el, G) {
     const mat = imageMaterial(G);
+    if (G.seen.has(el)) mat.uniforms.uReveal.value = 1;
     const mesh = new THREE.Mesh(G.geo, mat);
     mesh.visible = false;
     G.scene.add(mesh);
@@ -147,12 +149,11 @@ export function createImageItem(el, G) {
         tex.dispose();
         tex = null;
         mat.uniforms.uTex.value = null;
-        item.revealed = false;
-        mat.uniforms.uReveal.value = 0;
+        // La animación de entrada se muestra una sola vez: liberar la textura al alejarse NO la reinicia (volver a subir no la repite).
     };
 
     const item = {
-        el, mesh, mat, revealed: false,
+        el, mesh, mat, revealed: G.seen.has(el),
         update(r) {
             const { vh, vel } = G.frame;
             const near = r.bottom > -vh * 1.5 && r.top < vh * 2.5;

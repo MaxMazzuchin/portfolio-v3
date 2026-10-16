@@ -364,7 +364,8 @@ main, .footer { position: relative; z-index: 1; }
     .g-grid.g-two { column-count: 2; column-gap: 10px; }
     .g-grid.g-two .g-item { margin-bottom: 10px; }
     .g-grid.g-equal { grid-template-columns: minmax(0, 1fr); }
-    .footer { grid-template-columns: 1fr 1fr; }
+    .footer { grid-template-columns: 1fr 1fr; font-size: 17px; }
+    .footer > :first-child { grid-column: 1 / -1; overflow-wrap: anywhere; } /* el mail ocupa todo el ancho: en 1 columna se salía de la pantalla */
     .footer > :last-child { text-align: left; }
     .lb-title { display: none; }
     .lb-top { grid-template-columns: 1fr auto; }

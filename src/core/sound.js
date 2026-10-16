@@ -5,10 +5,12 @@
  */
 const KEY = 'sound';
 const VOLUME = 0.35 * 0.22; // casi subliminal
+const TOUCH_BOOST = 2.6; // los parlantes de un celular casi no reproducen estos golpes cortos: se compensa
 const HOVER_SEL = '.nav-links a, .nav-logo, .theme-toggle, .sfx-toggle, .nav-menu, [data-f], [data-view], .ci-row, [data-c-open]';
 
 let ctx, master, white, crushed;
 let on = false;
+let unlocked = false;
 const last = {};
 const rnd = (a, b) => a + Math.random() * (b - a);
 
@@ -17,8 +19,10 @@ function boot() {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return false;
     ctx = new AC();
+    // iOS: con el interruptor de silencio puesto, Web Audio queda mudo; el tipo 'playback' lo ignora (Safari 16.4+).
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch { /* no soportado */ }
     master = ctx.createGain();
-    master.gain.value = VOLUME;
+    master.gain.value = VOLUME * (matchMedia('(pointer: coarse)').matches ? TOUCH_BOOST : 1);
     const comp = ctx.createDynamicsCompressor();
     master.connect(comp);
     comp.connect(ctx.destination);
@@ -155,10 +159,20 @@ export function initSound() {
 
     document.querySelector('.sfx-toggle')?.addEventListener('click', () => sound.set(!on));
 
-    // Un contexto de audio creado antes de un gesto queda suspendido: se reanuda con la primera interacción.
-    const wake = () => { if (ctx?.state === 'suspended') ctx.resume().catch(() => {}); };
-    addEventListener('pointerdown', wake, { passive: true });
-    addEventListener('keydown', wake);
+    // Un contexto de audio queda suspendido hasta un gesto del usuario. Si el sonido ya estaba prendido de una visita anterior, se crea
+    // y se reanuda con el primer toque. iOS solo cuenta touchend / click / keydown (no pointerdown ni touchmove), así que se escuchan todos.
+    const wake = () => {
+        if (!on || !boot()) return;
+        if (ctx.state !== 'running') ctx.resume().catch(() => {});
+        if (!unlocked) { // un buffer vacío "abre" la salida de audio en iOS
+            unlocked = true;
+            const src = ctx.createBufferSource();
+            src.buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+            src.connect(ctx.destination);
+            src.start(0);
+        }
+    };
+    ['pointerdown', 'pointerup', 'touchend', 'click', 'keydown'].forEach((ev) => addEventListener(ev, wake, { passive: true }));
 
     document.addEventListener('pointerover', (e) => {
         if (!on || !fine.matches) return;
