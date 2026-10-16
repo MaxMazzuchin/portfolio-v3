@@ -1,13 +1,13 @@
 import './blue.css';
 import gsap from 'gsap';
-import { LOGO, GAP, LIFT, WORD, SEPARATORS, blueSVG, wavesSVG, coverSVG, sepSVG } from './blue-logo.js';
+import { LOGO, GAP, LIFT, WORD, blueSVG, wavesSVG, coverSVG } from './blue-logo.js';
 import { enterTimeline, onceInView, loadFonts, splitLetters, capRatio, reduced } from './motion.js';
 
 // Manual de marca de Blue Marketing armado con HTML/SVG/CSS. El logo y las olas son los vectores del PDF de lineamientos del
 // cliente (blue-logo.js / blue-paths.js); los stickers y los posts son las piezas originales (en /images/projects/blue-marketing).
 // Cada lámina escala con su ancho: 1 "u" = 1px de una lámina de 1920px (las medidas salen del PDF, que es 1920 × 1080).
 
-export const pieces = 9;
+export const pieces = 7;
 
 const POPPINS = 'Poppins';
 const POPPINS_URL = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap';
@@ -32,14 +32,6 @@ function safeSVG({ word = false } = {}) {
 
 /** El contorno del logo, grande y punteado, como decorado de fondo. */
 const decor = (cls) => `<svg class="bm-decor ${cls}" viewBox="0 0 ${LOGO.w} ${LOGO.h}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="${LOGO.d}"/></svg>`;
-
-// Los cuatro usos incorrectos de la lámina de lineamientos. Cada logo arranca bien y se convierte en su error.
-const MISUSE = [
-    { id: 'def', label: 'Deformación del logo' },
-    { id: 'col', label: 'Aplicación de color incorrecto' },
-    { id: 'bg', label: 'No usar fondos con poco contraste' },
-    { id: 'sh', label: 'No utilizar sombras' },
-];
 
 const STICKERS = [
     'Tiburón con anteojos de sol y la frase ALWAYS HUNGRY', 'Globo terráqueo con una flecha de crecimiento', 'Megáfono con la frase WE ARE BLUE',
@@ -91,19 +83,8 @@ export function manualHTML() {
     </div>
 </section>
 
-<section class="bm-slide bm-bad" data-sec="bad">
-    ${LIN}
-    <h3 class="bm-title" data-in><span class="bm-bar"></span>Usos incorrectos</h3>
-    ${MISUSE.map((m) => `<figure class="bm-bad-i bm-bad--${m.id}" data-in><div class="bm-bad-fig"><span class="bm-bad-bg"></span>${blueSVG({ cls: 'bm-bad-logo' })}<svg class="bm-x" viewBox="0 0 40 40" aria-hidden="true"><path pathLength="100" d="M6 6L34 34"/><path pathLength="100" d="M34 6L6 34"/></svg></div><figcaption>${m.label}</figcaption></figure>`).join('')}
-</section>
-
-<section class="bm-slide bm-seps" data-sec="seps">
-    ${SEPARATORS.map((s) => `<div class="bm-sep-w" data-sep>${sepSVG(s)}</div>`).join('')}
-</section>
-
 <section class="bm-slide bm-stk" data-sec="stk">
     ${head('Aplicaciones // Stickers')}
-    <img class="bm-stk-bg" src="${IMG}/fondo.webp" alt="" loading="lazy" decoding="async">
     <div class="bm-stk-grid">${STICKERS.map((alt, i) => `<img class="bm-st" style="--r:${TILT[i]}deg" src="${IMG}/stickers/sticker-${i + 1}.svg" alt="${alt}" loading="lazy" decoding="async">`).join('')}</div>
 </section>
 
@@ -187,7 +168,6 @@ export async function mountManual(root) {
     fitWords(m);
 
     if (reduced) {
-        all(m, '.bm-sep-t').forEach((t) => splitLetters(t, POPPINS, 700));
         splitLetters(m.querySelector('.bm-hero .bm-word'), POPPINS, 700);
         m.classList.remove('bm-pending');
         return () => {};
@@ -257,40 +237,7 @@ export async function mountManual(root) {
     typTl.to(lines, { clipPath: 'inset(0 0% 0 0)', duration: 0.9, stagger: 0.09, ease: 'power3.inOut' }, 0.4);
     when.push([typ, () => typTl.play()]);
 
-    // 6 · Usos incorrectos: cada logo parte bien hecho y se convierte en su error; después se lo tacha
-    const bad = sec('bad');
-    const badTl = add(enterTimeline(bad, { y: 24, stagger: 0.12 }));
-    const at = (cls) => bad.querySelector(`.bm-bad--${cls}`);
-    const logoOf = (cls) => at(cls).querySelector('.bm-bad-logo');
-    const xs = all(bad, '.bm-x path');
-    draw(xs);
-    gsap.set(at('sh').querySelector('.bm-bad-logo'), { filter: 'drop-shadow(0px 0px 0px rgba(0,0,0,0))' });
-    gsap.set(at('bg').querySelector('.bm-bad-bg'), { opacity: 0 });
-    badTl.to(logoOf('def'), { scaleX: 0.66, transformOrigin: '50% 100%', duration: 1.0, ease: 'power2.inOut' }, 1.0)
-        .to(logoOf('col'), { color: '#44a9f7', duration: 0.8, ease: 'power1.inOut' }, 1.2)
-        .to(at('bg').querySelector('.bm-bad-bg'), { opacity: 1, duration: 0.8, ease: 'power1.inOut' }, 1.4)
-        .to(logoOf('bg'), { color: '#00004b', duration: 0.8, ease: 'power1.inOut' }, 1.4)
-        .to(logoOf('sh'), { filter: 'drop-shadow(14px 16px 7px rgba(0,0,0,0.5))', duration: 0.9, ease: 'power2.out' }, 1.6)
-        .to(xs, { strokeDashoffset: 0, duration: 0.45, stagger: 0.12, ease: 'power2.out' }, 2.4);
-    when.push([bad, () => badTl.play()]);
-
-    // 7 · Separadores: el contorno se dibuja, las olas suben y el título entra letra por letra
-    const seps = all(m, '[data-sep]');
-    seps.forEach((w, i) => {
-        const outlineEl = w.querySelector('.bm-sep-outline');
-        const waves = w.querySelector('.bm-sep-waves');
-        const letters = splitLetters(w.querySelector('.bm-sep-t'), POPPINS, 700);
-        gsap.set(outlineEl, { strokeDasharray: ND, strokeDashoffset: 100 });
-        gsap.set(waves, { y: 160 });
-        gsap.set(letters, { opacity: 0, y: 40 });
-        const tl = add(gsap.timeline({ paused: true, delay: i * 0.15 }));
-        tl.to(outlineEl, { strokeDashoffset: 0, duration: 2, ease: 'power2.inOut' }, 0)
-            .to(waves, { y: 0, duration: 1.6, ease: 'power3.out' }, 0.2)
-            .to(letters, { opacity: 1, y: 0, duration: 0.7, stagger: 0.05, ease: 'power3.out' }, 0.6);
-        when.push([w, () => tl.play()]);
-    });
-
-    // 8 · Stickers: cada uno cae y se pega
+    // 6 · Stickers: cada uno cae y se pega
     const stk = sec('stk');
     const stkTl = add(enterTimeline(stk, { y: 0, duration: 0.5 }));
     const stickers = all(stk, '.bm-st');
@@ -298,7 +245,7 @@ export async function mountManual(root) {
     stkTl.to(stickers, { opacity: 1, y: 0, scale: 1, rotation: (i) => TILT[i], duration: 0.8, stagger: 0.09, ease: 'back.out(1.5)' }, 0.3);
     when.push([stk, () => stkTl.play()]);
 
-    // 9 · Posts de resultados: suben de a uno
+    // 7 · Posts de resultados: suben de a uno
     const posts = sec('posts');
     const postsTl = add(enterTimeline(posts, { y: 0 }));
     const pics = all(posts, '.bm-post');

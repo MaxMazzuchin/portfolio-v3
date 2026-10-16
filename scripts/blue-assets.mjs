@@ -7,7 +7,6 @@
 //   public/images/projects/blue-marketing/cover.webp tapa 2400×1350 (fondo navy, logo y olas)
 //   public/images/projects/blue-marketing/posts/     los 5 posts de resultados en .webp (1080 de ancho)
 //   public/images/projects/blue-marketing/stickers/  los 15 stickers en SVG (se usan como <img>: cada uno trae sus clases de color)
-//   public/images/projects/blue-marketing/fondo.webp  ilustración de tiburones (fondo de la lámina de stickers)
 //
 // El logo y las olas salen del PDF de lineamientos (portada): son vectores exactos. El PDF usa y hacia arriba y cada forma
 // lleva su propio `cm` (traslación), así que un punto (x, y) pasa a SVG como (tx + x, 1080 − ty − y).
@@ -151,5 +150,3 @@ const stickers = fs.readdirSync(path.join(src, 'Stickers/SVG')).filter((f) => /\
 for (const [i, f] of stickers.entries()) fs.copyFileSync(path.join(src, 'Stickers/SVG', f), path.join(outDir, 'stickers', `sticker-${i + 1}.svg`));
 console.log(`✓ ${stickers.length} stickers`);
 
-await sharp(path.join(src, 'Iconos', 'Fondo.png')).resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 74 }).toFile(path.join(outDir, 'fondo.webp'));
-console.log('✓ fondo.webp');

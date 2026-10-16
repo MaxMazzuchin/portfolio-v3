@@ -15,7 +15,7 @@ const SIZES_GRID = '(max-width: 800px) calc(100vw - 32px), calc(35vw - 40px)';
 const manuals = {
     'contigiani-brinon': { load: () => import('../brand/contigiani.js'), pieces: 9 },
     nyro: { load: () => import('../brand/nyro.js'), pieces: 8 },
-    'blue-marketing': { load: () => import('../brand/blue.js'), pieces: 9 },
+    'blue-marketing': { load: () => import('../brand/blue.js'), pieces: 7 },
     outframe: { load: () => import('../brand/outframe.js'), pieces: 7 },
     d2x: { load: () => import('../brand/d2x.js'), pieces: 6 },
 };
