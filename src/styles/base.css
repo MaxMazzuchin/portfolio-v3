@@ -59,6 +59,27 @@ main, .footer { position: relative; z-index: 1; }
 .ghost.ghost-dither { inset: 0; left: 0; top: 0; width: 100%; height: 100%; font-size: 0; color: color-mix(in srgb, var(--fg) 16%, transparent); }
 .ghost-dither canvas { display: block; width: 100%; height: 100%; }
 
+/* MZZ del home: relleno del color de fondo (recorta el dither, que va debajo) y contorno fino, así se lee la forma. */
+.ghost--home { color: var(--bg); -webkit-text-stroke: 1.5px color-mix(in srgb, var(--fg) 42%, transparent); }
+
+/* Caballo del home: ciclo de galope en su lugar (10 cuadros a 6 fps, tira de scripts/horse-sprite.mjs) usado como máscara
+   pintada con el color del texto; cruza la pantalla por detrás del título. */
+.ghost.ghost-horse {
+    --horse-frames: 10;
+    top: 50%; left: 0; width: clamp(300px, 36vw, 560px); aspect-ratio: 640 / 450; font-size: 0;
+    margin-top: calc(clamp(300px, 36vw, 560px) * -0.22); /* el cuerpo queda sobre la línea del título */
+    background: color-mix(in srgb, var(--fg) 52%, transparent);
+    -webkit-mask: url('/images/home/caballo.webp') 0 0 / calc(var(--horse-frames) * 100%) 100% no-repeat;
+    mask: url('/images/home/caballo.webp') 0 0 / calc(var(--horse-frames) * 100%) 100% no-repeat;
+    animation: horse-gallop 1.667s steps(10) infinite, horse-run 18s linear infinite;
+}
+/* La tira es 10 veces más ancha que la caja: el cuadro i queda en i/9 de la posición, así que 10 escalones llegan a 10/9. */
+@keyframes horse-gallop { to { -webkit-mask-position: 111.1111% 0; mask-position: 111.1111% 0; } }
+@keyframes horse-run { from { transform: translateX(-100%); } to { transform: translateX(100vw); } }
+@media (prefers-reduced-motion: reduce) {
+    .ghost.ghost-horse { animation: none; left: 50%; transform: translateX(-50%); -webkit-mask-position: 33.33% 0; mask-position: 33.33% 0; }
+}
+
 /* Thin dithered rule drawn by core/dbar.js */
 .dbar { position: relative; height: 12px; width: 100%; }
 .dbar canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
