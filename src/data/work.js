@@ -33,10 +33,26 @@ const withAdditions = (p) => {
 // (series de portadas, estampitas). Los demás arrancan con la portada grande.
 const EQUAL = new Set(['album-artwork', 'gracias', 'taylor-swift']);
 
+// Exp. Gráfica va de lo más nuevo a lo más viejo. La fecha real de creación solo sobrevive en 13 archivos; el resto se
+// exportó junto el 24/3/2026, así que se ordena por el número de "exp-g (n)" de los originales (mayor = más nuevo).
+// grid-1 es exp-g (43), grid-2..43 son exp-g (1..42) y grid-44..49 son las piezas sumadas después (las más nuevas).
+const createdRank = (src) => {
+    const n = Number(/grid-(\d+)\.webp$/.exec(src)?.[1]);
+    if (!n) return 0;
+    return n === 1 ? 43 : n <= 43 ? n - 1 : 100 + n;
+};
+const NEWEST_FIRST = new Set(['exp-grafica']);
+const byNewest = (p) => {
+    if (!NEWEST_FIRST.has(p.slug)) return p;
+    const sections = p.sections.map((s) => (s.images ? { ...s, images: [...s.images].sort((a, b) => createdRank(b.src) - createdRank(a.src)) } : s));
+    return { ...p, sections };
+};
+
 const rank = (slug) => { const i = ORDER.indexOf(slug); return i < 0 ? ORDER.length : i; };
 
 export const projects = [...v2.filter((p) => !HIDDEN.has(p.slug)), ...extras]
     .map(withAdditions)
+    .map(byNewest)
     .map((p, i) => ({ p, i }))
     .sort((a, b) => rank(a.p.slug) - rank(b.p.slug) || a.i - b.i)
     .map(({ p }, i) => ({ ...p, index: pad(i + 1), case: cases[p.slug] || null, layout: EQUAL.has(p.slug) ? 'equal' : 'hero' }));
