@@ -15,6 +15,7 @@ const SIZES_GRID = '(max-width: 800px) calc(100vw - 32px), calc(35vw - 40px)';
 const manuals = {
     'contigiani-brinon': { load: () => import('../brand/contigiani.js'), pieces: 9 },
     nyro: { load: () => import('../brand/nyro.js'), pieces: 8 },
+    'blue-marketing': { load: () => import('../brand/blue.js'), pieces: 9 },
     outframe: { load: () => import('../brand/outframe.js'), pieces: 7 },
     d2x: { load: () => import('../brand/d2x.js'), pieces: 6 },
 };
@@ -31,9 +32,13 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 export function mountProject(view) {
     // El slug viene de /proyecto/<slug>/. Los links viejos (/proyecto.html?p=<slug>, o /proyecto/?p=<slug> si el hosting reescribe
     // la ruta) se leen igual y la barra de direcciones pasa a la URL nueva.
-    const slug = location.pathname.match(/^\/proyecto\/([\w-]+)/)?.[1] || new URLSearchParams(location.search).get('p');
+    const query = new URLSearchParams(location.search);
+    const slug = location.pathname.match(/^\/proyecto\/([\w-]+)/)?.[1] || query.get('p');
     const p = bySlug(slug) || projects[0];
-    if (location.pathname + location.search !== projectUrl(p.slug)) history.replaceState(history.state, '', projectUrl(p.slug));
+    // Solo se limpia `p`: el resto del query (por ejemplo ?cbt= en dev, que congela las animaciones de los manuales) se respeta.
+    query.delete('p');
+    const canonical = projectUrl(p.slug) + (query.size ? `?${query}` : '');
+    if (location.pathname + location.search !== canonical) history.replaceState(history.state, '', canonical);
     const c = p.case;
     const at = projects.indexOf(p);
     const next = projects[(at + 1) % projects.length];

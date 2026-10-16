@@ -11,6 +11,7 @@ export const accents = {
     d2x: '#4dd4ff',
     nyro: '#c7f24b',
     'contigiani-brinon': '#3b7bff',
+    'blue-marketing': '#8a9bff',
     animacion: '#ff3d3d',
     curu: '#d9b38c',
     gracias: '#74c7ec',

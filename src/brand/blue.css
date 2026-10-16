@@ -1,0 +1,133 @@
+/* Manual de marca de Blue Marketing, armado en código.
+   Las láminas escalan con su ancho: 1 "u" = 1px de una lámina de 1920px (las medidas salen del PDF de lineamientos, que es 1920 × 1080).
+   A diferencia de los otros manuales, las láminas llevan sus propios fondos (navy, gris, negro y blanco) como en el PDF:
+   la marca define sus colores y no cambian con el tema de la página. */
+
+.bm-manual {
+    --bm-navy: #00004b; --bm-ice: #e7ecff; --bm-ink: #0c0c0c; --bm-grey: #f2f2f2;
+    display: grid; gap: 24px; min-width: 0;
+    font-family: 'Poppins', var(--font), sans-serif;
+}
+.bm-manual.bm-pending { opacity: 0; }
+
+/* ---------- Logo ---------- */
+.bm-logo { display: block; width: 100%; height: auto; overflow: visible; color: inherit; }
+.bm-fill { fill: currentColor; }
+.bm-word, .bm-t .ny-l { font-family: 'Poppins', var(--font), sans-serif; font-weight: 700; fill: currentColor; letter-spacing: -0.02em; }
+.bm-t .ny-l { letter-spacing: 0; } /* las letras ya están puestas con su espaciado */
+.bm-waves { display: block; width: 100%; height: auto; }
+.bm-waveA, .bm-waveB { fill: currentColor; }
+
+/* ---------- 1 · Tapa / construcción ---------- */
+.bm-hero { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bm-navy); color: var(--bm-ice); }
+.bm-scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.bm-outline { fill: none; stroke: currentColor; stroke-width: 3; stroke-linejoin: round; stroke-opacity: 0; }
+.bm-guides { display: none; }
+.is-anim .bm-guides { display: block; }
+.bm-g { fill: none; stroke: currentColor; stroke-width: 1.2; stroke-opacity: 0.55; }
+.bm-gc { stroke-opacity: 0.4; }
+/* Los textos van arriba: abajo caen sobre las olas, que son del mismo color que el texto. */
+.bm-hero-top { position: absolute; top: 16px; left: 18px; right: 18px; display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; color: var(--bm-ice); letter-spacing: 0.06em; }
+.bm-hero-top span { opacity: 0.7; }
+.bm-replay { font: inherit; color: inherit; text-transform: uppercase; letter-spacing: inherit; padding: 4px 0; }
+.bm-replay:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- Láminas ---------- */
+.bm-slide { --u: 0.0520833cqw; position: relative; container-type: inline-size; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bm-grey); color: var(--bm-ink); }
+.bm-slide > * { position: absolute; }
+.bm-lin { left: calc(var(--u) * 50); top: calc(var(--u) * 52); font-size: max(10px, calc(var(--u) * 29)); font-weight: 500; letter-spacing: 0; z-index: 2; }
+.bm-title { font-size: max(15px, calc(var(--u) * 77)); font-weight: 700; line-height: 1.04; letter-spacing: -0.02em; z-index: 2; }
+.bm-bar { display: inline-block; width: calc(var(--u) * 3); height: 1.05em; margin-right: 0.3em; background: currentColor; vertical-align: -0.16em; }
+.bm-sl-head { left: calc(var(--u) * 50); top: calc(var(--u) * 52); font-size: max(11px, calc(var(--u) * 29)); font-weight: 500; z-index: 2; }
+
+/* Decorado: el contorno del logo, grande y punteado */
+.bm-decor { fill: none; stroke: #b9b9b9; stroke-width: 1.2; stroke-dasharray: 5 6; overflow: visible; pointer-events: none; }
+.bm-decor--pal { left: calc(var(--u) * -120); top: calc(var(--u) * 330); width: calc(var(--u) * 760); transform: rotate(-14deg); }
+.bm-decor--typ { right: calc(var(--u) * -150); top: calc(var(--u) * 20); width: calc(var(--u) * 980); transform: rotate(9deg); }
+
+/* 2 · Logo y variantes: logo en su zona segura */
+.bm-var .bm-title { left: calc(var(--u) * 98); top: calc(var(--u) * 218); }
+.bm-var-a, .bm-var-b { top: calc(var(--u) * 376); width: calc(var(--u) * 386); }
+.bm-var-a { left: calc(var(--u) * 393); }
+.bm-var-b { left: calc(var(--u) * 1150); }
+.bm-safe { display: block; width: 100%; height: auto; overflow: visible; }
+.bm-zone-out, .bm-zone-in { fill: none; stroke: #8e8e8e; stroke-width: 1.2; stroke-dasharray: 4 5; }
+.bm-zone-sq { fill: #b8b8b8; }
+.bm-var figcaption { text-align: center; margin-top: calc(var(--u) * 34); font-size: max(10px, calc(var(--u) * 27)); font-weight: 300; }
+
+/* 3 · Paleta */
+.bm-pal .bm-pal-t { left: calc(var(--u) * 98); top: calc(var(--u) * 190); font-size: max(15px, calc(var(--u) * 70)); }
+.bm-band { left: calc(var(--u) * 545); right: 0; height: 33.4%; overflow: hidden; }
+.bm-band--navy { top: 0; background: var(--bm-navy); --hx: #fff; --lg: var(--bm-ice); }
+.bm-band--ice { top: 33.3%; background: var(--bm-ice); --hx: var(--bm-navy); --lg: var(--bm-navy); }
+.bm-band--ink { top: 66.6%; background: var(--bm-ink); --hx: var(--bm-ice); --lg: #fff; }
+.bm-hex { position: absolute; left: calc(var(--u) * 90); bottom: calc(var(--u) * 58); font-size: max(14px, calc(var(--u) * 74)); font-weight: 700; line-height: 1; color: var(--hx); }
+.bm-band .bm-band-logo { position: absolute; right: calc(var(--u) * 66); top: calc(var(--u) * 50); width: auto; height: calc(var(--u) * 260); color: var(--lg); }
+
+/* 4 · Blanco y negro */
+.bm-bw { display: grid; grid-template-columns: 1fr 1fr; }
+.bm-bw > * { position: relative; overflow: hidden; }
+.bm-bw-l { background: #000; color: #fff; }
+.bm-bw-r { background: #fff; color: #000; }
+/* Título y rótulo están dentro de la mitad (no son hijos directos de la lámina): el absolute hay que pedirlo acá. */
+.bm-bw-l .bm-title, .bm-bw-l .bm-lin { position: absolute; }
+.bm-bw-l .bm-title { left: calc(var(--u) * 80); top: calc(var(--u) * 150); font-size: max(14px, calc(var(--u) * 66)); }
+.bm-bw-l .bm-lin { color: #fff; }
+.bm-bw .bm-bw-logo { position: absolute; left: calc(var(--u) * 310); top: calc(var(--u) * 345); width: calc(var(--u) * 340); height: auto; }
+.bm-bw .bm-bw-waves { position: absolute; left: 0; right: 0; bottom: 0; }
+
+/* 5 · Tipografía */
+.bm-typ-l { left: 0; top: 0; width: calc(var(--u) * 565); height: 100%; background: var(--bm-ink); color: #fff; }
+.bm-typ-l .bm-title { position: absolute; left: calc(var(--u) * 98); top: calc(var(--u) * 200); font-size: max(15px, calc(var(--u) * 74)); }
+.bm-typ .bm-lin { color: #fff; }
+.bm-typ-r { left: calc(var(--u) * 725); right: calc(var(--u) * 50); top: calc(var(--u) * 70); bottom: calc(var(--u) * 50); display: grid; grid-template-rows: repeat(3, 1fr); align-content: space-between; z-index: 1; }
+.bm-spec { font-weight: var(--w); }
+.bm-spec-n { font-size: max(11px, calc(var(--u) * 40)); font-weight: var(--w); line-height: 1.1; margin-bottom: calc(var(--u) * 16); }
+.bm-spec-l { font-size: max(10px, calc(var(--u) * 49)); line-height: 1.17; white-space: nowrap; letter-spacing: -0.01em; font-weight: var(--w); }
+
+/* 6 · Usos incorrectos */
+.bm-bad .bm-title { left: calc(var(--u) * 98); top: calc(var(--u) * 218); }
+.bm-bad-i { top: calc(var(--u) * 369); width: calc(var(--u) * 425); }
+.bm-bad--def { left: calc(var(--u) * 30); }
+.bm-bad--col { left: calc(var(--u) * 473); }
+.bm-bad--bg { left: calc(var(--u) * 988); }
+.bm-bad--sh { left: calc(var(--u) * 1452); }
+.bm-bad-fig { position: relative; width: 100%; height: calc(var(--u) * 508); display: grid; place-items: center; }
+.bm-bad-bg { position: absolute; inset: 0; background: #2e3192; opacity: 0; }
+.bm-bad .bm-bad-logo { position: relative; width: calc(var(--u) * 215); height: auto; color: var(--bm-ink); }
+.bm-x { position: absolute; right: calc(var(--u) * 8); top: calc(var(--u) * 8); width: calc(var(--u) * 58); fill: none; stroke: #e5484d; stroke-width: 4.5; stroke-linecap: round; opacity: 0; }
+.is-anim .bm-x { opacity: 1; }
+.bm-bad figcaption { text-align: center; margin: calc(var(--u) * 28) auto 0; max-width: calc(var(--u) * 360); font-size: max(10px, calc(var(--u) * 29)); font-weight: 700; line-height: 1.22; }
+
+/* 7 · Separadores */
+.bm-seps { display: grid; grid-template-columns: repeat(3, 1fr); aspect-ratio: 1920 / 594; background: var(--bm-navy); }
+.bm-seps > * { position: relative; }
+.bm-sep { display: block; width: 100%; height: auto; }
+.bm-sep-bg { fill: var(--bm-navy); }
+.bm-sep-outline { fill: none; stroke: var(--bm-ice); stroke-width: 8; stroke-opacity: 0.42; stroke-miterlimit: 10; }
+.bm-sep-waves path { fill: var(--bm-ice); }
+.bm-sep-t, .bm-sep-t .ny-l { fill: var(--bm-ice); }
+
+/* 8 · Stickers */
+.bm-stk { background: var(--bm-navy); color: var(--bm-ice); }
+.bm-stk-bg { inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; mix-blend-mode: screen; pointer-events: none; }
+.bm-stk-grid { left: calc(var(--u) * 60); right: calc(var(--u) * 60); top: calc(var(--u) * 150); bottom: calc(var(--u) * 40); display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(3, 1fr); gap: calc(var(--u) * 6) calc(var(--u) * 18); align-items: center; justify-items: center; }
+.bm-st { max-width: 94%; max-height: 94%; width: auto; height: auto; transform: rotate(var(--r)); filter: drop-shadow(0 calc(var(--u) * 8) calc(var(--u) * 14) rgba(0, 0, 0, 0.45)); }
+
+/* 9 · Posts de resultados */
+.bm-posts { background: var(--bm-ink); color: var(--bm-ice); aspect-ratio: 1920 / 700; }
+.bm-posts-row { left: calc(var(--u) * 80); right: calc(var(--u) * 80); top: calc(var(--u) * 150); display: grid; grid-template-columns: repeat(5, 1fr); gap: calc(var(--u) * 30); }
+.bm-post { display: block; width: 100%; height: auto; box-shadow: 0 calc(var(--u) * 12) calc(var(--u) * 28) rgba(0, 0, 0, 0.5); }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 800px) {
+    .bm-hero { aspect-ratio: 4 / 3; }
+    /* Stickers y posts pasan a una grilla en vez de escalar toda la lámina: si no, quedan diminutos. */
+    .bm-stk, .bm-posts { aspect-ratio: auto; }
+    .bm-stk-grid, .bm-posts-row { position: relative; left: auto; right: auto; top: auto; bottom: auto; margin-top: 52px; padding: 0 14px 22px; }
+    .bm-stk-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: none; gap: 16px 10px; }
+    .bm-st { max-width: 100%; max-height: none; }
+    .bm-posts-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .bm-manual * { transition: none; } }

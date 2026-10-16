@@ -12,7 +12,7 @@ const HIDDEN = new Set(['touchdesigner']);
 // Orden en la rueda y en la lista, por afinidad. Lo que no esté acá va al final, en el orden en que se agregó.
 const ORDER = [
     'album-artwork', 'curu', 'pone-atencion', 'sin-datos',
-    'i-life', 'nyro', 'contigiani-brinon', 'outframe', 'd2x',
+    'i-life', 'nyro', 'contigiani-brinon', 'blue-marketing', 'outframe', 'd2x',
     'exp-grafica', '100-posters',
     'taylor-swift', 'animacion',
     'gracias',
@@ -50,7 +50,7 @@ const byNewest = (p) => {
 
 // Proyectos cuya galería es un manual armado en código (src/brand/*.js, ver `manuals` en views/project.js): de sus imágenes solo
 // se usa la portada (rueda, lista, imagen para compartir). Mantener en sincronía con `manuals`.
-export const MANUALS = new Set(['contigiani-brinon', 'nyro', 'outframe', 'd2x']);
+export const MANUALS = new Set(['contigiani-brinon', 'nyro', 'outframe', 'd2x', 'blue-marketing']);
 
 const rank = (slug) => { const i = ORDER.indexOf(slug); return i < 0 ? ORDER.length : i; };
 

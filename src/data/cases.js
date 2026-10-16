@@ -52,6 +52,13 @@ export const cases = {
         context: 'Identidad completa para Contigiani Briñón, una inmobiliaria de Córdoba. El logo junta un edificio de líneas quebradas con el monograma CB, y abajo va el rubro: Bienes Raíces. Armé el manual con la anatomía del logo, la paleta (azul, rojo, negro y blanco), Montserrat como tipografía, las variaciones de color y las aplicaciones. En esta página el manual está hecho en código y el logo se construye animado.',
         result: 'Una marca sobria que se reconoce rápido, con el rojo reservado para el dato que importa. Se aplicó en tarjetas, papelería, redes, cartel de venta y los posts de cada propiedad.',
     },
+    'blue-marketing': {
+        client: 'Blue Marketing',
+        year: '2026',
+        role: 'Identidad, stickers y posts',
+        context: 'Identidad de marca para Blue Marketing, agencia de marketing digital. Armé el logo, la paleta, el manual, 15 stickers y los posts de resultados. El mar y los tiburones son el hilo de todo el sistema. En esta página el manual está hecho en código y el logo se construye animado.',
+        result: 'Una marca de tres colores y una sola tipografía, con stickers que le dan personalidad en las redes.',
+    },
     curu: {
         client: 'Curu',
         context: 'Portadas, Spotify Canvas, anuncio de lanzamiento y flyer animado del show del 31/10 para Curu, artista de música.',

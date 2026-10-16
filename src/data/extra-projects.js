@@ -312,6 +312,19 @@ export const extras = [
                 ]
             }
         ]
+    },
+    {
+        // La galería de este proyecto es un manual armado en código (src/brand/blue.js): de las imágenes solo se usa la portada.
+        "slug": "blue-marketing",
+        "title": "BLUE MARKETING",
+        "type": "Identidad de marca / Manual de marca",
+        "description": "Identidad visual para Blue Marketing, una agencia de marketing digital: logo, paleta, tipografía, manual de marca, stickers y posts de resultados.",
+        "cover": {
+            "src": "/images/projects/blue-marketing/cover.webp",
+            "w": 2400,
+            "h": 1350
+        },
+        "sections": []
     }
 ];
 
