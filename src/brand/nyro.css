@@ -1,0 +1,169 @@
+/* Manual de marca de Nyro, armado en código.
+   Las láminas escalan con su ancho: 1 "u" = 1px de una lámina de 2000px (como en el manual de Contigiani Briñón).
+   Fondo y texto salen de la página (claro u oscuro); los objetos simulados llevan los colores de la marca. */
+
+.ny-manual {
+    --ny-lime: #b8dc00; --ny-ink: #161913; --ny-teal: #2a3a3c; --ny-paper: #f2f2ee;
+    display: grid; gap: 24px; min-width: 0;
+    font-family: 'Switzer', 'Inter Tight', var(--font), sans-serif;
+}
+.ny-manual.ny-pending { opacity: 0; }
+
+/* ---------- Logo ---------- */
+.ny-lg { display: block; }
+.ny-logo { display: block; width: 100%; height: auto; overflow: visible; }
+.ny-logo .ny-p { fill: currentColor; stroke: currentColor; stroke-opacity: 0; stroke-width: 3.5; stroke-linejoin: round; }
+.ny-logo .ny-tile { fill-rule: evenodd; }
+.ny-logo .ny-n { fill: none; }
+.ny-word, .ny-l { font-family: 'Spline Sans', 'Inter Tight', var(--font), sans-serif; font-weight: 700; fill: currentColor; letter-spacing: -0.02em; }
+.ny-guides { display: none; }
+.is-anim .ny-guides { display: block; }
+.ny-g { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-opacity: 0.75; }
+.ny-dot { fill: var(--accent); transform-box: fill-box; transform-origin: center; }
+.ny-lab { fill: var(--accent); font: 600 17px var(--font-text); letter-spacing: 0.04em; }
+
+/* ---------- 1 · Construcción ---------- */
+.ny-hero { position: relative; aspect-ratio: 16 / 9; border: 1px solid var(--line); overflow: hidden; color: var(--fg); }
+.ny-hero-logo { position: absolute; left: 14%; right: 14%; top: 50%; margin-top: -9%; }
+.ny-hero-top, .ny-hero-bot { position: absolute; left: 18px; right: 18px; font-size: 12px; color: var(--muted); letter-spacing: 0.06em; }
+.ny-hero-top { top: 16px; }
+.ny-hero-bot { bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; }
+.ny-replay { font: inherit; color: var(--fg); text-transform: uppercase; letter-spacing: inherit; padding: 4px 0; }
+.ny-replay:hover { color: var(--accent-ink); }
+
+/* ---------- Láminas ---------- */
+.ny-slide {
+    --u: 0.05cqw;
+    position: relative; container-type: inline-size; aspect-ratio: 16 / 9; color: var(--fg); overflow: hidden;
+    --ny-line: color-mix(in srgb, var(--fg) 22%, transparent);
+}
+.ny-slide > * { position: absolute; }
+.ny-sl-head { left: calc(var(--u) * 50); top: calc(var(--u) * 42); font-size: max(11px, calc(var(--u) * 28)); line-height: 1.1; z-index: 2; }
+
+/* Variantes */
+.ny-vars-row { left: 0; right: 0; top: 0; bottom: 0; display: grid; grid-template-columns: 0.9fr 1.8fr 0.9fr; align-items: center; justify-items: center; padding: 0 calc(var(--u) * 60); }
+.ny-vars figure { display: grid; justify-items: center; gap: calc(var(--u) * 60); }
+.ny-vlogo { height: calc(var(--u) * 260); display: grid; place-items: center; }
+.ny-vars figcaption { font-size: max(11px, calc(var(--u) * 30)); }
+.ny-vlogo--icon .ny-lg { width: calc(var(--u) * 200); }
+.ny-vlogo--tile .ny-lg { width: calc(var(--u) * 200); }
+.ny-vlogo--main .ny-lg { width: calc(var(--u) * 720); }
+
+/* Tipografía */
+.ny-font { top: calc(var(--u) * 150); width: calc(var(--u) * 880); --w0: 300; --w1: 400; --w2: 600; }
+.ny-font--spline { left: calc(var(--u) * 60); font-family: 'Spline Sans', 'Inter Tight', sans-serif; }
+.ny-font--switzer { left: calc(var(--u) * 1060); font-family: 'Switzer', 'Inter Tight', sans-serif; --w0: 300; --w1: 500; --w2: 700; }
+.ny-fname { font-size: calc(var(--u) * 150); line-height: 1; font-weight: 700; letter-spacing: -0.03em; margin-bottom: calc(var(--u) * 60); }
+.ny-fhead { display: grid; grid-template-columns: calc(var(--u) * 90) calc(var(--u) * 95) calc(var(--u) * 160); margin-left: auto; width: calc(var(--u) * 345); font-family: 'Switzer', 'Inter Tight', sans-serif; font-size: max(10px, calc(var(--u) * 24)); text-align: right; padding-bottom: calc(var(--u) * 14); }
+.ny-fhead span:first-child { text-align: left; }
+.ny-fbody { display: flex; justify-content: space-between; border-top: 1px solid var(--ny-line); padding-top: calc(var(--u) * 44); }
+.ny-alpha p { font-size: calc(var(--u) * 42); line-height: 1.25; font-weight: 500; letter-spacing: -0.01em; }
+.ny-alpha .ny-nums { margin-top: calc(var(--u) * 120); }
+.ny-wcols { display: flex; align-self: stretch; height: calc(var(--u) * 470); margin-top: calc(var(--u) * -44); border-left: 1px solid var(--ny-line); }
+.ny-wcol { position: relative; overflow: hidden; border-right: 1px solid var(--ny-line); }
+.ny-w0 { width: calc(var(--u) * 90); }
+.ny-w1 { width: calc(var(--u) * 95); }
+.ny-w2 { width: calc(var(--u) * 160); }
+.ny-wcol span { position: absolute; left: calc(var(--u) * -34); bottom: calc(var(--u) * -62); font-size: calc(var(--u) * 560); line-height: 1; }
+.ny-w0 span { font-weight: var(--w0); }
+.ny-w1 span { font-weight: var(--w1); }
+.ny-w2 span { font-weight: var(--w2); }
+
+/* Lockup con eslogan */
+.ny-lock-logo { left: calc(var(--u) * 100); top: calc(var(--u) * 440); width: calc(var(--u) * 780); }
+.ny-lock-text { left: calc(var(--u) * 1080); top: calc(var(--u) * 360); width: calc(var(--u) * 820); }
+.ny-lock-h { font-family: 'Spline Sans', 'Inter Tight', sans-serif; font-weight: 700; font-size: calc(var(--u) * 118); line-height: 1.02; letter-spacing: -0.035em; }
+.ny-lock-s { font-family: 'Spline Sans', 'Inter Tight', sans-serif; font-weight: 400; font-size: calc(var(--u) * 46); margin-top: calc(var(--u) * 40); letter-spacing: -0.01em; }
+.ny-ln { display: block; }
+
+/* Patrón */
+.ny-grid { left: calc(var(--u) * 300); top: calc(var(--u) * 250); width: calc(var(--u) * 1400); display: grid; grid-template-columns: repeat(8, 1fr); }
+.ny-cell { aspect-ratio: 1; display: grid; place-items: center; }
+.ny-cell .ny-logo { width: 54%; }
+.ny-cell--ink { background: var(--ny-ink); color: var(--ny-lime); }
+.ny-cell--lime { background: var(--ny-lime); color: var(--ny-ink); }
+.ny-cell--paper { background: var(--ny-paper); color: var(--ny-ink); }
+
+/* Stickers */
+.ny-sk { z-index: 1; }
+.ny-sticker { box-shadow: 0 calc(var(--u) * 14) calc(var(--u) * 34) rgba(0, 0, 0, 0.32); }
+.ny-sk--a { left: calc(var(--u) * 880); top: calc(var(--u) * 640); }
+.ny-sk--b { left: calc(var(--u) * 800); top: calc(var(--u) * 120); }
+.ny-sk--c { left: calc(var(--u) * 1140); top: calc(var(--u) * 330); }
+.ny-sk--d { left: calc(var(--u) * 1380); top: calc(var(--u) * 140); }
+.ny-sk--e { left: calc(var(--u) * 150); top: calc(var(--u) * 240); }
+.ny-sk--f { left: calc(var(--u) * 330); top: calc(var(--u) * 860); }
+.ny-sk--g { left: calc(var(--u) * 1330); top: calc(var(--u) * 740); }
+.ny-st-circle { width: calc(var(--u) * 320); aspect-ratio: 1; border-radius: 50%; background: var(--ny-lime); color: var(--ny-ink); display: grid; place-items: center; }
+.ny-st-circle .ny-lg { width: 46%; }
+.ny-st-dot { width: calc(var(--u) * 290); aspect-ratio: 1; border-radius: 50%; background: #454a46; color: var(--ny-lime); display: grid; place-items: center; transform: rotate(-12deg); }
+.ny-st-dot .ny-lg { width: 54%; }
+.ny-st-strip { width: calc(var(--u) * 150); height: calc(var(--u) * 480); background: var(--ny-teal); color: var(--ny-lime); display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; transform: rotate(8deg); border-radius: calc(var(--u) * 6); }
+.ny-st-strip .ny-lg { width: calc(var(--u) * 105); }
+.ny-st-quote { width: calc(var(--u) * 540); aspect-ratio: 1; background: var(--ny-ink); color: var(--ny-paper); padding: calc(var(--u) * 50); display: grid; align-content: start; transform: rotate(5deg); border-radius: calc(var(--u) * 8); position: relative; }
+.ny-st-quote p { font-family: 'Spline Sans', sans-serif; font-weight: 700; font-size: calc(var(--u) * 82); line-height: 1.04; letter-spacing: -0.03em; }
+.ny-st-quote small { margin-top: calc(var(--u) * 20); font-size: calc(var(--u) * 28); color: var(--ny-lime); }
+.ny-st-quote .ny-lg { position: absolute; right: calc(var(--u) * 40); bottom: calc(var(--u) * 36); width: calc(var(--u) * 190); }
+.ny-st-outline { width: calc(var(--u) * 540); aspect-ratio: 1; background: var(--ny-ink); overflow: hidden; display: grid; align-content: center; justify-items: center; transform: rotate(-9deg); border-radius: calc(var(--u) * 6); }
+.ny-st-outline span { font-family: 'Spline Sans', sans-serif; font-weight: 700; font-size: calc(var(--u) * 150); line-height: 0.95; color: transparent; -webkit-text-stroke: max(1px, calc(var(--u) * 3)) var(--ny-lime); letter-spacing: -0.03em; white-space: nowrap; }
+.ny-st-outline span:nth-child(even) { transform: translateX(calc(var(--u) * 120)); }
+.ny-st-lime { width: calc(var(--u) * 480); height: calc(var(--u) * 200); background: var(--ny-lime); color: var(--ny-ink); display: grid; place-items: center; transform: rotate(-4deg); border-radius: calc(var(--u) * 10); }
+.ny-st-lime .ny-lg { width: calc(var(--u) * 340); }
+.ny-st-tile { width: calc(var(--u) * 250); aspect-ratio: 1; background: var(--ny-teal); color: var(--ny-paper); display: grid; place-items: center; transform: rotate(10deg); border-radius: calc(var(--u) * 8); }
+.ny-st-tile .ny-lg { width: 62%; }
+
+/* Libreta y lapicera */
+.ny-book { left: calc(var(--u) * 200); top: calc(var(--u) * 230); width: calc(var(--u) * 1130); height: calc(var(--u) * 720); display: flex; box-shadow: 0 calc(var(--u) * 30) calc(var(--u) * 60) rgba(0, 0, 0, 0.35); }
+.ny-page { position: relative; flex: 1; background: var(--ny-lime); color: var(--ny-ink); }
+.ny-page--l { padding: calc(var(--u) * 100) calc(var(--u) * 60) 0; }
+.ny-book-h { font-family: 'Spline Sans', sans-serif; font-weight: 700; font-size: calc(var(--u) * 76); line-height: 1.04; letter-spacing: -0.03em; margin-top: calc(var(--u) * 200); }
+.ny-book-s { font-size: calc(var(--u) * 34); margin-top: calc(var(--u) * 22); font-family: 'Spline Sans', sans-serif; }
+.ny-book-n { position: absolute; left: calc(var(--u) * 60); bottom: calc(var(--u) * 60); width: calc(var(--u) * 105); }
+.ny-stitch { width: calc(var(--u) * 64); background: color-mix(in srgb, var(--ny-lime) 94%, #000); display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; }
+.ny-stitch i { font-style: normal; font-size: calc(var(--u) * 42); line-height: 1; color: #e9ecd8; }
+.ny-stitch i::before { content: '×'; }
+.ny-book-lock { position: absolute; top: 50%; right: calc(var(--u) * 130); }
+.ny-book-lock .ny-lg { position: absolute; width: calc(var(--u) * 560); left: calc(var(--u) * -280); top: calc(var(--u) * -90); transform: rotate(-90deg); }
+.ny-strap { position: absolute; left: calc(var(--u) * -70); top: calc(var(--u) * 250); width: calc(var(--u) * 64); height: calc(var(--u) * 230); border-radius: calc(var(--u) * 34); background: rgba(255, 255, 255, 0.32); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12); }
+.ny-twine { left: calc(var(--u) * -140); top: calc(var(--u) * 150); width: calc(var(--u) * 300); position: absolute; fill: none; stroke: #c9b996; stroke-width: 4; stroke-linecap: round; overflow: visible; }
+.ny-pen { left: calc(var(--u) * 1500); top: calc(var(--u) * 150); }
+.ny-pen-body { width: calc(var(--u) * 74); height: calc(var(--u) * 800); border-radius: calc(var(--u) * 36) calc(var(--u) * 36) calc(var(--u) * 12) calc(var(--u) * 12); background: linear-gradient(90deg, #a3c400, var(--ny-lime) 35%, #c9ee1c 60%, #98b800); box-shadow: 0 calc(var(--u) * 24) calc(var(--u) * 46) rgba(0, 0, 0, 0.35); position: relative; color: var(--ny-ink); transform: rotate(3deg); }
+.ny-pen-body .ny-lg { position: absolute; left: 50%; top: 50%; width: calc(var(--u) * 320); margin: calc(var(--u) * -52) 0 0 calc(var(--u) * -160); transform: rotate(90deg); }
+
+/* Banner */
+.ny-banner { --u: 0.05cqw; position: relative; container-type: inline-size; aspect-ratio: 3 / 1; background: #0a0b08; color: #f4f4ef; overflow: hidden; }
+.ny-banner > * { position: absolute; }
+.ny-charts { inset: 0; width: 100%; height: 100%; }
+.ny-card rect:first-child { fill: rgba(184, 220, 0, 0.04); stroke: rgba(184, 220, 0, 0.22); stroke-width: 1.5; }
+.ny-card circle, .ny-card path { fill: none; stroke: rgba(184, 220, 0, 0.35); stroke-width: 6; }
+.ny-bar { fill: rgba(184, 220, 0, 0.36); }
+.ny-wave { fill: none; stroke: var(--ny-lime); stroke-width: 8; stroke-linecap: round; opacity: 0.9; }
+.ny-arrow { fill: none; stroke: var(--ny-lime); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.ny-ban-logo { left: calc(var(--u) * 640); top: calc(var(--u) * 240); width: calc(var(--u) * 620); color: var(--ny-lime); z-index: 1; }
+.ny-ban-text { left: calc(var(--u) * 1500); top: calc(var(--u) * 200); z-index: 1; }
+.ny-ban-h { font-family: 'Spline Sans', sans-serif; font-weight: 700; font-size: calc(var(--u) * 82); line-height: 1.03; letter-spacing: -0.03em; }
+.ny-ban-s { font-family: 'Spline Sans', sans-serif; font-size: calc(var(--u) * 38); color: var(--ny-lime); margin-top: calc(var(--u) * 26); }
+.ny-ban-cap { left: calc(var(--u) * 30); bottom: calc(var(--u) * 20); font-size: max(10px, calc(var(--u) * 20)); color: #77786f; z-index: 1; }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 800px) {
+    .ny-hero { aspect-ratio: 4 / 3; }
+    .ny-hero-logo { left: 6%; right: 6%; margin-top: -14%; }
+    /* Tipografía y eslogan se reordenan en columna; el resto (stickers, libreta, patrón, banner) escala como un conjunto. */
+    .ny-typ, .ny-lock { --u: 0.6px; aspect-ratio: auto; display: flex; flex-direction: column; gap: 28px; padding: 18px 16px 28px; }
+    .ny-typ > *, .ny-lock > * { position: static; }
+    .ny-typ .ny-sl-head { font-size: 13px; }
+    .ny-font { width: auto; }
+    .ny-fname { font-size: 40px; margin-bottom: 16px; }
+    .ny-alpha p { font-size: 15px; }
+    .ny-alpha .ny-nums { margin-top: 24px; }
+    .ny-wcols { height: 250px; margin-top: 0; }
+    .ny-w0 { width: 54px; } .ny-w1 { width: 58px; } .ny-w2 { width: 96px; }
+    .ny-fhead { grid-template-columns: 54px 58px 96px; width: 208px; }
+    .ny-wcol span { font-size: 330px; left: -20px; bottom: -36px; }
+    .ny-lock-logo, .ny-lock-text { width: auto; }
+    .ny-lock-h { font-size: 40px; }
+    .ny-lock-s { font-size: 16px; margin-top: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .ny-manual * { transition: none; } }

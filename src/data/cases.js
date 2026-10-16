@@ -44,7 +44,7 @@ export const cases = {
     },
     nyro: {
         client: 'Nyro',
-        context: 'Identidad de marca para Nyro, empresa de analytics orientada a decisiones basadas en datos.',
+        context: 'Identidad de marca para Nyro, empresa de analytics orientada a decisiones basadas en datos. El isotipo es una n armada con un cuadrado, un semicírculo y dos cuartos de círculo sobre una grilla de 3 × 3. En esta página el manual está hecho en código y el isotipo se construye animado.',
         result: 'Una marca que se aleja de los recursos gastados del rubro.',
     },
     'contigiani-brinon': {

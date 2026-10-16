@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Proyectos cuya galería es un manual armado en código (HTML/SVG animado) en lugar de imágenes. Se cargan bajo demanda.
 const manuals = {
     'contigiani-brinon': { load: () => import('../brand/contigiani.js'), pieces: 9 },
+    nyro: { load: () => import('../brand/nyro.js'), pieces: 8 },
 };
 
 const pad = (n) => String(n).padStart(2, '0');

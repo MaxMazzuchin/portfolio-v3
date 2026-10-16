@@ -1,7 +1,8 @@
 import './contigiani.css';
 import gsap from 'gsap';
 import { logoSVG } from './cb-logo.js';
-import { heroTimeline, miniTimeline, enterTimeline, onceInView, reduced } from './cb-build.js';
+import { heroTimeline, miniTimeline } from './cb-build.js';
+import { enterTimeline, onceInView, loadFonts as loadFontsFrom, reduced } from './motion.js';
 
 // Manual de marca de Contigiani Briñón armado con HTML/SVG/CSS (sin láminas exportadas).
 // Solo las fotos de las propiedades son imagen (public/images/projects/contigiani-brinon/fotos).
@@ -253,17 +254,11 @@ export function manualHTML() {
 
 // ---------------------------------------------------------------------------------------------------------
 
-let fontLink;
-function loadFonts() {
-    if (!fontLink) {
-        fontLink = document.createElement('link');
-        fontLink.rel = 'stylesheet';
-        fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,800;1,600&display=swap';
-        document.head.appendChild(fontLink);
-    }
-    const ready = Promise.all(['400', '600', '800', 'italic 600'].map((w) => document.fonts.load(`${w} 1em Montserrat`, 'BIENES RAÍCES')));
-    return Promise.race([ready, new Promise((r) => setTimeout(r, 3000))]);
-}
+const loadFonts = () => loadFontsFrom(
+    'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,800;1,600&display=swap',
+    ['400 1em Montserrat', '600 1em Montserrat', '800 1em Montserrat', 'italic 600 1em Montserrat'],
+    'BIENES RAÍCES',
+);
 
 /** Conecta el manual ya insertado en `root`: carga la tipografía, deja todo en su estado inicial y anima al entrar en pantalla. */
 export async function mountManual(root) {

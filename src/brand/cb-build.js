@@ -1,5 +1,7 @@
 import gsap from 'gsap';
-import { reduced } from '../core/scroll.js';
+import { enterTimeline, onceInView, reduced } from './motion.js';
+
+export { enterTimeline, onceInView, reduced };
 
 const all = (root, sel) => [...root.querySelectorAll(sel)];
 
@@ -108,27 +110,3 @@ export function miniTimeline(svg, delay = 0) {
     return tl;
 }
 
-/** Entrada genérica de un bloque: sus hijos con [data-in] suben y aparecen en cascada. */
-export function enterTimeline(el, { y = 28, stagger = 0.08, duration = 0.8 } = {}) {
-    const items = all(el, '[data-in]');
-    gsap.set(items, { opacity: 0, y });
-    const tl = gsap.timeline({ paused: true });
-    tl.to(items, { opacity: 1, y: 0, duration, stagger, ease: 'power3.out' }, 0);
-    return tl;
-}
-
-/** Corre cada callback la primera vez que su elemento entra en pantalla. Devuelve la limpieza. */
-export function onceInView(entries, { threshold = 0.35 } = {}) {
-    const map = new Map(entries.map(([el, fn]) => [el, fn]));
-    const io = new IntersectionObserver((list) => {
-        for (const e of list) {
-            if (!e.isIntersecting) continue;
-            io.unobserve(e.target);
-            map.get(e.target)?.();
-        }
-    }, { threshold });
-    map.forEach((_, el) => io.observe(el));
-    return () => io.disconnect();
-}
-
-export { reduced };
