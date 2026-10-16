@@ -40,6 +40,8 @@ const raw = [
     { kind: 'video', author: 'Abstract', title: 'The Art of Design, Temporada 2 ep. 6', year: '2019', url: 'https://www.dailymotion.com/video/x8kgp1c', cover: '/images/library/18.webp', placeholder: true },
     { kind: 'video', author: 'Le Captain Nemo', title: 'MF DOOM Special Dishes', year: '2025', url: 'https://youtu.be/Veq-gqyoi14', cover: '/images/library/19.webp', placeholder: true },
     { kind: 'video', author: 'Creative Minds', title: 'James Blake Creative Process Deep Dive', year: '2023', url: 'https://youtu.be/YV21Mv7q5No', cover: '/images/library/20.webp', placeholder: true },
+    { kind: 'video', author: 'Jesse Nyberg', title: 'Saving Connie', year: '', url: '', placeholder: true },
+    { kind: 'video', author: 'Jesse Nyberg', title: 'Jesse Nyberg', year: '', url: '', placeholder: true },
 ];
 
 export const library = raw.map((e, i) => ({
