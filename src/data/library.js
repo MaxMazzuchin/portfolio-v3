@@ -1,7 +1,7 @@
 // Biblioteca de gustos: libros, música, videos, películas, playlists.
 //
 // CÓMO CARGAR LAS TUYAS: agregá una entrada al final de `raw` (o reemplazá una).
-//   kind    'libro' | 'album' | 'video' | 'pelicula' | 'playlist'
+//   kind    'libro' | 'album' | 'video' | 'pelicula' | 'playlist' | 'galeria'
 //   author  autor / artista / canal
 //   title   título
 //   year    año (texto)
@@ -9,7 +9,7 @@
 //   desc    (opcional) descripción breve, una o dos frases: qué es el ítem. Si existe, el clic abre una hoja con la ficha y el botón
 //           "Abrir recurso"; si falta, el clic va directo al link. Solo hechos del ítem (sale de la ficha del libro, del canal, etc.).
 //   cover   (opcional) '/images/library/<archivo>.webp'. Si falta, se genera una carta con el tipo y el título.
-// Las entradas con placeholder: true muestran la etiqueta EJEMPLO en pantalla y un texto de prueba en la ficha; al borrar esa línea desaparece.
+// Las entradas con placeholder: true muestran la etiqueta EJEMPLO en pantalla y un texto de prueba en la ficha.
 
 export const kinds = {
     libro: { label: 'Libros', singular: 'Libro', accent: '#e6c229' },
@@ -17,31 +17,28 @@ export const kinds = {
     video: { label: 'Videos', singular: 'Video', accent: '#3d7bff' },
     pelicula: { label: 'Películas y documentales', singular: 'Película', accent: '#ff6b3d' },
     playlist: { label: 'Playlists', singular: 'Playlist', accent: '#2fd68f' },
+    galeria: { label: 'Galerías', singular: 'Galería', accent: '#b07cff' },
 };
 
 const raw = [
-    { kind: 'video', author: 'Virgil Abloh', title: 'Insert Complicated Title Here', year: '2017', url: 'https://youtu.be/qie5VITX6eQ', cover: '/images/library/01.webp', desc: 'Charla de Virgil Abloh en la escuela de diseño de Harvard (GSD), dentro del ciclo Core Studio Public Lecture.' },
-    { kind: 'video', author: 'Zane Lowe', title: 'Inside Brian Eno\'s Studio', year: '2025', url: 'https://youtu.be/nR4JAonAR4g', cover: '/images/library/02.webp', desc: 'Zane Lowe entrevista a Brian Eno en su estudio, para Apple Music.' },
-    { kind: 'video', author: 'All Star Series', title: 'Tyler Talk, Los Angeles', year: '2022', url: 'https://youtu.be/eAQUeUzcbNY', cover: '/images/library/03.webp', desc: 'Charla de Converse con Tyler, the Creator frente a jóvenes creativos de Los Angeles. Habla de su proceso y de su trabajo con la marca.' },
-    { kind: 'album', author: 'Aphex Twin', title: 'Selected Ambient Works 85-92', year: '1992', url: 'https://apollorecords.bandcamp.com/album/selected-ambient-works-85-92', cover: '/images/library/04.webp', desc: 'El primer disco de Aphex Twin. Ambient techno con piezas compuestas entre 1985 y 1992.' },
-    { kind: 'libro', author: 'Rick Rubin', title: 'The Creative Act: A Way of Being', year: '2023', url: 'https://www.amazon.com.au/Creative-ACT-Way-Being/dp/0593652886', cover: '/images/library/05.webp', desc: 'Libro de Rick Rubin sobre el hacer creativo, armado en capítulos breves.' },
-    { kind: 'album', author: 'Nujabes', title: 'Modal Soul', year: '2005', url: 'https://youtu.be/2ZBgLzcRSiw', cover: '/images/library/06.webp', desc: 'Segundo disco del productor japonés Nujabes. Hip hop instrumental con samples de jazz.' },
-    { kind: 'pelicula', author: 'David Lynch', title: 'The Art Life', year: '2017', url: 'https://youtu.be/_-8szoS3Wr0', cover: '/images/library/07.webp', desc: 'Documental sobre los primeros años de David Lynch y su vida como pintor, con él mismo narrando.' },
-    { kind: 'libro', author: 'Austin Kleon', title: 'Steal Like an Artist', year: '2012', url: 'https://www.amazon.com.au/Steal-Like-Artist-Things-Creative/dp/0761169253', cover: '/images/library/08.webp', desc: 'Libro corto de Austin Kleon con diez ideas sobre influencias y creatividad.' },
-    { kind: 'video', author: 'Lofi Cinema', title: 'Stop Chasing Original Ideas', year: '2025', url: 'https://youtu.be/1hQLp2Cl49Q', cover: '/images/library/09.webp', desc: 'Video de Lofi Cinema sobre qué hace creativa a una persona si no es perseguir ideas originales.' },
-    { kind: 'video', author: 'Kanye West', title: 'Charlie Rose Interview', year: '2005', url: 'https://youtu.be/kNbyZWcp5Pw', cover: '/images/library/10.webp', desc: 'Entrevista de Charlie Rose a Kanye West, en 2005.' },
-    { kind: 'video', author: 'Struthless', title: 'Self Sabotage In This Economy?', year: '2025', url: 'https://youtu.be/k2mi3lt37W8', cover: '/images/library/11.webp', desc: 'Video de Struthless sobre el autosabotaje.' },
-    { kind: 'album', author: 'The Avalanches', title: 'Since I Left You', year: '2000', url: 'https://open.spotify.com/album/4cSWbSVL31WoIcSBaSqyit', cover: '/images/library/12.webp', desc: 'Disco debut de The Avalanches, armado casi todo con samples.' },
-    { kind: 'playlist', author: 'OMA', title: 'Chill Hip-Hop Instrumental Mix', year: '2024', url: 'https://youtu.be/fGuYM11qErk', cover: '/images/library/13.webp', desc: 'Mix de covers en vivo de OMA. Hip hop instrumental con aire de lofi jazz.' },
-    { kind: 'video', author: 'Lofi Cinema', title: 'Make Creative Work Feel Effortless', year: '2025', url: 'https://youtu.be/Zd-te30g5Sk', cover: '/images/library/14.webp', desc: 'Video de Lofi Cinema sobre un sistema para que el trabajo creativo se sienta más fácil.' },
-    { kind: 'video', author: 'Steven Kotler', title: 'How to Activate Flow', year: '2025', url: 'https://youtu.be/RZIn9tfeQ2I', cover: '/images/library/15.webp', desc: 'Entrevista completa a Steven Kotler en Big Think sobre cómo activar el estado de flow.' },
-    { kind: 'playlist', author: 'Cookin Soul', title: 'Whateva vol. 2', year: '2019', url: 'https://youtu.be/_ptACzS5e_Q', cover: '/images/library/16.webp', desc: 'Tape completo de Cookin Soul, con visuales.' },
-    { kind: 'album', author: 'Freddie Gibbs', title: 'Piñata', year: '2014', url: 'https://open.spotify.com/album/4Qvh33TMiFWZIOoSMcM4PM', cover: '/images/library/17.webp', desc: 'Freddie Gibbs con producción completa de Madlib.' },
-    { kind: 'video', author: 'Abstract', title: 'The Art of Design, Temporada 2 ep. 6', year: '2019', url: 'https://www.dailymotion.com/video/x8kgp1c', cover: '/images/library/18.webp', desc: 'Serie documental de Netflix sobre diseñadores. Este episodio es el de Jonathan Hoefler, de tipografía.' },
-    { kind: 'video', author: 'Le Captain Nemo', title: 'MF DOOM Special Dishes', year: '2025', url: 'https://youtu.be/Veq-gqyoi14', cover: '/images/library/19.webp', desc: 'Set de Le Captain Nemo con música de MF DOOM, todo en vinilo, grabado en HARK Records, París.' },
-    { kind: 'video', author: 'Creative Minds', title: 'James Blake Creative Process Deep Dive', year: '2023', url: 'https://youtu.be/YV21Mv7q5No', cover: '/images/library/20.webp', desc: 'Video de Creative Minds sobre el proceso creativo de James Blake.' },
-    { kind: 'video', author: 'Jesse Nyberg', title: 'Saving Connie', year: '', url: '', placeholder: true },
-    { kind: 'video', author: 'Jesse Nyberg', title: 'Jesse Nyberg', year: '', url: '', placeholder: true },
+    { kind: 'video', author: 'saving connie', title: 'Saving Connie', year: '', url: 'https://www.youtube.com/@savingconnie', cover: '/images/library/01.webp', desc: 'Canal de YouTube de Saving Connie, productor. Sube remixes y tapes en formato CONNIE TV, con visuales.' },
+    { kind: 'video', author: 'saving connie', title: "Frank Ocean but it's House Music", year: '2026', url: 'https://youtu.be/YMXdOMhxoqA', cover: '/images/library/02.webp', desc: 'Episodio 42 de CONNIE TV. Saving Connie remezcla en house temas de Blonde, de Frank Ocean. Dirigido y editado por Jett Dumont.' },
+    { kind: 'video', author: 'saving connie', title: 'CONNIE TV, episodio 13', year: '2023', url: 'https://youtu.be/5dd-njubIsY', cover: '/images/library/03.webp', desc: 'Episodio 13 de CONNIE TV: tape lofi con visuales. Mezcla temas de Kendrick Lamar y Baby Keem, Jack Harlow y Kodak Black, entre otros.' },
+    { kind: 'video', author: 'Jesse Nyberg', title: 'Jesse Nyberg', year: '', url: 'https://www.youtube.com/@JesseNyberg', cover: '/images/library/04.webp', desc: 'Canal de Jesse Nyberg, diseñador gráfico freelance de Los Ángeles. Enseña y charla sobre diseño gráfico y trabajo freelance.' },
+    { kind: 'video', author: 'Jesse Nyberg', title: 'How to actually become a graphic designer', year: '2023', url: 'https://www.youtube.com/watch?v=UPJht-QBQ_0', cover: '/images/library/05.webp', desc: 'Charla de Jesse Nyberg a estudiantes de último año de diseño gráfico de su universidad, CSU Chico, sobre cómo llegó a ser diseñador.' },
+    { kind: 'video', author: 'Jesse Nyberg', title: 'How I improved my design work over the last 10 years', year: '2025', url: 'https://www.youtube.com/watch?v=bZ8a4LEKFaw', cover: '/images/library/06.webp', desc: 'Jesse Nyberg repasa su diseño favorito de cada año, desde su primer trabajo para un cliente en 2013 hasta una pieza de 2025.' },
+    { kind: 'video', author: 'HÖR Berlin', title: 'Live From Earth Klub, horsegiirL', year: '2022', url: 'https://www.youtube.com/live/ngCR1aZZo_A', cover: '/images/library/07.webp', desc: 'Set en vivo de horsegiirL para HÖR Berlin, transmitido el 14 de abril de 2022.' },
+    { kind: 'galeria', author: 'Google Fotos', title: "Boys Don't Cry: Digital Gallery", year: '', url: 'https://photos.google.com/share/AF1QipPZZ_SkigAN87J2DwPb0zaRUvSjsAKwhSDC77T3wsHhqiO_a8N8LPAMbGzEcKLE4g?key=TlpXaENyemtmY2llTzFkcVd2cUMyZGJ0dm9kVVhn', cover: '/images/library/08.webp', desc: "Álbum compartido de Google Fotos con la galería digital de Boys Don't Cry." },
+    { kind: 'libro', author: 'Rick Rubin', title: 'The Creative Act: A Way of Being', year: '2023', url: 'https://openlibrary.org/books/OL46638712M/The_Creative_Act_A_Way_of_Being', cover: '/images/library/09.webp', desc: 'Libro de Rick Rubin sobre el trabajo creativo como una forma de vivir. 432 páginas.' },
+    { kind: 'libro', author: 'Austin Kleon', title: 'Steal Like an Artist', year: '2012', url: 'https://openlibrary.org/books/OL28363066M/Steal_Like_An_Artist', cover: '/images/library/10.webp', desc: 'Libro corto de Austin Kleon con diez ideas sobre influencias y creatividad.' },
+    { kind: 'video', author: 'Converse', title: 'All Star Series: Tyler Talk, Paris', year: '2022', url: 'https://youtu.be/Z90f1-zWg0c', cover: '/images/library/11.webp', desc: 'Charla de Converse en París con Tyler, the Creator, dentro del All Star Series de 2022. Conversa con Bimma Williams y jóvenes creativos de la comunidad All Star.' },
+    { kind: 'video', author: 'Art Support', title: 'Pharrell, Advice on How To Be Creative', year: '2022', url: 'https://youtu.be/ONQk1jzcxWI', cover: '/images/library/12.webp', desc: 'Video de Art Support con Pharrell Williams hablando de cómo ser creativo, ser uno mismo y manejar el fracaso.' },
+    { kind: 'album', author: 'Frank Ocean', title: 'Blonde', year: '2016', url: 'https://open.spotify.com/intl-es/album/3mH6qwIy9crq0I9YQbOuDf', cover: '/images/library/13.webp', desc: 'Segundo disco de estudio de Frank Ocean. Saving Connie lo remezcla en house en la entrada 02.' },
+    { kind: 'album', author: 'Daft Punk', title: 'Random Access Memories', year: '2013', url: 'https://open.spotify.com/intl-es/album/4m2880jivSbbyEGAKfITCa', cover: '/images/library/14.webp', desc: 'Último disco de estudio de Daft Punk. Lo grabaron con músicos de estudio y colaboraciones de Nile Rodgers, Giorgio Moroder y Pharrell, entre otros.' },
+    { kind: 'album', author: 'Aphex Twin', title: 'Selected Ambient Works 85-92', year: '1992', url: 'https://open.spotify.com/intl-es/album/7aNclGRxTysfh6z0d8671k', cover: '/images/library/15.webp', desc: 'El primer disco de Aphex Twin. Ambient techno con piezas compuestas entre 1985 y 1992.' },
+    { kind: 'album', author: 'Paul McCartney', title: 'RAM', year: '1971', url: 'https://open.spotify.com/intl-es/album/4ZLVPyXVXeMbnxyhxvsF7m', cover: '/images/library/16.webp', desc: 'Segundo disco solista de Paul McCartney, grabado junto a Linda McCartney.' },
+    { kind: 'album', author: 'The Strokes', title: 'The New Abnormal', year: '2020', url: 'https://open.spotify.com/intl-es/album/2xkZV2Hl1Omi8rk2D7t5lN', cover: '/images/library/17.webp', desc: 'Sexto disco de The Strokes, producido por Rick Rubin.' },
+    { kind: 'album', author: 'Tyler, The Creator', title: 'IGOR', year: '2019', url: 'https://open.spotify.com/intl-es/album/5zi7WsKlIiUXv09tbGLKsE', cover: '/images/library/18.webp', desc: 'Disco de Tyler, the Creator. Lo escribió, arregló y produjo él solo.' },
 ];
 
 export const library = raw.map((e, i) => ({

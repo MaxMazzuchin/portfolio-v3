@@ -30,7 +30,7 @@ Requiere Node 20+. No hay variables de entorno ni backend.
 
 ## Cómo editar el contenido
 
-- **Biblioteca (gustos):** `src/data/library.js`. Reemplazá las entradas `placeholder: true` por las tuyas. Portadas opcionales en `public/images/library/<archivo>.webp`; sin portada se genera una carta automática.
+- **Biblioteca (gustos):** `src/data/library.js`. Portadas opcionales en `public/images/library/<archivo>.webp`; sin portada se genera una carta automática.
 - **Proyectos:** `src/data/projects.js` es **generado**. Se regenera desde el portfolio anterior (V2, repo `MaxMazzuchin/portfolio-web`) con:
   ```bash
   node scripts/gen-data.mjs <ruta/a/portfolio-web>
