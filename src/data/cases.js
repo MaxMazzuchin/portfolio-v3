@@ -49,7 +49,7 @@ export const cases = {
     },
     'contigiani-brinon': {
         client: 'Contigiani Briñón',
-        context: 'Identidad completa para Contigiani Briñón, una inmobiliaria de Córdoba. El logo junta un edificio de líneas quebradas con el monograma CB, y abajo va el rubro: Bienes Raíces. Armé el manual con el uso del logo, la paleta (azul, rojo, negro y blanco), Montserrat como tipografía y los usos incorrectos.',
+        context: 'Identidad completa para Contigiani Briñón, una inmobiliaria de Córdoba. El logo junta un edificio de líneas quebradas con el monograma CB, y abajo va el rubro: Bienes Raíces. Armé el manual con la anatomía del logo, la paleta (azul, rojo, negro y blanco), Montserrat como tipografía, las variaciones de color y las aplicaciones. En esta página el manual está hecho en código y el logo se construye animado.',
         result: 'Una marca sobria que se reconoce rápido, con el rojo reservado para el dato que importa. Se aplicó en tarjetas, papelería, redes, cartel de venta y los posts de cada propiedad.',
     },
     curu: {

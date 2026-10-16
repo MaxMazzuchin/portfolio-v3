@@ -2,6 +2,12 @@ import { projects, bySlug, known } from '../data/work.js';
 import { accentOf } from '../data/accents.js';
 import { openLightbox } from '../core/lightbox.js';
 import { setAccent } from '../core/accent.js';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Proyectos cuya galería es un manual armado en código (HTML/SVG animado) en lugar de imágenes. Se cargan bajo demanda.
+const manuals = {
+    'contigiani-brinon': { load: () => import('../brand/contigiani.js'), pieces: 9 },
+};
 
 const pad = (n) => String(n).padStart(2, '0');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -41,9 +47,13 @@ export function mountProject(view) {
         return `<video class="g-video"${ar} data-src="${src}" ${sec.loop ? '' : 'controls '}playsinline loop muted preload="none" aria-label="${esc(p.title)} — video ${i + 1}"></video>`;
     }).join('')}</div>`;
 
+    const manual = manuals[p.slug];
     let cover = '';
     let sections;
-    if (equal) {
+    if (manual) {
+        // La galería la arma el manual (más abajo, cuando termina de cargar); acá queda el lugar reservado.
+        sections = '<div class="cb-slot" data-manual></div>';
+    } else if (equal) {
         // No hero: every piece goes in one grid at the same size. The cover only feeds the wheel/list,
         // and joins the grid unless it is already one of its pieces.
         const imgs = p.sections.filter((sec) => sec.kind !== 'videos').flatMap((sec) => sec.images);
@@ -62,7 +72,7 @@ export function mountProject(view) {
         }).join('');
     }
 
-    const pieces = shots.length + p.sections.filter((s) => s.kind === 'videos').reduce((a, s) => a + s.videos.length, 0);
+    const pieces = manual ? manual.pieces : shots.length + p.sections.filter((s) => s.kind === 'videos').reduce((a, s) => a + s.videos.length, 0);
 
     // Lead: the case's context if there is one, otherwise the project description. Hidden while it is a placeholder.
     const lead = c && known(c.context) ? c.context : p.description;
@@ -101,12 +111,25 @@ export function mountProject(view) {
                     <a href="/proyecto.html?p=${next.slug}" data-cursor-item data-cursor="Siguiente"><span class="p-pager-name">${esc(next.title)}</span> <span class="num">${next.index}</span> <span>→</span></a>
                 </nav>
             </aside>
-            <section class="p-gallery">${cover}${result}${sections}</section>
+            <section class="p-gallery">${cover}${manual ? sections + result : result + sections}</section>
         </div>
         <a class="p-next" href="/proyecto.html?p=${next.slug}" data-cursor-item data-cursor="Siguiente">
             <span class="mono p-next-label"><span>Siguiente — ${next.index}</span><span>↗</span></span>
             <span class="p-next-title">${esc(next.title)}</span>
         </a>`;
+
+    let gone = false;
+    let manualCleanup = null;
+    const slot = view.querySelector('[data-manual]');
+    if (slot) {
+        manual.load().then(async (mod) => {
+            if (gone) return;
+            slot.outerHTML = mod.manualHTML();
+            manualCleanup = await mod.mountManual(view.querySelector('.p-gallery'));
+            if (gone) manualCleanup();
+            ScrollTrigger.refresh();
+        });
+    }
 
     const onClick = (e) => {
         const t = e.target.closest('[data-open]');
@@ -141,6 +164,8 @@ export function mountProject(view) {
     view.querySelectorAll('video[data-src]').forEach((v) => io.observe(v));
 
     return () => {
+        gone = true;
+        manualCleanup?.();
         view.removeEventListener('click', onClick);
         removeEventListener('scroll', onScroll);
         removeEventListener('resize', onScroll);
