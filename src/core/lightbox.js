@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { scroll } from './scroll.js';
 import { srcsetOf } from './srcset.js';
+import { sound } from './sound.js';
 
 const pad = (n) => String(n).padStart(2, '0');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -55,7 +56,9 @@ export function openLightbox({ images, index = 0, title = '' }) {
         const io = new IntersectionObserver((entries) => {
             for (const e of entries) {
                 if (e.isIntersecting && e.intersectionRatio > 0.6) {
-                    i = slides.indexOf(e.target);
+                    const k = slides.indexOf(e.target);
+                    if (k !== i) sound.play('tick');
+                    i = k;
                     nEl.textContent = pad(i + 1);
                 }
             }
@@ -101,6 +104,7 @@ export function openLightbox({ images, index = 0, title = '' }) {
             if (busy) return;
             busy = true;
             setTimeout(() => { busy = false; }, 260);
+            sound.play('tick', d > 0 ? 1.06 : 0.94);
             show(i + d, d);
         };
 
@@ -169,6 +173,7 @@ export function openLightbox({ images, index = 0, title = '' }) {
     document.addEventListener('keydown', onEsc);
     closeBtn.addEventListener('click', close);
 
+    sound.play('lbOpen');
     gsap.fromTo(root, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
     closeBtn.focus({ preventScroll: true });
     return close;

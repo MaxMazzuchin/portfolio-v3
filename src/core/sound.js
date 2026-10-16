@@ -110,6 +110,8 @@ const SOUNDS = {
         tone(t, 880 * p, 0.022, { type: 'square', peak: 0.35, fEnd: 520 * p });
         noise(t, 0.006, { buf: crushed, type: 'highpass', f: 2500, peak: 0.4 });
     },
+    // Visor de imágenes: dos blips cortos que suben, más chicos que `open`.
+    lbOpen: (t, p) => [620, 930].forEach((f, i) => tone(t + i * 0.028, f * p, 0.022, { type: 'square', peak: 0.24 })),
     open: (t, p) => [440, 660, 880, 1320].forEach((f, i) => tone(t + i * 0.034, f * p, 0.03, { type: 'square', peak: 0.3 })),
     // Galope: tres cascos y una pausa ("ta-ga-DUM"), el ciclo del caballo dura 10/16 s; la segunda zancada ya se va apagando.
     gallop: (t) => [0, 0.625].forEach((d, s) => [0, 0.09, 0.18].forEach((b, i) => hoof(t + d + b, i === 2, s ? 0.55 : 1))),
@@ -144,8 +146,6 @@ export const sound = {
 function paint() {
     document.querySelectorAll('.sfx-toggle').forEach((b) => {
         b.setAttribute('aria-pressed', String(on));
-        const s = b.querySelector('[data-sfx-state]');
-        if (s) s.textContent = on ? 'Sí' : 'No';
     });
 }
 

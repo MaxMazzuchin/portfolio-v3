@@ -87,7 +87,6 @@ function collection(kind, view) {
     let items = [];
     let filter = 'all';
     let mode = 'wheel';
-    let switching = false;
     try { mode = localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'wheel'; } catch { /* storage unavailable */ }
     if (!gl.ok) mode = 'list';
 
@@ -272,15 +271,10 @@ function collection(kind, view) {
         }
         const v = e.target.closest('[data-view]');
         if (v) {
-            if (v.dataset.view === mode || switching) return;
-            switching = true;
-            // Same dither curtain as page changes: cover, swap the view underneath, uncover.
-            gl.cover().then(() => {
-                mode = v.dataset.view;
-                try { localStorage.setItem(VIEW_KEY, mode); } catch { /* storage unavailable */ }
-                if (!disposed) applyMode();
-                return gl.uncover();
-            }).finally(() => { switching = false; });
+            if (v.dataset.view === mode) return;
+            mode = v.dataset.view; // cambio directo, sin cortina
+            try { localStorage.setItem(VIEW_KEY, mode); } catch { /* storage unavailable */ }
+            applyMode();
             return;
         }
         const row = e.target.closest('.ci-row');

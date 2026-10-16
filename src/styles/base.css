@@ -80,7 +80,10 @@ main, .footer { position: relative; z-index: 1; }
 .nav-menu { display: none; font-family: var(--font); font-weight: 600; font-size: 20px; text-transform: uppercase; line-height: 1; }
 .nav-tools { justify-self: end; display: flex; align-items: center; gap: clamp(16px, 2vw, 28px); }
 .theme-toggle, .sfx-toggle { font-family: var(--font); font-weight: 600; letter-spacing: -0.02em; font-size: clamp(16px, 1.3vw, 20px); text-transform: uppercase; line-height: 1; }
+.sfx-toggle { display: flex; align-items: center; }
+.sfx-toggle svg { display: block; }
 .sfx-toggle[aria-pressed='false'] { color: var(--muted); }
+.sfx-toggle[aria-pressed='true'] .sfx-off, .sfx-toggle[aria-pressed='false'] .sfx-on { display: none; }
 .nav a, .theme-toggle, .sfx-toggle { position: relative; }
 .nav a:not([aria-current])::after, .theme-toggle::after, .sfx-toggle::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px;
@@ -306,7 +309,6 @@ main, .footer { position: relative; z-index: 1; }
     .nav { grid-template-columns: 1fr auto auto; gap: 18px; }
     .nav-tools { gap: 14px; }
     .theme-toggle, .sfx-toggle { font-size: 15px; }
-    .sfx-state { display: none; } /* en mobile el estado se lee por el color */
     .nav-logo { font-size: 20px; }
     .nav-menu { display: block; }
     /* Full-screen menu, like CRL's "Menu / Close" */
