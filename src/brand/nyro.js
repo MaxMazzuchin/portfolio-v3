@@ -8,6 +8,7 @@ import { enterTimeline, onceInView, loadFonts, splitLetters, reduced } from './m
 
 export const pieces = 8;
 
+const IMG = '/images/projects/nyro';
 const SPLINE = '"Spline Sans"';
 const SPLINE_URL = 'https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;600;700&display=swap';
 const SWITZER_URL = 'https://api.fontshare.com/v2/css?f[]=switzer@300,500,700&display=swap';
@@ -38,8 +39,6 @@ const CELLS = (() => {
     }
     return out.join('');
 })();
-
-const STITCH = Array.from({ length: 13 }, () => '<i></i>').join('');
 
 // Gráficos "fantasma" del banner: barras, línea, dona. Todo en SVG para poder animarlo.
 const bars = (x, y, vals, w = 14, gap = 8, h = 120) => vals.map((v, i) => `<rect class="ny-bar" x="${x + i * (w + gap)}" y="${y + h - v * h}" width="${w}" height="${v * h}" rx="2"/>`).join('');
@@ -92,32 +91,14 @@ export function manualHTML() {
     <div class="ny-grid">${CELLS}</div>
 </section>
 
-<section class="ny-slide ny-stk" data-sec="stk">
+<section class="ny-slide ny-pic ny-stk" data-sec="stk">
     ${head('Aplicaciones // Stickers')}
-    <div class="ny-sk ny-sk--a" data-in><div class="ny-sticker ny-st-circle">${logo('icon')}</div></div>
-    <div class="ny-sk ny-sk--b" data-in><div class="ny-sticker ny-st-dot">${logo('tile')}</div></div>
-    <div class="ny-sk ny-sk--c" data-in><div class="ny-sticker ny-st-strip">${logo('main')}${logo('main')}</div></div>
-    <div class="ny-sk ny-sk--d" data-in><div class="ny-sticker ny-st-quote"><p>Data With<br>Purpose</p><small>Stop guessing. Start leading.</small>${logo('main')}</div></div>
-    <div class="ny-sk ny-sk--e" data-in><div class="ny-sticker ny-st-outline"><span>Nyro</span><span>Nyro</span><span>Nyro</span><span>Nyro</span></div></div>
-    <div class="ny-sk ny-sk--f" data-in><div class="ny-sticker ny-st-lime">${logo('main')}</div></div>
-    <div class="ny-sk ny-sk--g" data-in><div class="ny-sticker ny-st-tile">${logo('tile')}</div></div>
+    <figure class="ny-pic-fig" data-in><img src="${IMG}/stickers.webp" alt="Stickers de Nyro: círculos, tiras, un cuadrado con el eslogan y patrones con el isotipo" width="664" height="510" loading="lazy" decoding="async"></figure>
 </section>
 
-<section class="ny-slide ny-pap" data-sec="pap">
+<section class="ny-slide ny-pic ny-pap" data-sec="pap">
     ${head('Aplicaciones // Papelería')}
-    <div class="ny-book" data-in>
-        <div class="ny-page ny-page--l">
-            <p class="ny-book-h">Data With<br>Purpose</p><p class="ny-book-s">Stop guessing. Start leading.</p>
-            <div class="ny-book-n">${logo('icon')}</div>
-        </div>
-        <div class="ny-stitch" aria-hidden="true">${STITCH}</div>
-        <div class="ny-page ny-page--r">
-            <div class="ny-book-lock">${logo('main')}</div>
-            <i class="ny-strap"></i>
-            <svg class="ny-twine" viewBox="0 0 200 260" aria-hidden="true"><path pathLength="100" d="M100 20V130M100 130C60 100 30 130 60 150S130 110 100 130C140 100 170 135 140 152S70 110 100 130M100 130C90 170 70 200 82 238M100 130C112 170 132 205 120 242"/></svg>
-        </div>
-    </div>
-    <div class="ny-pen" data-in><div class="ny-pen-body"><span>${logo('main')}</span></div></div>
+    <figure class="ny-pic-fig" data-in><img src="${IMG}/papeleria.webp" alt="Libreta lima cosida con piolín y una lapicera con el logo de Nyro" width="762" height="420" loading="lazy" decoding="async"></figure>
 </section>
 
 <section class="ny-banner" data-sec="ban" aria-label="Banner">
@@ -264,23 +245,15 @@ export async function mountManual(root) {
     patTl.to(cells, { scale: 1, opacity: 1, duration: 0.7, stagger: { each: 0.03, grid: [4, 8], from: 'center' }, ease: 'back.out(1.7)' }, 0.3);
     when.push([pat, () => patTl.play()]);
 
-    // 6 · Stickers: caen y se pegan en cascada
-    const stk = sec('stk');
-    const stkTl = add(enterTimeline(stk, { y: -40, stagger: 0.13, duration: 0.9 }));
-    const stkMinis = all(stk, '.ny-logo').map((s, i) => add(miniTimeline(s, 0.6 + i * 0.12)));
-    when.push([stk, () => { stkTl.play(); stkMinis.forEach((t) => t.play()); }]);
-
-    // 7 · Libreta: se abre, se cose y se dibuja el piolín
-    const pap = sec('pap');
-    const papTl = add(enterTimeline(pap, { stagger: 0.3, duration: 1 }));
-    const twine = pap.querySelector('.ny-twine path');
-    const stitches = all(pap, '.ny-stitch i');
-    const papMinis = all(pap, '.ny-logo').map((s, i) => add(miniTimeline(s, 0.9 + i * 0.2)));
-    gsap.set(twine, { strokeDasharray: '100 200', strokeDashoffset: 100 });
-    gsap.set(stitches, { scale: 0, opacity: 0 });
-    papTl.to(stitches, { scale: 1, opacity: 1, duration: 0.3, stagger: 0.05, ease: 'back.out(3)' }, 0.8)
-        .to(twine, { strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut' }, 1.2);
-    when.push([pap, () => { papTl.play(); papMinis.forEach((t) => t.play()); }]);
+    // 6 y 7 · Stickers y papelería (láminas originales sin fondo): entran con un leve zoom
+    for (const k of ['stk', 'pap']) {
+        const s = sec(k);
+        const t = add(enterTimeline(s, { y: 40, duration: 1.1 }));
+        const img = s.querySelector('img');
+        gsap.set(img, { scale: 0.94 });
+        t.to(img, { scale: 1, duration: 1.6, ease: 'power3.out' }, 0);
+        when.push([s, () => t.play()]);
+    }
 
     // 8 · Banner: la línea de datos se dibuja, las barras crecen y la flecha avanza
     const ban = sec('ban');
