@@ -23,7 +23,7 @@ Requiere Node 20+. No hay variables de entorno ni backend.
 | `trabajo.html` | `/trabajo.html` | Proyectos: vista **Rueda** o **Lista** |
 | `biblioteca.html` | `/biblioteca.html` | Gustos (libros, música, videos…): misma vista Rueda/Lista + filtros |
 | `sobre-mi.html` | `/sobre-mi.html` | Sobre mí |
-| `proyecto.html` | `/proyecto.html?p=<slug>` | Proyecto individual: columna fija a la izquierda (~30%, con la barra dither como progreso de scroll y anterior/siguiente) y galería propia a la derecha |
+| `proyecto.html` | `/proyecto/<slug>/` | Proyecto individual (al compilar se genera una página por proyecto; `/proyecto.html?p=<slug>` redirige): columna fija a la izquierda (~30%, con la barra dither como progreso de scroll y anterior/siguiente) y galería propia a la derecha |
 | `404.html` | cualquier ruta inexistente | Página de error (Netlify la sirve sola) |
 
 `head`, `header` y `footer` están en `src/partials/` y se inyectan en todas las páginas con un plugin de Vite (`vite.config.js`). Para cambiar el menú se edita un solo archivo.
@@ -39,6 +39,9 @@ Requiere Node 20+. No hay variables de entorno ni backend.
 - **Proyectos nuevos (que no están en el V2):** `node scripts/add-project.mjs <slug> <carpeta-con-imagenes> --title "TÍTULO" --type "Tipo" --grid N`. Ordena las imágenes por nombre (la primera es la portada), las pasa a webp en `public/images/projects/<slug>/` y agrega la entrada a `src/data/extra-projects.js` (a mano, no se pisa al regenerar el V2). Después completá la descripción, el caso en `cases.js` y un color en `accents.js`.
 - **Sumar piezas a un proyecto que ya existe:** `node scripts/add-project.mjs --append <slug> <imagen> [<imagen> ...]`. Respeta el orden que le pases, numera `grid-N` siguiendo los existentes y las agrega a `additions` en `extra-projects.js`.
 - **Videos:** `node scripts/add-video.mjs <slug> <video> [<video> ...] [--cover N]`. Comprime a H.264 (lado mayor ≤ 1280 px) en `public/videos/<slug>/video-N.mp4`, saca un fotograma como portada con `--cover N` y devuelve `{ src, w, h }` para pegar en `extra-projects.js` (con `w`/`h` el video respeta su proporción, vertical u horizontal). Usa `ffmpeg-static`: si `npm install` bloquea su script, correr `node node_modules/ffmpeg-static/install.js`.
+- **Variantes livianas de las imágenes:** `node scripts/variants.mjs` crea `-800`, `-1200` y `-1600` al lado de cada original según su ancho (y borra las que sobran); `--check` solo verifica. `add-project.mjs` ya las hace para lo nuevo. Los originales no se tocan.
+- **Achicar videos pesados:** `node scripts/shrink-videos.mjs` recodifica lo que pese más de 4 MB (desde una copia en `originales/videos/`) y saca las portadas `video-N-poster.webp`.
+- **Blue Marketing:** `node scripts/blue-assets.mjs "<carpeta del cliente>"` regenera `src/brand/blue-paths.js` (vectores del PDF) y las imágenes del proyecto.
 - **Orden de los proyectos:** `ORDER` en `src/data/work.js` (por afinidad). Lo que no esté en la lista va al final. `HIDDEN` saca proyectos del V2 que se reemplazaron por uno nuevo.
 - **Originales sin comprimir:** van a `originales/` (ignorada por git, no se sube). En `public/` solo queda lo comprimido.
 - **Contexto y resultado de cada proyecto:** `src/data/cases.js`, a mano, una entrada por slug. `context` (qué es y qué hice) sale bajo el título; `result` sale justo después de la portada. Año, cliente, rol y herramientas se muestran solo si están cargados: lo que diga `[CONFIRMAR]` o esté vacío queda oculto.
