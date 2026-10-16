@@ -24,7 +24,7 @@ export const cases = {
         result: 'Estampas de estética streetwear para acercar la marca a un público más joven.',
     },
     outframe: {
-        context: 'Publicación sobre el fotógrafo Chema Madoz, hecha para una estudiante universitaria de España. Elegí tipografías y paleta, y armé la maquetación.',
+        context: 'Publicación sobre el fotógrafo Chema Madoz, hecha para una estudiante universitaria de España. Elegí tipografías y paleta, y armé la maquetación. En esta página la maquetación está rearmada en código y la portada anima el título con las fotos adentro de las letras.',
         result: 'Una publicación con jerarquías claras y las fotos al frente.',
     },
     'exp-grafica': {

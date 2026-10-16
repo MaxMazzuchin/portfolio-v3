@@ -1,0 +1,63 @@
+/* Outframe: publicación sobre Chema Madoz maquetada en código.
+   Cada doble página escala con su ancho: 1 "u" = 1 px de una doble página de 1757 px. Las páginas son papel (claro) sobre la página. */
+
+.of-manual {
+    --of-red: #ee4b43; --of-ink: #3a3a3a; --of-paper: #f1f0ec;
+    display: grid; gap: 28px; min-width: 0;
+    font-family: 'Inter Tight', var(--font), sans-serif;
+}
+.of-manual.of-pending { opacity: 0; }
+.of-slide { display: grid; gap: 12px; }
+.of-head { font-size: 12px; color: var(--muted); letter-spacing: 0.06em; }
+
+/* ---------- Portada ---------- */
+.of-cover { position: relative; aspect-ratio: 16 / 9; border: 1px solid var(--line); overflow: hidden; display: grid; place-items: center; color: var(--fg); }
+.of-cover-top, .of-cover-bot { position: absolute; left: 18px; right: 18px; font-size: 12px; color: var(--muted); letter-spacing: 0.06em; }
+.of-cover-top { top: 16px; }
+.of-cover-bot { bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; }
+.of-replay { font: inherit; color: var(--fg); text-transform: uppercase; letter-spacing: inherit; padding: 4px 0; }
+.of-replay:hover { color: var(--accent-ink); }
+.of-book { container-type: inline-size; width: 52%; aspect-ratio: 4 / 3; background: #d6281c; display: grid; place-items: center; box-shadow: 0 34px 70px rgba(0, 0, 0, 0.45), inset 6px 0 0 rgba(0, 0, 0, 0.12); }
+/* Texto vertical (gira 90° en sentido horario): cada palabra es una columna, la primera a la derecha. La foto se ve dentro de las letras. */
+.of-title {
+    writing-mode: vertical-rl; margin: 0;
+    font-family: 'Archivo Black', 'Inter Tight', sans-serif; font-size: 22cqw; line-height: 0.88; letter-spacing: -0.02em;
+    background: url(/images/projects/outframe/fotos/cara.webp) 50% 15% / cover;
+    -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+}
+.of-title span { display: block; }
+.of-title span:nth-child(2) { margin-inline-start: 0.2em; }
+.of-title span:nth-child(3) { margin-inline-start: 0.4em; }
+
+/* ---------- Dobles páginas ---------- */
+.of-spread {
+    --u: 0.05692cqw;
+    position: relative; container-type: inline-size; aspect-ratio: 1757 / 1240;
+    background: var(--of-paper); color: #222; overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.of-spread--img { aspect-ratio: 2108 / 1488; background: none; }
+.of-spread--img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.of-gutter { position: absolute; z-index: 3; left: 50%; top: 0; bottom: 0; width: calc(var(--u) * 36); transform: translateX(-50%); pointer-events: none; background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06) 42%, rgba(0, 0, 0, 0.13) 50%, rgba(255, 255, 255, 0.25) 56%, transparent); mix-blend-mode: multiply; }
+.of-ph { position: absolute; overflow: hidden; background: #bbb; }
+.of-ph img { width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: 20% 80%; }
+.of-ph--arch-a { border-top-right-radius: calc(var(--u) * 260); border-bottom-left-radius: calc(var(--u) * 520); }
+.of-ph--arch-b { border-top-left-radius: calc(var(--u) * 365); }
+.of-ph--arch-c { border-top-left-radius: calc(var(--u) * 480); }
+.of-ph--blob-a { border-bottom-right-radius: 50%; }
+.of-ph--pill { border-radius: calc(var(--u) * 235); }
+.of-ph--pill img { object-position: 55% 50%; }
+
+.of-tx { position: absolute; }
+.of-tx--c { text-align: center; }
+.of-h { font-family: 'Archivo Black', 'Inter Tight', sans-serif; font-size: calc(var(--u) * 17); line-height: 1.12; letter-spacing: -0.02em; margin-bottom: calc(var(--u) * 14); }
+.of-h--red { color: var(--of-red); }
+.of-h--ink { color: var(--of-ink); }
+.of-p { font-weight: 300; font-size: calc(var(--u) * 15.5); line-height: 1.16; letter-spacing: -0.045em; color: #3c3c3c; margin-bottom: calc(var(--u) * 26); }
+.of-big { position: absolute; font-family: 'Archivo Black', 'Inter Tight', sans-serif; font-size: calc(var(--u) * 100); line-height: 1; letter-spacing: -0.03em; color: var(--of-red); white-space: nowrap; }
+.of-big--s { font-size: calc(var(--u) * 50); }
+
+@media (max-width: 800px) {
+    .of-cover { aspect-ratio: 4 / 3; }
+    .of-book { width: 78%; }
+}
