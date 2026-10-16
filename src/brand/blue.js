@@ -70,8 +70,8 @@ export function manualHTML() {
 </section>
 
 <section class="bm-slide bm-bw" data-sec="bw">
-    <div class="bm-bw-l" data-half><p class="bm-lin">//Lineamientos de Marca</p><h3 class="bm-title" data-in><span class="bm-bar"></span>Blanco y negro</h3>${blueSVG({ cls: 'bm-bw-logo' })}${wavesSVG({ cls: 'bm-bw-waves', bottom: true })}</div>
-    <div class="bm-bw-r" data-half>${blueSVG({ cls: 'bm-bw-logo' })}${wavesSVG({ cls: 'bm-bw-waves', bottom: true })}</div>
+    <div class="bm-bw-l" data-half><p class="bm-lin">//Lineamientos de Marca</p><h3 class="bm-title" data-in><span class="bm-bar"></span>Blanco y negro</h3>${blueSVG({ cls: 'bm-bw-logo' })}</div>
+    <div class="bm-bw-r" data-half>${blueSVG({ cls: 'bm-bw-logo' })}</div>
 </section>
 
 <section class="bm-slide bm-typ" data-sec="typ">
@@ -219,14 +219,11 @@ export async function mountManual(root) {
     const bwTl = add(enterTimeline(bw, { y: 0 }));
     const [bwL, bwR] = all(bw, '[data-half]');
     const bwLogos = all(bw, '.bm-bw-logo');
-    const bwWaves = all(bw, '.bm-bw-waves');
     gsap.set(bwL, { clipPath: 'inset(0 100% 0 0)' });
     gsap.set(bwR, { clipPath: 'inset(0 0 0 100%)' });
     gsap.set(bwLogos, { opacity: 0, y: 30 });
-    gsap.set(bwWaves, { yPercent: 40 });
     bwTl.to([bwL, bwR], { clipPath: 'inset(0 0% 0 0%)', duration: 1.1, ease: 'power3.inOut' }, 0)
-        .to(bwLogos, { opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out' }, 0.7)
-        .to(bwWaves, { yPercent: 0, duration: 1.3, stagger: 0.15, ease: 'power3.out' }, 0.6);
+        .to(bwLogos, { opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out' }, 0.7);
     when.push([bw, () => bwTl.play()]);
 
     // 5 · Tipografía: cada línea se descubre de izquierda a derecha

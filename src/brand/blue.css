@@ -32,7 +32,7 @@
 .bm-replay:hover { text-decoration: underline; text-underline-offset: 4px; }
 
 /* ---------- Láminas ---------- */
-.bm-slide { --u: 0.0520833cqw; position: relative; container-type: inline-size; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bm-grey); color: var(--bm-ink); }
+.bm-slide { --u: 0.0520833cqw; position: relative; container-type: inline-size; aspect-ratio: 16 / 9; overflow: hidden; background: transparent; color: var(--fg); }
 .bm-slide > * { position: absolute; }
 .bm-lin { left: calc(var(--u) * 50); top: calc(var(--u) * 52); font-size: max(10px, calc(var(--u) * 29)); font-weight: 500; letter-spacing: 0; z-index: 2; }
 .bm-title { font-size: max(15px, calc(var(--u) * 77)); font-weight: 700; line-height: 1.04; letter-spacing: -0.02em; z-index: 2; }
@@ -40,7 +40,7 @@
 .bm-sl-head { left: calc(var(--u) * 50); top: calc(var(--u) * 52); font-size: max(11px, calc(var(--u) * 29)); font-weight: 500; z-index: 2; }
 
 /* Decorado: el contorno del logo, grande y punteado */
-.bm-decor { fill: none; stroke: #b9b9b9; stroke-width: 1.2; stroke-dasharray: 5 6; overflow: visible; pointer-events: none; }
+.bm-decor { fill: none; stroke: var(--line); stroke-width: 1.2; stroke-dasharray: 5 6; overflow: visible; pointer-events: none; }
 .bm-decor--pal { left: calc(var(--u) * -120); top: calc(var(--u) * 330); width: calc(var(--u) * 760); transform: rotate(-14deg); }
 .bm-decor--typ { right: calc(var(--u) * -150); top: calc(var(--u) * 20); width: calc(var(--u) * 980); transform: rotate(9deg); }
 
@@ -50,8 +50,8 @@
 .bm-var-a { left: calc(var(--u) * 393); }
 .bm-var-b { left: calc(var(--u) * 1150); }
 .bm-safe { display: block; width: 100%; height: auto; overflow: visible; }
-.bm-zone-out, .bm-zone-in { fill: none; stroke: #8e8e8e; stroke-width: 1.2; stroke-dasharray: 4 5; }
-.bm-zone-sq { fill: #b8b8b8; }
+.bm-zone-out, .bm-zone-in { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 5; }
+.bm-zone-sq { fill: var(--line); }
 .bm-var figcaption { text-align: center; margin-top: calc(var(--u) * 34); font-size: max(10px, calc(var(--u) * 27)); font-weight: 300; }
 
 /* 3 · Paleta */
@@ -73,12 +73,10 @@
 .bm-bw-l .bm-title { left: calc(var(--u) * 80); top: calc(var(--u) * 150); font-size: max(14px, calc(var(--u) * 66)); }
 .bm-bw-l .bm-lin { color: #fff; }
 .bm-bw .bm-bw-logo { position: absolute; left: calc(var(--u) * 310); top: calc(var(--u) * 345); width: calc(var(--u) * 340); height: auto; }
-.bm-bw .bm-bw-waves { position: absolute; left: 0; right: 0; bottom: 0; }
 
 /* 5 · Tipografía */
-.bm-typ-l { left: 0; top: 0; width: calc(var(--u) * 565); height: 100%; background: var(--bm-ink); color: #fff; }
+.bm-typ-l { left: 0; top: 0; width: calc(var(--u) * 565); height: 100%; }
 .bm-typ-l .bm-title { position: absolute; left: calc(var(--u) * 98); top: calc(var(--u) * 200); font-size: max(15px, calc(var(--u) * 74)); }
-.bm-typ .bm-lin { color: #fff; }
 .bm-typ-r { left: calc(var(--u) * 725); right: calc(var(--u) * 50); top: calc(var(--u) * 70); bottom: calc(var(--u) * 50); display: grid; grid-template-rows: repeat(3, 1fr); align-content: space-between; z-index: 1; }
 .bm-spec { font-weight: var(--w); }
 .bm-spec-n { font-size: max(11px, calc(var(--u) * 40)); font-weight: var(--w); line-height: 1.1; margin-bottom: calc(var(--u) * 16); }
