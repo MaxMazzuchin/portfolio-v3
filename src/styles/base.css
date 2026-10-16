@@ -354,6 +354,8 @@ main, .footer { position: relative; z-index: 1; }
     .p-chapter { padding: 12px 0; }
     .p-meta > :first-child { white-space: nowrap; }
     .g-grid { column-count: 1; }
+    .g-grid.g-two { column-count: 2; column-gap: 10px; }
+    .g-grid.g-two .g-item { margin-bottom: 10px; }
     .g-grid.g-equal { grid-template-columns: minmax(0, 1fr); }
     .footer { grid-template-columns: 1fr 1fr; }
     .footer > :last-child { text-align: left; }

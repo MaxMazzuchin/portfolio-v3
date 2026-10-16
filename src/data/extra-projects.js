@@ -28,46 +28,11 @@ export const extras = [
             "h": 1600
         },
         "sections": [
-            {
-                "kind": "column",
-                "images": [
-                    {
-                        "src": "/images/projects/curu/image-1.webp",
-                        "w": 1080,
-                        "h": 1080
-                    },
-                    {
-                        "src": "/images/projects/curu/image-2.webp",
-                        "w": 1080,
-                        "h": 1080
-                    },
-                    {
-                        "src": "/images/projects/curu/image-3.webp",
-                        "w": 800,
-                        "h": 800
-                    }
-                ]
-            },
-            {
-                "kind": "videos",
-                "videos": [
-                    {
-                        "src": "/videos/curu/video-3.mp4",
-                        "w": 1080,
-                        "h": 1920
-                    },
-                    {
-                        "src": "/videos/curu/video-2.mp4",
-                        "w": 1080,
-                        "h": 1920
-                    },
-                    {
-                        "src": "/videos/curu/video-1.mp4",
-                        "w": 1080,
-                        "h": 1920
-                    }
-                ]
-            }
+            { "kind": "videos", "videos": [{ "src": "/videos/curu/video-2.mp4", "w": 1080, "h": 1920 }] },
+            { "kind": "column", "images": [{ "src": "/images/projects/curu/image-3.webp", "w": 800, "h": 800 }] },
+            { "kind": "videos", "videos": [{ "src": "/videos/curu/video-1.mp4", "w": 1080, "h": 1920 }] },
+            { "kind": "column", "images": [{ "src": "/images/projects/curu/image-1.webp", "w": 1080, "h": 1080 }, { "src": "/images/projects/curu/image-2.webp", "w": 1080, "h": 1080 }] },
+            { "kind": "videos", "videos": [{ "src": "/videos/curu/video-3.mp4", "w": 1080, "h": 1920 }] }
         ]
     },
     {
@@ -120,56 +85,16 @@ export const extras = [
             "h": 627
         },
         "sections": [
-            {
-                "kind": "videos",
-                "videos": [
-                    {
-                        "src": "/videos/animacion/video-1.mp4",
-                        "w": 1920,
-                        "h": 1080
-                    },
-                    {
-                        "src": "/videos/animacion/video-2.mp4",
-                        "w": 1280,
-                        "h": 720
-                    },
-                    {
-                        "src": "/videos/animacion/video-3.mp4",
-                        "w": 960,
-                        "h": 720
-                    },
-                    {
-                        "src": "/videos/animacion/video-4.mp4",
-                        "w": 1920,
-                        "h": 1080
-                    },
-                    {
-                        "src": "/videos/animacion/video-5.mp4",
-                        "w": 960,
-                        "h": 720
-                    },
-                    {
-                        "src": "/videos/animacion/video-6.mp4",
-                        "w": 1080,
-                        "h": 1080
-                    },
-                    {
-                        "src": "/videos/animacion/video-7.mp4",
-                        "w": 1080,
-                        "h": 1080
-                    },
-                    {
-                        "src": "/videos/animacion/video-8.mp4",
-                        "w": 1160,
-                        "h": 1160
-                    },
-                    {
-                        "src": "/videos/animacion/video-9.mp4",
-                        "w": 1080,
-                        "h": 1440
-                    }
-                ]
-            }
+            { "kind": "videos", "videos": [{ "src": "/videos/animacion/video-9.mp4", "w": 1080, "h": 1440 }, { "src": "/videos/animacion/video-8.mp4", "w": 1160, "h": 1160 }] },
+            { "kind": "videos", "loop": true, "videos": [
+                { "src": "/videos/animacion/video-1.mp4", "w": 1920, "h": 1080 },
+                { "src": "/videos/animacion/video-2.mp4", "w": 1280, "h": 720 },
+                { "src": "/videos/animacion/video-3.mp4", "w": 960, "h": 720 },
+                { "src": "/videos/animacion/video-4.mp4", "w": 1920, "h": 1080 },
+                { "src": "/videos/animacion/video-5.mp4", "w": 960, "h": 720 },
+                { "src": "/videos/animacion/video-6.mp4", "w": 1080, "h": 1080 },
+                { "src": "/videos/animacion/video-7.mp4", "w": 1080, "h": 1080 }
+            ] }
         ]
     },
     {
@@ -183,36 +108,12 @@ export const extras = [
             "h": 1440
         },
         "sections": [
-            {
-                "kind": "grid",
-                "images": [
-                    {
-                        "src": "/images/projects/gracias/cover.webp",
-                        "w": 1080,
-                        "h": 1440
-                    },
-                    {
-                        "src": "/images/projects/gracias/grid-4.webp",
-                        "w": 1080,
-                        "h": 1440
-                    },
-                    {
-                        "src": "/images/projects/gracias/grid-1.webp",
-                        "w": 1080,
-                        "h": 1440
-                    },
-                    {
-                        "src": "/images/projects/gracias/grid-2.webp",
-                        "w": 1080,
-                        "h": 1440
-                    },
-                    {
-                        "src": "/images/projects/gracias/grid-3.webp",
-                        "w": 1080,
-                        "h": 1440
-                    }
-                ]
-            }
+            { "kind": "grid", "images": [
+                { "src": "/images/projects/gracias/cover.webp", "w": 1080, "h": 1440 },
+                { "src": "/images/projects/gracias/grid-1.webp", "w": 1080, "h": 1440 },
+                { "src": "/images/projects/gracias/grid-2.webp", "w": 1080, "h": 1440 },
+                { "src": "/images/projects/gracias/grid-3.webp", "w": 1080, "h": 1440 }
+            ] }
         ]
     },
     {

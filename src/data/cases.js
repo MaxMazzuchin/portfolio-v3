@@ -61,7 +61,7 @@ export const cases = {
     },
     curu: {
         client: 'Curu',
-        context: 'Portadas, Spotify Canvas, anuncio de lanzamiento y flyer animado del show del 31/10 para Curu, artista de música.',
+        context: 'Portadas, Spotify Canvas, anuncio de lanzamiento y flyer animado para Curu, artista de música.',
     },
     'taylor-swift': {
         client: 'Personal',

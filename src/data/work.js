@@ -31,7 +31,7 @@ const withAdditions = (p) => {
 
 // Proyectos sin portada destacada: el título y después todas las piezas al mismo tamaño en una grilla
 // (series de portadas, estampitas). Los demás arrancan con la portada grande.
-const EQUAL = new Set(['album-artwork', 'gracias', 'taylor-swift']);
+const EQUAL = new Set(['album-artwork', 'taylor-swift', 'animacion']);
 
 // Exp. Gráfica va de lo más nuevo a lo más viejo. La fecha real de creación solo sobrevive en 13 archivos; el resto se
 // exportó junto el 24/3/2026, así que se ordena por el número de "exp-g (n)" de los originales (mayor = más nuevo).

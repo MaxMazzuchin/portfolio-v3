@@ -3,12 +3,17 @@ import { accentOf } from '../data/accents.js';
 import { openLightbox } from '../core/lightbox.js';
 import { setAccent } from '../core/accent.js';
 import { srcsetOf } from '../core/srcset.js';
+import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Ancho real de una pieza en pantalla, para que el navegador elija la variante justa (ver core/srcset.js).
 // La galería ocupa ~70 % del ancho junto a la columna fija (y 100 % en mobile); en la grilla, la mitad.
 const SIZES_WIDE = '(max-width: 800px) calc(100vw - 32px), calc(70vw - 80px)';
 const SIZES_GRID = '(max-width: 800px) calc(100vw - 32px), calc(35vw - 40px)';
+const SIZES_GRID_2 = '(max-width: 800px) calc(50vw - 21px), calc(35vw - 40px)';
+
+// Series largas: en mobile la grilla sigue en dos columnas (en los demás proyectos pasa a una).
+const TWO_COLS_MOBILE = new Set(['exp-grafica', '100-posters']);
 
 // Proyectos cuya galería es un manual armado en código (HTML/SVG animado) en lugar de imágenes. Se cargan bajo demanda.
 // Los slugs también están en MANUALS (data/work.js): ahí se marca `manual` para que scripts/variants.mjs no genere variantes de imágenes que no se muestran.
@@ -89,7 +94,8 @@ export function mountProject(view) {
         sections = p.sections.map((sec) => {
             if (sec.kind === 'videos') return videos(sec);
             sec.images.forEach((x) => shots.push(x));
-            return `<div class="${sec.kind === 'grid' ? 'g-grid' : 'g-column'}">${sec.images.map((x) => fig(x, 'g-item', sec.kind === 'grid' ? SIZES_GRID : SIZES_WIDE)).join('')}</div>`;
+            const two = sec.kind === 'grid' && TWO_COLS_MOBILE.has(p.slug);
+            return `<div class="${sec.kind === 'grid' ? `g-grid${two ? ' g-two' : ''}` : 'g-column'}">${sec.images.map((x) => fig(x, 'g-item', sec.kind === 'grid' ? (two ? SIZES_GRID_2 : SIZES_GRID) : SIZES_WIDE)).join('')}</div>`;
         }).join('');
     }
 
@@ -181,6 +187,11 @@ export function mountProject(view) {
     addEventListener('resize', onScroll);
     onScroll();
 
+    // GRACIAS: la portada (Messi) cae como un sello: llega desde arriba, se pasa un poco y se asienta.
+    // Solo escala y se desplaza: las imágenes GL siguen el rectángulo del elemento y no copian una rotación.
+    const stamp = p.slug === 'gracias' && !matchMedia('(prefers-reduced-motion: reduce)').matches ? view.querySelector('.g-cover') : null;
+    if (stamp) gsap.fromTo(stamp, { y: -70, scale: 1.14, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.9, ease: 'back.out(2.4)', delay: 0.35, clearProps: 'transform,opacity' });
+
     // Videos: only the ones near the viewport hold a src, so browsing never downloads them all.
     const io = new IntersectionObserver((entries) => {
         for (const e of entries) {
@@ -205,5 +216,6 @@ export function mountProject(view) {
         removeEventListener('scroll', onScroll);
         removeEventListener('resize', onScroll);
         io.disconnect();
+        if (stamp) gsap.killTweensOf(stamp);
     };
 }
