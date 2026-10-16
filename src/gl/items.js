@@ -119,11 +119,10 @@ export function createImageItem(el, G) {
     let tex = null;
     let loading = false;
     let dead = false;
-    const src = el.currentSrc || el.src;
 
-    const load = () => {
-        loading = true;
-        G.loader.load(src, (t) => {
+    const fetchTexture = () => {
+        // La textura usa la misma URL que eligió el navegador para la <img> (puede ser una variante del srcset): se baja una sola vez.
+        G.loader.load(el.currentSrc || el.src, (t) => {
             loading = false;
             if (dead) { t.dispose(); return; }
             t.flipY = false;
@@ -133,6 +132,16 @@ export function createImageItem(el, G) {
             mat.uniforms.uTex.value = t;
             mat.uniforms.uImg.value.set(t.image.width, t.image.height);
         }, undefined, () => { loading = false; });
+    };
+    const load = () => {
+        loading = true;
+        if (el.currentSrc) { fetchTexture(); return; }
+        // Una <img> lazy que todavía no empezó a bajar no tiene currentSrc, y sin él se pediría el original en vez de la variante.
+        // Se la pasa a eager (el navegador elige la fuente) y se espera a que cargue.
+        const ready = () => { el.removeEventListener('load', ready); el.removeEventListener('error', ready); fetchTexture(); };
+        el.addEventListener('load', ready);
+        el.addEventListener('error', ready);
+        el.loading = 'eager';
     };
     const unload = () => {
         tex.dispose();

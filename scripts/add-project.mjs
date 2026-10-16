@@ -11,12 +11,12 @@
 //    - Respeta el orden en que pasás los archivos. Numera grid-N siguiendo los que ya haya.
 //    - Las agrega a additions en src/data/extra-projects.js.
 //
-// Las imágenes se convierten a .webp (máx. 1600 px de ancho) en public/images/projects/<slug>/.
+// Las imágenes se convierten a .webp (máx. 1600 px de ancho) en public/images/projects/<slug>/, con sus variantes -800 / -1200.
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import sharp from 'sharp';
-import { webpSize } from './lib.mjs';
+import { webpSize, writeVariants } from './lib.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name) => {
@@ -46,7 +46,11 @@ const usage = () => {
     process.exit(1);
 };
 
-const toWebp = (from, to) => sharp(from).rotate().resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 82 }).toFile(to);
+// Además del .webp deja sus variantes livianas (-800, -1200) para el srcset (ver src/core/srcset.js).
+const toWebp = async (from, to) => {
+    await sharp(from).rotate().resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 82 }).toFile(to);
+    await writeVariants(to);
+};
 
 const entryFor = (slug, file) => {
     const [w, h] = webpSize(path.join(root, 'public/images/projects', slug, file));

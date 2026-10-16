@@ -5,6 +5,7 @@ import { gl } from '../gl/index.js';
 import { createWheel } from '../gl/wheel.js';
 import { scroll } from '../core/scroll.js';
 import { setAccent } from '../core/accent.js';
+import { sized } from '../core/srcset.js';
 import { generatedCover } from '../core/cards.js';
 import { mountDbars } from '../core/dbar.js';
 
@@ -20,7 +21,8 @@ const CONFIGS = {
         openLabel: 'Ver proyecto ↗',
         items: () => projects.map((p) => ({
             key: p.slug, name: p.title, sub: p.type, meta: `${p.index} / ${pad(projects.length)}`,
-            cover: p.cover.src, accent: accentOf(p.slug), href: projectUrl(p.slug), subLabel: p.type,
+            // Rueda y vista Lista: las cartas miden hasta 320 px (640 en pantallas 2×), no hace falta la portada de 2400 px.
+            cover: sized(p.cover, 800), accent: accentOf(p.slug), href: projectUrl(p.slug), subLabel: p.type,
         })),
     },
     library: {

@@ -48,6 +48,10 @@ const byNewest = (p) => {
     return { ...p, sections };
 };
 
+// Proyectos cuya galería es un manual armado en código (src/brand/*.js, ver `manuals` en views/project.js): de sus imágenes solo
+// se usa la portada (rueda, lista, imagen para compartir). Mantener en sincronía con `manuals`.
+export const MANUALS = new Set(['contigiani-brinon', 'nyro', 'outframe', 'd2x']);
+
 const rank = (slug) => { const i = ORDER.indexOf(slug); return i < 0 ? ORDER.length : i; };
 
 export const projects = [...v2.filter((p) => !HIDDEN.has(p.slug)), ...extras]
@@ -55,7 +59,7 @@ export const projects = [...v2.filter((p) => !HIDDEN.has(p.slug)), ...extras]
     .map(byNewest)
     .map((p, i) => ({ p, i }))
     .sort((a, b) => rank(a.p.slug) - rank(b.p.slug) || a.i - b.i)
-    .map(({ p }, i) => ({ ...p, index: pad(i + 1), case: cases[p.slug] || null, layout: EQUAL.has(p.slug) ? 'equal' : 'hero' }));
+    .map(({ p }, i) => ({ ...p, index: pad(i + 1), case: cases[p.slug] || null, layout: EQUAL.has(p.slug) ? 'equal' : 'hero', manual: MANUALS.has(p.slug) }));
 
 export const bySlug = (slug) => projects.find((p) => p.slug === slug);
 

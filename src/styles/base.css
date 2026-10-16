@@ -214,7 +214,8 @@ main, .footer { position: relative; z-index: 1; }
 .p-side::-webkit-scrollbar { display: none; }
 .p-meta { display: flex; justify-content: space-between; gap: 16px; color: var(--muted); font-size: 15px; }
 .p-meta .num { color: var(--accent-ink); font-size: 13px; }
-.p-title { font-size: clamp(34px, 3.6vw, 68px); font-weight: 700; line-height: 0.95; letter-spacing: -0.045em; text-transform: uppercase; overflow-wrap: anywhere; }
+/* --fit (project.js) achica el cuerpo cuando la palabra más larga del título no entra en la columna: así no se corta a mitad de palabra. */
+.p-title { font-size: calc(clamp(34px, 3.6vw, 68px) * var(--fit, 1)); font-weight: 700; line-height: 0.95; letter-spacing: -0.045em; text-transform: uppercase; overflow-wrap: anywhere; }
 .p-desc { font-family: var(--font-text); font-weight: 300; font-size: clamp(15px, 1.05vw, 17px); line-height: 1.45; }
 .p-facts { display: grid; gap: 8px; align-content: start; color: var(--muted); font-size: 14px; }
 .p-side { --p: 0; }
@@ -332,7 +333,7 @@ main, .footer { position: relative; z-index: 1; }
     .p-facts dd { overflow-wrap: anywhere; }
     .p-meta { flex-wrap: wrap; }
     .p-side { position: static; max-height: none; overflow: visible; }
-    .p-title { font-size: 14vw; }
+    .p-title { font-size: calc(14vw * var(--fit, 1)); }
     .p-desc { font-size: 16px; }
     .p-chapter { padding: 12px 0; }
     .p-meta > :first-child { white-space: nowrap; }

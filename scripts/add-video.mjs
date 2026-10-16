@@ -5,6 +5,8 @@
 // - H.264 + AAC, +faststart (arranca a reproducir sin bajar todo), lado mayor <= 1280 px (<= 1080 en vertical).
 // - Los archivos de menos de 2 MB se copian tal cual (no vale la pena recomprimirlos).
 // - La numeración sigue la de los videos que ya haya en la carpeta.
+// - Cada video deja al lado su portada, video-N-poster.webp (el fotograma con más contenido). Para achicar los que ya
+//   están publicados y pesan mucho: node scripts/shrink-videos.mjs.
 // - --cover N: saca un fotograma (a 1 s) del N-ésimo video de la lista y lo guarda como
 //   public/images/projects/<slug>/cover.webp. Sirve para proyectos que son solo video.
 // Imprime las entradas { src, w, h } para pegar en src/data/extra-projects.js.
@@ -13,6 +15,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import ffmpeg from 'ffmpeg-static';
 import sharp from 'sharp';
+import { makePoster, writeVariants } from './lib.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name) => {
@@ -63,6 +66,7 @@ for (const [i, input] of inputs.entries()) {
 
     const [w, h] = sizeOf(out);
     entries.push({ src: `/videos/${slug}/${name}`, w, h });
+    await makePoster(out, out.replace(/\.mp4$/, '-poster.webp')); // la usa el <video> como poster mientras baja
     const mb = (s) => (s / 1024 / 1024).toFixed(1);
     console.log(`✓ ${path.basename(input)} → ${name}  ${w}x${h}  ${mb(before)} MB → ${mb(fs.statSync(out).size)} MB`);
 
@@ -73,6 +77,7 @@ for (const [i, input] of inputs.entries()) {
         const f = run(['-y', '-hide_banner', '-loglevel', 'error', '-ss', '1', '-i', out, '-frames:v', '1', png]);
         if (f.status !== 0 || !fs.existsSync(png)) { console.error(f.stderr); process.exit(1); }
         await sharp(png).webp({ quality: 82 }).toFile(path.join(dir, 'cover.webp'));
+        await writeVariants(path.join(dir, 'cover.webp'));
         fs.rmSync(png);
         console.log(`✓ cover → public/images/projects/${slug}/cover.webp`);
     }

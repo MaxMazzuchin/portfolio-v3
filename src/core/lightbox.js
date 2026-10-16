@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import { scroll } from './scroll.js';
+import { srcsetOf } from './srcset.js';
 
 const pad = (n) => String(n).padStart(2, '0');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -28,7 +29,8 @@ export function openLightbox({ images, index = 0, title = '' }) {
             <button class="lb-close" type="button" aria-label="Cerrar visor">Cerrar ✕</button>
         </div>
         ${mobile
-            ? `<div class="lb-scroll">${images.map((s, k) => `<div class="lb-slide"><img src="${s.src}" alt="${esc(title)} — ${k + 1}" decoding="async" ${Math.abs(k - i) > 1 ? 'loading="lazy"' : ''}></div>`).join('')}</div>`
+            // En la lista mobile cada pieza ocupa el ancho del celular (sin zoom): alcanza con la variante, no hace falta el original.
+            ? `<div class="lb-scroll">${images.map((s, k) => `<div class="lb-slide"><img src="${s.src}"${srcsetOf(s) ? ` srcset="${srcsetOf(s)}" sizes="100vw"` : ''} alt="${esc(title)} — ${k + 1}" decoding="async" ${Math.abs(k - i) > 1 ? 'loading="lazy"' : ''}></div>`).join('')}</div>`
             : `<div class="lb-stage"><img class="lb-img" alt=""></div>
                <button class="lb-nav lb-prev mono" type="button" aria-label="Anterior">←</button>
                <button class="lb-nav lb-next mono" type="button" aria-label="Siguiente">→</button>

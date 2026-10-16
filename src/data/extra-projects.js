@@ -125,8 +125,8 @@ export const extras = [
                 "videos": [
                     {
                         "src": "/videos/animacion/video-1.mp4",
-                        "w": 3840,
-                        "h": 2160
+                        "w": 1920,
+                        "h": 1080
                     },
                     {
                         "src": "/videos/animacion/video-2.mp4",
@@ -150,13 +150,13 @@ export const extras = [
                     },
                     {
                         "src": "/videos/animacion/video-6.mp4",
-                        "w": 1280,
-                        "h": 1280
+                        "w": 1080,
+                        "h": 1080
                     },
                     {
                         "src": "/videos/animacion/video-7.mp4",
-                        "w": 1280,
-                        "h": 1280
+                        "w": 1080,
+                        "h": 1080
                     },
                     {
                         "src": "/videos/animacion/video-8.mp4",
