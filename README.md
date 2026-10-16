@@ -20,8 +20,8 @@ Requiere Node 20+. No hay variables de entorno ni backend.
 | Archivo | Ruta | Qué es |
 |---|---|---|
 | `index.html` | `/` | Home estático (estilo CRL "Index") |
-| `trabajo.html` | `/trabajo.html` | Proyectos: vista **Rueda** o **Lista** |
-| `biblioteca.html` | `/biblioteca.html` | Gustos (libros, música, videos…): misma vista Rueda/Lista + filtros |
+| `trabajo.html` | `/trabajo.html` | Proyectos: **Rueda** |
+| `biblioteca.html` | `/biblioteca.html` | Gustos (libros, música, videos…): misma Rueda + filtros |
 | `sobre-mi.html` | `/sobre-mi.html` | Sobre mí |
 | `proyecto.html` | `/proyecto/<slug>/` | Proyecto individual (al compilar se genera una página por proyecto; `/proyecto.html?p=<slug>` redirige): columna fija a la izquierda (~30%, con la barra dither como progreso de scroll y anterior/siguiente) y galería propia a la derecha |
 | `404.html` | cualquier ruta inexistente | Página de error (Netlify la sirve sola) |

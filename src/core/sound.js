@@ -6,7 +6,7 @@
 const KEY = 'sound';
 const VOLUME = 0.35 * 0.22; // casi subliminal
 const TOUCH_BOOST = 2.6; // los parlantes de un celular casi no reproducen estos golpes cortos: se compensa
-const HOVER_SEL = '.nav-links a, .nav-logo, .theme-toggle, .sfx-toggle, .nav-menu, [data-f], [data-view], .ci-row, [data-c-open]';
+const HOVER_SEL = '.nav-links a, .nav-logo, .theme-toggle, .sfx-toggle, .nav-menu, [data-f], .ci-row, [data-c-open]';
 
 let ctx, master, white, crushed;
 let on = false;

@@ -52,11 +52,11 @@ export function createWheel(G, { projects, hit, onFrame, onActive, onOpen }) {
     function layout() {
         const { vw, vh } = G.frame;
         const mobile = vw < 800;
-        geo.cw = mobile ? vw * 0.44 : Math.min(Math.max(vw * 0.2, 170), 320);
+        geo.cw = mobile ? Math.min(vw * 0.58, vh * 0.36) : Math.min(Math.max(vw * 0.2, 170), 320);
         geo.ch = geo.cw * 1.25;
         geo.R = mobile ? vw * 1.1 : vw * 0.9;
         geo.step = mobile ? 0.4 : 0.33;
-        geo.cy = vh * (mobile ? 0.6 : 0.655);
+        geo.cy = vh * (mobile ? 0.55 : 0.655);
         geo.spacing = geo.R * geo.step;
     }
 

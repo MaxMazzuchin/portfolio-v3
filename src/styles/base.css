@@ -124,13 +124,13 @@ main, .footer { position: relative; z-index: 1; }
 /* ---------------- Trabajos / Biblioteca (rueda + lista) ---------------- */
 .col-stage { --rowH: clamp(64px, 7vw, 104px); position: relative; height: 100svh; overflow: hidden; padding: calc(var(--nav-h) + 4px) var(--gutter) 24px; }
 .c-top { position: relative; z-index: 4; display: flex; justify-content: space-between; align-items: baseline; gap: 18px; }
-.c-switch, .c-switch button, .c-filters button { font-family: var(--font-text); font-size: 20px; text-transform: uppercase; line-height: 1; }
-.c-switch button, .c-filters button { color: var(--muted); }
-.c-switch button.is-on, .c-filters button.is-on { color: var(--fg); text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }
-.c-switch button:hover, .c-filters button:hover { color: var(--fg); }
+.c-filters button { font-family: var(--font-text); font-size: 20px; text-transform: uppercase; line-height: 1; }
+.c-filters button { color: var(--muted); }
+.c-filters button.is-on { color: var(--fg); text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }
+.c-filters button:hover { color: var(--fg); }
 .c-filters { display: flex; flex-wrap: wrap; gap: 6px 20px; }
 .c-filters .num { font-size: 10px; vertical-align: top; margin-left: 3px; }
-.c-top > .num { color: var(--accent-ink); font-size: 13px; }
+.c-top > .num { margin-left: auto; color: var(--accent-ink); font-size: 13px; }
 
 .c-dbar { position: relative; z-index: 4; margin-top: 12px; width: min(280px, 40vw); }
 /* Intro de la Biblioteca. Sin `top`, un elemento absoluto queda donde caería en el flujo (justo después de la barra dither), con el mismo
@@ -328,10 +328,18 @@ main, .footer { position: relative; z-index: 1; }
     .hw { font-size: 16vw; }
     .home-enter, .home-init { right: auto; bottom: auto; align-self: flex-start; }
 
+    /* Rueda en el celular, sin amontonar: un solo título, filtros en una fila que se desliza, el contador baja al pie junto al link,
+       y se van el tipo repetido del pie y el texto de intro de la Biblioteca. */
     .col-stage { --rowH: 22vw; }
-    .c-filters { order: 3; width: 100%; gap: 6px 16px; }
-    .c-switch, .c-switch button, .c-filters button { font-size: 16px; }
-    .c-top { flex-wrap: wrap; }
+    .c-top { position: static; } /* el contador (absoluto) se ancla al escenario y no a esta fila */
+    .c-top > .num { position: absolute; left: var(--gutter); bottom: clamp(36px, 6vh, 60px); margin: 0; font-size: 16px; line-height: 1.4; z-index: 4; }
+    .c-filters { position: relative; z-index: 4; flex-wrap: nowrap; overflow-x: auto; width: 100%; gap: 6px 18px; scrollbar-width: none; margin-right: calc(var(--gutter) * -1); padding: 6px var(--gutter) 0 0; } /* el relleno de arriba deja ver los contadores (sup) que overflow recortaría */
+    .c-filters::-webkit-scrollbar { display: none; }
+    .c-filters button { font-size: 16px; white-space: nowrap; flex: none; }
+    .c-list { height: calc(var(--rowH) * 1.35); }
+    .c-intro { display: none; }
+    .c-foot { font-size: 18px; justify-content: flex-end; }
+    .c-foot [data-c-sub] { display: none; }
     .c-name { font-size: calc(7vw * var(--fit, 1)); }
     .c-sub2 { font-size: 15px; }
     .c-meta { display: none; }

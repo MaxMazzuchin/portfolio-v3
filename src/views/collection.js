@@ -11,7 +11,6 @@ import { mountDbars } from '../core/dbar.js';
 
 const pad = (n) => String(n).padStart(2, '0');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const VIEW_KEY = 'col-view';
 const SAMPLE_DESC = 'Texto de ejemplo. Acá va una nota breve tuya: por qué esta pieza te importa, qué te dejó y en qué momento la volvés a mirar. Entre dos y cuatro líneas alcanzan.';
 
 /** Each collection maps its data to the same item shape: { name, sub, meta, cover, accent, href|url, group }. */
@@ -80,15 +79,14 @@ function collection(kind, view) {
     const openEl = view.querySelector('[data-c-open]');
     const filtersEl = view.querySelector('[data-c-filters]');
     const previewImg = view.querySelector('.c-preview img');
-    const switchBtns = [...view.querySelectorAll('[data-view]')];
 
     let disposed = false;
     let wheel = null;
     let items = [];
     let filter = 'all';
-    let mode = 'wheel';
-    try { mode = localStorage.getItem(VIEW_KEY) === 'list' ? 'list' : 'wheel'; } catch { /* storage unavailable */ }
-    if (!gl.ok) mode = 'list';
+    // Solo existe la rueda. Sin WebGL no hay cartas: ahí (y solo ahí) se muestra el índice en lista como respaldo.
+    const mode = gl.ok ? 'wheel' : 'list';
+    const narrow = matchMedia('(max-width: 800px)');
 
     scroll.stop();
     let rowH = 120;
@@ -97,7 +95,6 @@ function collection(kind, view) {
 
     const applyMode = () => {
         stage.classList.toggle('is-list', mode === 'list');
-        switchBtns.forEach((b) => b.classList.toggle('is-on', b.dataset.view === mode));
         wheel?.setVisible(mode === 'wheel');
     };
 
@@ -226,7 +223,8 @@ function collection(kind, view) {
                     let d = k - pos;
                     d -= N * Math.round(d / N);
                     const ad = Math.abs(d);
-                    row.style.opacity = ad < 1.6 ? String(Math.max(0, 1 - ad * 0.78)) : '0';
+                    // En el celular se ve un solo título: los vecinos se apagan antes (en escritorio se asoman).
+                    row.style.opacity = ad < 1.6 ? String(Math.max(0, 1 - ad * (narrow.matches ? 2.2 : 0.78))) : '0';
                     row.style.transform = `translateY(${d * rowH}px)`;
                 });
             },
@@ -267,14 +265,6 @@ function collection(kind, view) {
             filter = f.dataset.f;
             filtersEl.querySelectorAll('[data-f]').forEach((b) => b.classList.toggle('is-on', b === f));
             render(allItems.filter((i) => filter === 'all' || i.group === filter));
-            return;
-        }
-        const v = e.target.closest('[data-view]');
-        if (v) {
-            if (v.dataset.view === mode) return;
-            mode = v.dataset.view; // cambio directo, sin cortina
-            try { localStorage.setItem(VIEW_KEY, mode); } catch { /* storage unavailable */ }
-            applyMode();
             return;
         }
         const row = e.target.closest('.ci-row');
