@@ -18,7 +18,7 @@ void main() {
 const CELL_CSS_PX = 3; // size of one dither cell, in CSS px
 
 // Caballo de la transición (grilla de scripts/horse-sprite.mjs): se muestra al cerrarse la cortina y se queda `hold` segundos.
-const HORSE = { src: '/images/transition/caballo.webp', cols: 5, rows: 2, frames: 10, fps: 12, hold: 0.85, fadeIn: 0.25, fadeOut: 0.3, cellPx: 2 };
+const HORSE = { src: '/images/transition/caballo.webp', cols: 5, rows: 2, frames: 10, fps: 16, hold: 0.55, fadeIn: 0.2, fadeOut: 0.2, cellPx: 2 };
 
 export const gl = {
     ok: false,
