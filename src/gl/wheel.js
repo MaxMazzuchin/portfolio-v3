@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { imageMaterial } from './items.js';
 import { cursor } from '../core/cursor.js';
 import { reduced } from '../core/scroll.js';
+import { sound } from '../core/sound.js';
 
 const mod = (a, n) => ((a % n) + n) % n;
 
@@ -87,7 +88,11 @@ export function createWheel(G, { projects, hit, onFrame, onActive, onOpen }) {
         }
 
         const a = mod(Math.round(pos), N);
-        if (a !== active) { active = a; onActive?.(a); }
+        if (a !== active) {
+            if (active !== -1) sound.play('tick', 1 + Math.min(0.1, Math.abs(target - pos) * 0.03) * (Math.random() < 0.5 ? -1 : 1));
+            active = a;
+            onActive?.(a);
+        }
         onFrame?.(pos, active);
     }
 
@@ -140,7 +145,7 @@ export function createWheel(G, { projects, hit, onFrame, onActive, onOpen }) {
         if (wasClick) {
             const c = cardAt(e.clientX, e.clientY);
             if (c) {
-                if (c.i === active) onOpen?.(c.i);
+                if (c.i === active) { sound.play('open'); onOpen?.(c.i); }
                 else target = Math.round(target) + Math.round(c.d);
                 return;
             }
@@ -151,7 +156,7 @@ export function createWheel(G, { projects, hit, onFrame, onActive, onOpen }) {
     const onKey = (e) => {
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
         else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') go(-1);
-        else if (e.key === 'Enter') onOpen?.(active);
+        else if (e.key === 'Enter') { sound.play('open'); onOpen?.(active); }
     };
 
     addEventListener('wheel', onWheel, { passive: false });

@@ -53,7 +53,7 @@ Requiere Node 20+. No hay variables de entorno ni backend.
 
 ```
 main.js              arranque: scroll → WebGL → tema → cursor → menú → router
-core/                router (transiciones), scroll (Lenis), tema, cursor dither, visor de imágenes (lightbox), dbar
+core/                router (transiciones), scroll (Lenis), tema, cursor dither, visor de imágenes (lightbox), dbar, sound (efectos Web Audio, toggle en el header)
 gl/                  Three.js: renderer, texto dithered, imágenes, rueda de cartas, cortina de transición
 gl/shaders/          GLSL (dither Bayer 8x8, texto, imagen, transición)
 views/               una vista por página (home, collection = trabajos+biblioteca, about, project)

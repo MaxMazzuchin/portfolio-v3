@@ -78,13 +78,15 @@ main, .footer { position: relative; z-index: 1; }
 .nav-links sup { font-family: var(--num); font-size: 10px; margin-left: 3px; vertical-align: top; }
 .nav-links a[aria-current='page'] { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
 .nav-menu { display: none; font-family: var(--font); font-weight: 600; font-size: 20px; text-transform: uppercase; line-height: 1; }
-.theme-toggle { justify-self: end; font-family: var(--font); font-weight: 600; letter-spacing: -0.02em; font-size: clamp(16px, 1.3vw, 20px); text-transform: uppercase; line-height: 1; }
-.nav a, .theme-toggle { position: relative; }
-.nav a:not([aria-current])::after, .theme-toggle::after {
+.nav-tools { justify-self: end; display: flex; align-items: center; gap: clamp(16px, 2vw, 28px); }
+.theme-toggle, .sfx-toggle { font-family: var(--font); font-weight: 600; letter-spacing: -0.02em; font-size: clamp(16px, 1.3vw, 20px); text-transform: uppercase; line-height: 1; }
+.sfx-toggle[aria-pressed='false'] { color: var(--muted); }
+.nav a, .theme-toggle, .sfx-toggle { position: relative; }
+.nav a:not([aria-current])::after, .theme-toggle::after, .sfx-toggle::after {
     content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px;
     background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 0.35s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.nav a:hover::after, .theme-toggle:hover::after { transform: scaleX(1); }
+.nav a:hover::after, .theme-toggle:hover::after, .sfx-toggle:hover::after { transform: scaleX(1); }
 
 /* ---------------- Cursor (dither dots drawn by core/cursor.js) ---------------- */
 .cursor { display: none; }
@@ -301,7 +303,10 @@ main, .footer { position: relative; z-index: 1; }
 /* ---------------- Responsive ---------------- */
 @media (max-width: 800px) {
     :root { --nav-h: 72px; }
-    .nav { grid-template-columns: 1fr auto auto; gap: 22px; }
+    .nav { grid-template-columns: 1fr auto auto; gap: 18px; }
+    .nav-tools { gap: 14px; }
+    .theme-toggle, .sfx-toggle { font-size: 15px; }
+    .sfx-state { display: none; } /* en mobile el estado se lee por el color */
     .nav-logo { font-size: 20px; }
     .nav-menu { display: block; }
     /* Full-screen menu, like CRL's "Menu / Close" */
@@ -364,5 +369,5 @@ main, .footer { position: relative; z-index: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .nav a::after, .theme-toggle::after, .home-enter-arrow, .c-sheet-scrim, .c-win { transition: none; }
+    .nav a::after, .theme-toggle::after, .sfx-toggle::after, .home-enter-arrow, .c-sheet-scrim, .c-win { transition: none; }
 }

@@ -7,6 +7,7 @@ import { scroll, reduced } from './core/scroll.js';
 import { gl } from './gl/index.js';
 import { initTheme } from './core/theme.js';
 import { initCursor } from './core/cursor.js';
+import { initSound } from './core/sound.js';
 import { initRouter } from './core/router.js';
 import { mountDbars } from './core/dbar.js';
 import { projects } from './data/work.js';
@@ -101,6 +102,7 @@ async function boot() {
     gl.init(document.querySelector('[data-gl-canvas]'));
     initTheme();
     initCursor();
+    initSound();
     initMenu();
     startClock();
 

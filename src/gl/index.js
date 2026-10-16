@@ -5,6 +5,7 @@ import transitionFrag from './shaders/transition.frag?raw';
 import { createTextItem, createImageItem } from './items.js';
 import { scroll, reduced } from '../core/scroll.js';
 import { cssColor } from '../core/colors.js';
+import { sound } from '../core/sound.js';
 
 const VERT = /* glsl */ `
 varying vec2 vUv;
@@ -181,12 +182,14 @@ export const gl = {
     /** Cover the screen. Color = fondo del tema actual (negro en oscuro, claro en claro), congelado al empezar so a theme flip underneath is invisible. */
     cover(colorVar = '--bg') {
         if (!this.ok || reduced) return Promise.resolve();
+        sound.play('wipeIn');
         this.tMat.uniforms.uColor.value.set(...cssColor(colorVar));
         return this._sweep(0, 1, 0, 0.55);
     },
 
     uncover() {
         if (!this.ok || reduced) return Promise.resolve();
+        sound.play('wipeOut');
         return this._sweep(1, 0, 1, 0.6);
     },
 };
