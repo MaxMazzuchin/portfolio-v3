@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 import common from './shaders/common.glsl?raw';
 import transitionFrag from './shaders/transition.frag?raw';
+import horseFrag from './shaders/horse.frag?raw';
 import { createTextItem, createImageItem } from './items.js';
 import { scroll, reduced } from '../core/scroll.js';
 import { cssColor } from '../core/colors.js';
@@ -15,6 +16,9 @@ void main() {
 }`;
 
 const CELL_CSS_PX = 3; // size of one dither cell, in CSS px
+
+// Caballo de la transición (grilla de scripts/horse-sprite.mjs): se muestra al cerrarse la cortina y se queda `hold` segundos.
+const HORSE = { src: '/images/transition/caballo.webp', cols: 5, rows: 2, frames: 10, fps: 12, hold: 0.85, fadeIn: 0.25, fadeOut: 0.3, cellPx: 2 };
 
 export const gl = {
     ok: false,
@@ -62,6 +66,27 @@ export const gl = {
         this.curtain.visible = false;
         this.scene.add(this.curtain);
 
+        // Caballo: va sobre la cortina, centrado y chico, en el color opuesto al de ella.
+        this.hMat = this.material(horseFrag, {
+            uTex: { value: null },
+            uColor: { value: new THREE.Vector3(1, 1, 1) },
+            uGrid: { value: new THREE.Vector2(HORSE.cols, HORSE.rows) },
+            uCell: { value: HORSE.cellPx * this.dpr },
+            uReveal: { value: 0 },
+            uFrame: { value: 0 },
+        });
+        this.horse = new THREE.Mesh(this.geo, this.hMat);
+        this.horse.renderOrder = 1000;
+        this.horse.visible = false;
+        this.scene.add(this.horse);
+        this.loader.load(HORSE.src, (t) => {
+            t.flipY = false;
+            t.generateMipmaps = false;
+            t.minFilter = THREE.LinearFilter;
+            this.hMat.uniforms.uTex.value = t;
+            this.horseReady = true;
+        });
+
         this.resize();
         addEventListener('resize', () => { this.resize(); this.queueRebuild(); });
         addEventListener('pointermove', (e) => {
@@ -106,6 +131,9 @@ export const gl = {
         this.renderer.getDrawingBufferSize(this.U.uRes.value);
         this.curtain.position.set(w / 2, h / 2, 1);
         this.curtain.scale.set(w, h, 1);
+        const hw = w < 800 ? w * 0.5 : Math.min(Math.max(w * 0.2, 220), 340);
+        this.horse.position.set(w / 2, h / 2, 2);
+        this.horse.scale.set(hw, hw * 450 / 640, 1);
     },
 
     /** Re-scan a DOM root for [data-gl-text] / [data-gl-img] and (re)create their meshes. */
@@ -158,6 +186,7 @@ export const gl = {
 
         for (const item of this.items) item.update(item.el.getBoundingClientRect());
         this.wheel?.update(time);
+        if (this.horse.visible) this.hMat.uniforms.uFrame.value = Math.floor((time - this._horseT0) * HORSE.fps) % HORSE.frames;
         this.renderer.render(this.scene, this.camera);
     },
 
@@ -172,7 +201,7 @@ export const gl = {
             gsap.to(u.uProgress, {
                 value: to, duration, ease: 'power2.inOut',
                 onComplete: () => {
-                    if (to === 0) { this.curtain.visible = false; document.documentElement.classList.remove('gl-top'); }
+                    if (to === 0) { this.curtain.visible = false; this.horse.visible = false; document.documentElement.classList.remove('gl-top'); }
                     resolve();
                 },
             });
@@ -184,11 +213,32 @@ export const gl = {
         if (!this.ok || reduced) return Promise.resolve();
         sound.play('wipeIn');
         this.tMat.uniforms.uColor.value.set(...cssColor(colorVar));
-        return this._sweep(0, 1, 0, 0.55);
+        this.hMat.uniforms.uColor.value.set(...cssColor(colorVar === '--bg' ? '--fg' : '--bg'));
+        return this._sweep(0, 1, 0, 0.55).then(() => this._horseIn());
     },
 
-    uncover() {
-        if (!this.ok || reduced) return Promise.resolve();
+    /** El caballo aparece con dither sobre la cortina cerrada y galopa (en el sonido también). */
+    _horseIn() {
+        if (!this.horseReady) return;
+        this._horseT0 = gsap.ticker.time;
+        this.hMat.uniforms.uFrame.value = 0;
+        this.hMat.uniforms.uReveal.value = 0;
+        this.horse.visible = true;
+        sound.play('gallop');
+        gsap.to(this.hMat.uniforms.uReveal, { value: 1, duration: HORSE.fadeIn, ease: 'none', overwrite: true });
+    },
+
+    /** Si la cortina se abre antes de que el caballo haya galopado su ciclo, espera lo que falta. */
+    async _horseOut() {
+        if (!this.horse.visible) return;
+        const wait = HORSE.hold - (gsap.ticker.time - this._horseT0);
+        if (wait > 0) await new Promise((r) => setTimeout(r, wait * 1000));
+        gsap.to(this.hMat.uniforms.uReveal, { value: 0, duration: HORSE.fadeOut, ease: 'none', overwrite: true });
+    },
+
+    async uncover() {
+        if (!this.ok || reduced) return;
+        await this._horseOut();
         sound.play('wipeOut');
         return this._sweep(1, 0, 1, 0.6);
     },

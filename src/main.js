@@ -97,7 +97,10 @@ function startClock() {
 }
 
 async function boot() {
-    if (import.meta.env.DEV) window.__gl = gl; // debugging handle, stripped from production builds
+    if (import.meta.env.DEV) {
+        window.__gl = gl; // debugging handle, stripped from production builds
+        if (new URLSearchParams(location.search).has('horse')) setTimeout(() => gl.cover(), 1500); // ?horse deja la cortina con el caballo puesta
+    }
     scroll.init();
     gl.init(document.querySelector('[data-gl-canvas]'));
     initTheme();
