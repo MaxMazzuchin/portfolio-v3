@@ -25,3 +25,26 @@ for (const [src, out, region] of crops) {
 // La cara que asoma dentro de las letras de la portada: recorte del retrato, más contraste.
 await sharp(`${dir}/image-1.webp`).extract(r(1090, 108, 250, 322)).resize({ width: 1000 }).greyscale().normalise().linear(1.5, -70).webp({ quality: 85 }).toFile(`${dir}/fotos/cara.webp`);
 console.log('cara');
+
+// Relleno de las letras de la portada: la zona de las letras de la tapa original (2552 px), con todo lo que no es foto
+// (vidrio gris claro) pintado de rojo. Así al apoyarlo dentro de letras nuevas solo se ve la foto de Madoz sobre rojo.
+{
+    const src = 'C:/Users/Máximo/Downloads/PORTFOLIO/outframe/OUTFRAME - Revista_page-0001.jpg';
+    const k = 2552 / 1100;
+    const region = { left: Math.round(200 * k), top: Math.round(240 * k), width: Math.round(700 * k), height: Math.round(970 * k) };
+    const { data, info } = await sharp(src).extract(region).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+    const RED = [227, 48, 42];
+    const smooth = (v) => Math.min(1, Math.max(0, v));
+    for (let i = 0; i < data.length; i += 3) {
+        const r = data[i], g = data[i + 1], b = data[i + 2];
+        const lum = (r + g + b) / 3;
+        const redness = smooth((r - Math.max(g, b) - 28) / 40);
+        const dark = smooth((80 - lum) / 28);
+        const keep = Math.max(redness, dark);
+        data[i] = Math.round(r * keep + RED[0] * (1 - keep));
+        data[i + 1] = Math.round(g * keep + RED[1] * (1 - keep));
+        data[i + 2] = Math.round(b * keep + RED[2] * (1 - keep));
+    }
+    await sharp(data, { raw: { width: info.width, height: info.height, channels: 3 } }).resize({ width: 1400 }).webp({ quality: 86 }).toFile(`${dir}/fotos/letras-foto.webp`);
+    console.log('letras-foto', info.width, 'x', info.height);
+}

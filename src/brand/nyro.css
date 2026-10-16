@@ -85,13 +85,13 @@
 .ny-cell--paper { background: var(--ny-paper); color: var(--ny-ink); }
 
 /* Stickers y papelería: láminas originales sin fondo */
-.ny-slide.ny-pic { aspect-ratio: auto; display: grid; justify-items: center; align-content: start; padding: calc(var(--u) * 150) 0 calc(var(--u) * 40); }
+.ny-slide.ny-pic { aspect-ratio: auto; display: grid; justify-items: center; align-content: start; padding: calc(var(--u) * 150) 0 calc(var(--u) * 80); }
 .ny-pic > * { position: static; }
 .ny-pic .ny-sl-head { position: absolute; }
 .ny-pic-fig { margin: 0; }
-.ny-pic-fig img { display: block; width: 100%; height: auto; filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.38)); }
-.ny-stk .ny-pic-fig { width: 62%; }
-.ny-pap .ny-pic-fig { width: 80%; }
+.ny-scene { display: block; width: 100%; height: auto; overflow: visible; }
+.ny-stk .ny-pic-fig { width: 88%; }
+.ny-pap .ny-pic-fig { width: 90%; }
 
 /* Banner */
 .ny-banner { --u: 0.05cqw; position: relative; container-type: inline-size; aspect-ratio: 3 / 1; background: #0a0b08; color: #f4f4ef; overflow: hidden; }

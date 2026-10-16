@@ -9,6 +9,7 @@ const manuals = {
     'contigiani-brinon': { load: () => import('../brand/contigiani.js'), pieces: 9 },
     nyro: { load: () => import('../brand/nyro.js'), pieces: 8 },
     outframe: { load: () => import('../brand/outframe.js'), pieces: 7 },
+    d2x: { load: () => import('../brand/d2x.js'), pieces: 6 },
 };
 
 const pad = (n) => String(n).padStart(2, '0');

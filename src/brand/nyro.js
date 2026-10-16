@@ -1,14 +1,14 @@
 import './nyro.css';
 import gsap from 'gsap';
 import { nyroSVG } from './nyro-logo.js';
-import { enterTimeline, onceInView, loadFonts, splitLetters, reduced } from './motion.js';
+import { stickersSVG, notebookSVG } from './nyro-scenes.js';
+import { enterTimeline, onceInView, loadFonts, splitLetters, fitCaps, reduced } from './motion.js';
 
 // Manual de marca de Nyro armado con HTML/SVG/CSS. El isotipo está reconstruido en vectores a partir
 // de la lámina de construcción (src/brand/nyro-logo.js); no hay fotos: todo es código.
 
 export const pieces = 8;
 
-const IMG = '/images/projects/nyro';
 const SPLINE = '"Spline Sans"';
 const SPLINE_URL = 'https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;600;700&display=swap';
 const SWITZER_URL = 'https://api.fontshare.com/v2/css?f[]=switzer@300,500,700&display=swap';
@@ -93,12 +93,12 @@ export function manualHTML() {
 
 <section class="ny-slide ny-pic ny-stk" data-sec="stk">
     ${head('Aplicaciones // Stickers')}
-    <figure class="ny-pic-fig" data-in><img src="${IMG}/stickers.webp" alt="Stickers de Nyro: círculos, tiras, un cuadrado con el eslogan y patrones con el isotipo" width="664" height="510" loading="lazy" decoding="async"></figure>
+    <figure class="ny-pic-fig" data-in>${stickersSVG()}</figure>
 </section>
 
 <section class="ny-slide ny-pic ny-pap" data-sec="pap">
     ${head('Aplicaciones // Papelería')}
-    <figure class="ny-pic-fig" data-in><img src="${IMG}/papeleria.webp" alt="Libreta lima cosida con piolín y una lapicera con el logo de Nyro" width="762" height="420" loading="lazy" decoding="async"></figure>
+    <figure class="ny-pic-fig" data-in>${notebookSVG()}</figure>
 </section>
 
 <section class="ny-banner" data-sec="ban" aria-label="Banner">
@@ -197,6 +197,7 @@ export async function mountManual(root) {
     if (!alive) return () => {};
 
     if (reduced) {
+        fitCaps(m, SPLINE);
         all(m, '.ny-word').forEach((t) => splitLetters(t, SPLINE));
         all(m, '.ny-logo').forEach(fitBox);
         m.classList.remove('ny-pending');
@@ -245,15 +246,45 @@ export async function mountManual(root) {
     patTl.to(cells, { scale: 1, opacity: 1, duration: 0.7, stagger: { each: 0.03, grid: [4, 8], from: 'center' }, ease: 'back.out(1.7)' }, 0.3);
     when.push([pat, () => patTl.play()]);
 
-    // 6 y 7 · Stickers y papelería (láminas originales sin fondo): entran con un leve zoom
-    for (const k of ['stk', 'pap']) {
-        const s = sec(k);
-        const t = add(enterTimeline(s, { y: 40, duration: 1.1 }));
-        const img = s.querySelector('img');
-        gsap.set(img, { scale: 0.94 });
-        t.to(img, { scale: 1, duration: 1.6, ease: 'power3.out' }, 0);
-        when.push([s, () => t.play()]);
-    }
+    // 6 · Stickers: cada uno cae y se pega; después se despega la esquina
+    const stk = sec('stk');
+    const stkTl = add(enterTimeline(stk, { y: 0, duration: 0.5 }));
+    all(stk, '.st-wrap').forEach((w, i) => {
+        const cx = Number(w.dataset.cx), cy = Number(w.dataset.cy);
+        const t = 0.25 + i * 0.16;
+        gsap.set(w, { opacity: 0 });
+        stkTl.fromTo(w, { y: -240, rotation: (i % 2 ? 1 : -1) * 16, scale: 1.3, opacity: 0, svgOrigin: `${cx} ${cy}` },
+            { y: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.85, ease: 'back.out(1.5)', svgOrigin: `${cx} ${cy}` }, t);
+        const peel = w.querySelector('.st-peel');
+        if (peel) {
+            gsap.set(peel, { scale: 0.01, transformBox: 'fill-box', transformOrigin: '100% 50%' });
+            stkTl.to(peel, { scale: 1, duration: 0.9, ease: 'power3.out' }, t + 0.75);
+        }
+    });
+    when.push([stk, () => stkTl.play()]);
+
+    // 7 · Papelería: la libreta entra, se cosen las cruces, se dibuja el piolín y baja la lapicera
+    const pap = sec('pap');
+    const papTl = add(enterTimeline(pap, { y: 0, duration: 0.5 }));
+    const book = pap.querySelector('.nb-book');
+    const xs = all(pap, '.nb-x');
+    const tw = all(pap, '.nb-tw');
+    const tw2 = all(pap, '.nb-tw2');
+    const strap = pap.querySelector('.nb-strap');
+    const pen = pap.querySelector('.nb-pen-wrap');
+    gsap.set(book, { opacity: 0, y: 70 });
+    gsap.set(xs, { scale: 0, transformBox: 'fill-box', transformOrigin: '50% 50%' });
+    gsap.set(tw, { strokeDasharray: '100 200', strokeDashoffset: 100 });
+    gsap.set(tw2, { opacity: 0 });
+    gsap.set(strap, { opacity: 0 });
+    gsap.set(pen, { opacity: 0, y: -160 });
+    papTl.to(book, { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out' }, 0.1)
+        .to(xs, { scale: 1, duration: 0.35, stagger: 0.07, ease: 'back.out(3)' }, 0.8)
+        .to(strap, { opacity: 1, duration: 0.5 }, 1.6)
+        .to(tw, { strokeDashoffset: 0, duration: 1.1, stagger: 0.22, ease: 'power2.inOut' }, 1.8)
+        .to(tw2, { opacity: 0.42, duration: 0.5 }, 3.0)
+        .to(pen, { opacity: 1, y: 0, duration: 1.1, ease: 'back.out(1.2)' }, 1.0);
+    when.push([pap, () => papTl.play()]);
 
     // 8 · Banner: la línea de datos se dibuja, las barras crecen y la flecha avanza
     const ban = sec('ban');
@@ -273,6 +304,7 @@ export async function mountManual(root) {
         .fromTo(ban.querySelector('.ny-ban-text'), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, 1.6);
     when.push([ban, () => { banTl.play(); banMini.play(); }]);
 
+    fitCaps(m, SPLINE);
     // Los logos que no están en ninguna animación (y los de reduced) igual tienen que medir bien el wordmark.
     all(m, '.ny-word').forEach((t) => splitLetters(t, SPLINE));
     all(m, '.ny-logo').forEach(fitBox);

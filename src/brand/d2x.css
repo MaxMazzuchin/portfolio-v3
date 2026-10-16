@@ -1,0 +1,48 @@
+/* D2X Magazine: tapa y primera doble página maquetadas en código; las demás dobles son imagen.
+   La doble escala con su ancho: 1 "u" = 1 px de una doble de 1089 px. */
+
+.dx-manual {
+    --dx-orange: #ff6a0d; --dx-paper: #f5f4f0;
+    display: grid; gap: 28px; min-width: 0;
+    font-family: 'Inter Tight', var(--font), sans-serif;
+}
+.dx-manual.dx-pending { opacity: 0; }
+.dx-slide { display: grid; gap: 12px; }
+.dx-head-l { font-size: 12px; color: var(--muted); letter-spacing: 0.06em; }
+
+/* ---------- Tapa ---------- */
+.dx-cover { position: relative; aspect-ratio: 16 / 11; border: 1px solid var(--line); overflow: hidden; display: grid; place-items: center; color: var(--fg); }
+.dx-cover-top, .dx-cover-bot { position: absolute; left: 18px; right: 18px; z-index: 2; font-size: 12px; color: var(--muted); letter-spacing: 0.06em; }
+.dx-cover-top { top: 16px; }
+.dx-cover-bot { bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; }
+.dx-replay { font: inherit; color: var(--fg); text-transform: uppercase; letter-spacing: inherit; padding: 4px 0; }
+.dx-replay:hover { color: var(--accent-ink); }
+.dx-stage { height: 88%; aspect-ratio: 1000 / 1376; transform-style: preserve-3d; }
+.dx-sheet { width: 100%; height: 100%; }
+.dx-art { display: block; width: 100%; height: 100%; filter: drop-shadow(0 28px 34px rgba(0, 0, 0, 0.5)); }
+
+/* ---------- Dobles ---------- */
+.dx-spread {
+    --u: 0.0918cqw;
+    position: relative; container-type: inline-size; aspect-ratio: 1089 / 768;
+    background: var(--dx-paper); color: #151515; overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.dx-spread--img { aspect-ratio: 1700 / 1195; background: #000; }
+.dx-spread--img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dx-gutter { position: absolute; z-index: 3; left: 50%; top: 0; bottom: 0; width: calc(var(--u) * 34); transform: translateX(-50%); pointer-events: none; background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06) 42%, rgba(0, 0, 0, 0.14) 50%, rgba(255, 255, 255, 0.3) 56%, transparent); mix-blend-mode: multiply; }
+.dx-spread > * { position: absolute; }
+.dx-ph { overflow: hidden; background: #888; }
+.dx-ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dx-d2x { overflow: visible; }
+.dx-who { font-family: 'Anton', 'Archivo Black', sans-serif; font-weight: 400; font-size: calc(var(--u) * 53); line-height: 0.92; letter-spacing: 0.005em; }
+.dx-p { font-weight: 600; font-size: calc(var(--u) * 9.3); line-height: 1.19; letter-spacing: -0.02em; margin-bottom: calc(var(--u) * 6); }
+.dx-p--lead { font-size: calc(var(--u) * 10); margin: 0; }
+.dx-p--cap { font-weight: 500; font-size: calc(var(--u) * 9.2); }
+.dx-pg { font-family: 'Archivo Black', sans-serif; font-size: calc(var(--u) * 17); }
+
+@media (max-width: 800px) {
+    .dx-cover { aspect-ratio: 4 / 5.3; }
+    .dx-stage { height: 76%; margin-top: 6%; }
+    .dx-cover-bot span { display: none; }
+}

@@ -24,7 +24,8 @@ export function nParts(ox = 0, oy = 0) {
     ];
 }
 
-const tileD = () => `M0 0H${TILE}V${TILE}H0Z${nParts(PAD, PAD).join('')}`;
+export const TILE_SIZE = TILE;
+export const tileD = () => `M0 0H${TILE}V${TILE}H0Z${nParts(PAD, PAD).join('')}`;
 const nPath = (d, cls) => `<path class="ny-p ${cls}" pathLength="100" d="${d}"/>`;
 
 /** Guías de construcción para la versión principal (el isotipo queda en PAD, PAD). */

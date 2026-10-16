@@ -29,20 +29,24 @@ export function onceInView(entries, { threshold = 0.35 } = {}) {
     return () => io.disconnect();
 }
 
-const linked = new Set();
+const linked = new Map();
 /**
  * Carga tipografías de Google Fonts / Fontshare solo cuando un manual las pide.
- * `specs` son los pares "peso 1em Familia" que hay que esperar. No espera más de 3 s.
+ * Espera primero a que la hoja de estilos esté cargada (si no, document.fonts.load no conoce todavía la familia y
+ * resuelve al instante) y después a que cada fuente esté lista. No espera más de 3 s.
  */
 export function loadFonts(href, specs, sample = 'Aa') {
     if (!linked.has(href)) {
-        linked.add(href);
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = href;
-        document.head.appendChild(link);
+        linked.set(href, new Promise((resolve) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            link.onload = resolve;
+            link.onerror = resolve;
+            document.head.appendChild(link);
+        }));
     }
-    const ready = Promise.all(specs.map((s) => document.fonts.load(s, sample).catch(() => [])));
+    const ready = linked.get(href).then(() => Promise.all(specs.map((s) => document.fonts.load(s, sample).catch(() => []))));
     return Promise.race([ready, new Promise((r) => setTimeout(r, 3000))]);
 }
 
@@ -82,4 +86,10 @@ export function splitLetters(t, family, weight = 700) {
     });
     t.replaceWith(g);
     return all(g, '.ny-l');
+}
+
+/** Ajusta el cuerpo de cada <text data-cap="…"> para que su mayúscula mida exactamente esa altura (en unidades del SVG). */
+export function fitCaps(root, family, weight = 700, selector = 'text[data-cap]') {
+    const ratio = capRatio(family, weight);
+    root.querySelectorAll(selector).forEach((t) => t.setAttribute('font-size', (Number(t.dataset.cap) / ratio).toFixed(2)));
 }
