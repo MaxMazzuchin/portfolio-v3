@@ -111,8 +111,8 @@ const SOUNDS = {
         noise(t, 0.006, { buf: crushed, type: 'highpass', f: 2500, peak: 0.4 });
     },
     open: (t, p) => [440, 660, 880, 1320].forEach((f, i) => tone(t + i * 0.034, f * p, 0.03, { type: 'square', peak: 0.3 })),
-    // Galope: tres cascos y una pausa ("ta-ga-DUM"), el ciclo del caballo dura 10/12 s; la segunda zancada ya se va apagando.
-    gallop: (t) => [0, 0.833].forEach((d, s) => [0, 0.115, 0.23].forEach((b, i) => hoof(t + d + b, i === 2, s ? 0.55 : 1))),
+    // Galope: tres cascos y una pausa ("ta-ga-DUM"), el ciclo del caballo dura 10/16 s; la segunda zancada ya se va apagando.
+    gallop: (t) => [0, 0.625].forEach((d, s) => [0, 0.09, 0.18].forEach((b, i) => hoof(t + d + b, i === 2, s ? 0.55 : 1))),
     wipeIn: (t) => gated(t, 0.55, Array.from({ length: 22 }, (_, i) => (Math.random() < 0.25 + 0.7 * (i / 22) ? rnd(0.4, 1) : 0)), { f: 900, fEnd: 6000, peak: 0.55 }),
     wipeOut: (t) => gated(t, 0.7, Array.from({ length: 26 }, (_, i) => (Math.random() < 0.95 - 0.9 * (i / 26) ? rnd(0.3, 1) : 0)), { f: 6000, fEnd: 900, peak: 0.5 }),
 };
