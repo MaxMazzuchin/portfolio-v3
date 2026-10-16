@@ -21,11 +21,47 @@ function shellPartials() {
 }
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+const unesc = (s) => String(s).replace(/&lt;/g, '<').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
 
 /** Rutas públicas de cada página (el home es "/"). */
 const routeOf = (file) => (file === 'index.html' ? '/' : `/${file}`);
 
-/** og / twitter / canonical por página, a partir de su <title> y <meta description>; sitemap.xml y robots.txt al compilar. */
+/** Recorta un texto a `max` caracteres sin cortar palabras: para la meta description. */
+const clip = (text, max = 160) => {
+    if (text.length <= max) return text;
+    const cut = text.slice(0, max - 1);
+    return cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s,;:.]+$/, '') + '…';
+};
+
+/** JSON-LD dentro de un <script>: el "<" se escapa para que un texto con "</script>" no cierre la etiqueta. */
+const ld = (obj) => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, '\\u003c')}</script>`;
+
+/** Bloque de tags de compartir de una página. Va entre marcas para poder reemplazarlo en las páginas de proyecto. */
+function seoBlock({ title, desc, url, image, canonical = true, noindex = false, extra = [] }) {
+    const tags = [
+        '<meta name="theme-color" content="#000000">',
+        '<meta property="og:type" content="website">',
+        `<meta property="og:site_name" content="${NAME}">`,
+        '<meta property="og:locale" content="es_AR">',
+        `<meta property="og:title" content="${esc(title)}">`,
+        `<meta property="og:description" content="${esc(desc)}">`,
+        `<meta property="og:image" content="${image}">`,
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        `<meta name="twitter:title" content="${esc(title)}">`,
+        `<meta name="twitter:description" content="${esc(desc)}">`,
+        `<meta name="twitter:image" content="${image}">`,
+    ];
+    if (url && canonical) tags.push(`<link rel="canonical" href="${url}">`, `<meta property="og:url" content="${url}">`);
+    if (noindex) tags.push('<meta name="robots" content="noindex">');
+    tags.push(...extra);
+    return `<!--seo-->\n    ${tags.join('\n    ')}\n    <!--/seo-->`;
+}
+
+/** og / twitter / canonical por página, a partir de su <title> y <meta description>; sitemap.xml y robots.txt al compilar.
+ *  proyecto.html sirve todos los proyectos: al compilar se clona una página por proyecto en /proyecto/<slug>/ con su título,
+ *  descripción e imagen, porque eso es lo que ven WhatsApp, LinkedIn o Google (el contenido lo arma JS, el <head> no). */
 function seo() {
     return {
         name: 'seo',
@@ -33,50 +69,93 @@ function seo() {
             order: 'post',
             handler(html, ctx) {
                 const file = (ctx.path || '/index.html').replace(/^\//, '') || 'index.html';
-                const title = (html.match(/<title>([\s\S]*?)<\/title>/) || [])[1]?.trim() || NAME;
-                const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
-                const url = SITE ? SITE + routeOf(file) : '';
-                const image = `${SITE}/og.png`;
-                const tags = [
-                    '<meta name="theme-color" content="#000000">',
-                    `<meta property="og:type" content="website">`,
-                    `<meta property="og:site_name" content="${NAME}">`,
-                    `<meta property="og:locale" content="es_AR">`,
-                    `<meta property="og:title" content="${esc(title)}">`,
-                    `<meta property="og:description" content="${desc}">`,
-                    `<meta property="og:image" content="${image}">`,
-                    '<meta property="og:image:width" content="1200">',
-                    '<meta property="og:image:height" content="630">',
-                    '<meta name="twitter:card" content="summary_large_image">',
-                    `<meta name="twitter:title" content="${esc(title)}">`,
-                    `<meta name="twitter:description" content="${desc}">`,
-                    `<meta name="twitter:image" content="${image}">`,
-                ];
-                // proyecto.html sirve todos los proyectos con ?p=: un canonical fijo los colapsaría en una sola URL.
-                if (url && !['404.html', 'proyecto.html'].includes(file)) tags.push(`<link rel="canonical" href="${url}">`, `<meta property="og:url" content="${url}">`);
-                if (file === '404.html') tags.push('<meta name="robots" content="noindex">');
+                const title = unesc((html.match(/<title>([\s\S]*?)<\/title>/) || [])[1]?.trim() || NAME);
+                const desc = unesc((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '');
+                const extra = [];
                 if (file === 'index.html') {
-                    const person = {
+                    extra.push(ld({
                         '@context': 'https://schema.org', '@type': 'Person', name: NAME, jobTitle: 'Diseñador gráfico',
                         description: desc, sameAs: ['https://instagram.com/mzz.dsg'],
                         address: { '@type': 'PostalAddress', addressLocality: 'Córdoba', addressCountry: 'AR' },
                         ...(SITE && { url: SITE }),
-                    };
-                    tags.push(`<script type="application/ld+json">${JSON.stringify(person)}</script>`);
+                    }));
                 }
-                return html.replace('</head>', `    ${tags.join('\n    ')}\n</head>`);
+                // El proyecto.html genérico no tiene canonical: cada proyecto tiene el suyo en /proyecto/<slug>/.
+                const block = seoBlock({
+                    title, desc, url: SITE ? SITE + routeOf(file) : '', image: `${SITE}/og.png`,
+                    canonical: !['404.html', 'proyecto.html'].includes(file), noindex: file === '404.html', extra,
+                });
+                return html.replace('</head>', `    ${block}\n</head>`);
             },
         },
-        async generateBundle() {
-            if (!SITE) return; // sin URL absoluta un sitemap no sirve
-            const { projects } = await import(pathToFileURL(resolve(root, 'src/data/work.js')).href);
-            const urls = [
-                ...['index.html', 'trabajo.html', 'biblioteca.html', 'sobre-mi.html'].map(routeOf),
-                ...projects.map((p) => `/proyecto.html?p=${p.slug}`),
-            ];
-            const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${esc(SITE + u)}</loc></url>`).join('\n')}\n</urlset>\n`;
-            this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: xml });
-            this.emitFile({ type: 'asset', fileName: 'robots.txt', source: `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n` });
+        // Dev: /proyecto/<slug>/ lo sirve proyecto.html (en producción, las páginas clonadas de generateBundle).
+        configureServer(server) {
+            server.middlewares.use((req, _res, next) => {
+                const m = /^\/proyecto\/[\w-]+\/?(\?.*)?$/.exec(req.url || '');
+                if (m) req.url = '/proyecto.html' + (m[1] || '');
+                next();
+            });
+        },
+        // Preview: sirve dist/; "/proyecto/<slug>" sin la barra final también tiene que entrar.
+        configurePreviewServer(server) {
+            server.middlewares.use((req, _res, next) => {
+                const m = /^\/proyecto\/([\w-]+)(\?.*)?$/.exec(req.url || '');
+                if (m) req.url = `/proyecto/${m[1]}/${m[2] || ''}`;
+                next();
+            });
+        },
+        generateBundle: {
+            order: 'post',
+            async handler(_opts, bundle) {
+                const { projects, projectUrl, known } = await import(pathToFileURL(resolve(root, 'src/data/work.js')).href);
+
+                // Una página por proyecto, a partir del proyecto.html ya procesado (con sus scripts y estilos hasheados).
+                const generic = bundle['proyecto.html'];
+                if (generic?.type === 'asset') {
+                    const sharp = (await import('sharp')).default;
+                    const base = String(generic.source);
+                    for (const p of projects) {
+                        const c = p.case;
+                        const title = `${p.title} — ${p.type} | ${NAME}`;
+                        const desc = clip((c && known(c.context) ? c.context : p.description) || '');
+                        const route = projectUrl(p.slug);
+
+                        // Imagen para compartir: la portada entera sobre negro a 1200×630 (la original pesa varios MB y los chats la ignoran).
+                        let image = `${SITE}/og.png`;
+                        try {
+                            const jpg = await sharp(resolve(root, 'public' + p.cover.src))
+                                .resize(1200, 630, { fit: 'contain', background: '#000' }).flatten({ background: '#000' })
+                                .jpeg({ quality: 82, mozjpeg: true }).toBuffer();
+                            this.emitFile({ type: 'asset', fileName: `og/${p.slug}.jpg`, source: jpg });
+                            image = `${SITE}/og/${p.slug}.jpg`;
+                        } catch (err) {
+                            this.warn(`og:image de ${p.slug}: ${err.message}. Queda la imagen general.`);
+                        }
+
+                        const block = seoBlock({
+                            title, desc, url: SITE ? SITE + route : '', image,
+                            extra: [ld({
+                                '@context': 'https://schema.org', '@type': 'CreativeWork', name: p.title, genre: p.type, description: desc,
+                                image, creator: { '@type': 'Person', name: NAME }, ...(c && known(c.year) && { dateCreated: c.year }), ...(SITE && { url: SITE + route }),
+                            })],
+                        });
+                        const page = base
+                            .replace(/<title>[\s\S]*?<\/title>/, () => `<title>${esc(title)}</title>`)
+                            .replace(/<meta name="description" content="[^"]*">/, () => `<meta name="description" content="${esc(desc)}">`)
+                            .replace(/<!--seo-->[\s\S]*?<!--\/seo-->/, () => block);
+                        this.emitFile({ type: 'asset', fileName: `proyecto/${p.slug}/index.html`, source: page });
+                    }
+                }
+
+                if (!SITE) return; // sin URL absoluta un sitemap no sirve
+                const urls = [
+                    ...['index.html', 'trabajo.html', 'biblioteca.html', 'sobre-mi.html'].map(routeOf),
+                    ...projects.map((p) => projectUrl(p.slug)),
+                ];
+                const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${esc(SITE + u)}</loc></url>`).join('\n')}\n</urlset>\n`;
+                this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: xml });
+                this.emitFile({ type: 'asset', fileName: 'robots.txt', source: `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n` });
+            },
         },
     };
 }

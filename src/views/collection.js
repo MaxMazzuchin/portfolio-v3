@@ -1,4 +1,4 @@
-import { projects } from '../data/work.js';
+import { projects, projectUrl } from '../data/work.js';
 import { library, kinds } from '../data/library.js';
 import { accentOf } from '../data/accents.js';
 import { gl } from '../gl/index.js';
@@ -20,7 +20,7 @@ const CONFIGS = {
         openLabel: 'Ver proyecto ↗',
         items: () => projects.map((p) => ({
             key: p.slug, name: p.title, sub: p.type, meta: `${p.index} / ${pad(projects.length)}`,
-            cover: p.cover.src, accent: accentOf(p.slug), href: `/proyecto.html?p=${p.slug}`, subLabel: p.type,
+            cover: p.cover.src, accent: accentOf(p.slug), href: projectUrl(p.slug), subLabel: p.type,
         })),
     },
     library: {

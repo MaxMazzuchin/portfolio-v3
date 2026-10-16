@@ -1,4 +1,4 @@
-import { projects, bySlug, known } from '../data/work.js';
+import { projects, bySlug, known, projectUrl } from '../data/work.js';
 import { accentOf } from '../data/accents.js';
 import { openLightbox } from '../core/lightbox.js';
 import { setAccent } from '../core/accent.js';
@@ -22,8 +22,11 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
  * result goes right after the cover.
  */
 export function mountProject(view) {
-    const slug = new URLSearchParams(location.search).get('p');
+    // El slug viene de /proyecto/<slug>/. Los links viejos (/proyecto.html?p=<slug>, o /proyecto/?p=<slug> si el hosting reescribe
+    // la ruta) se leen igual y la barra de direcciones pasa a la URL nueva.
+    const slug = location.pathname.match(/^\/proyecto\/([\w-]+)/)?.[1] || new URLSearchParams(location.search).get('p');
     const p = bySlug(slug) || projects[0];
+    if (location.pathname + location.search !== projectUrl(p.slug)) history.replaceState(history.state, '', projectUrl(p.slug));
     const c = p.case;
     const at = projects.indexOf(p);
     const next = projects[(at + 1) % projects.length];
@@ -110,13 +113,13 @@ export function mountProject(view) {
                     ${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}
                 </dl>
                 <nav class="p-pager mono" aria-label="Otros proyectos">
-                    <a href="/proyecto.html?p=${prev.slug}" data-cursor-item data-cursor="Anterior"><span>←</span> <span class="num">${prev.index}</span> <span class="p-pager-name">${esc(prev.title)}</span></a>
-                    <a href="/proyecto.html?p=${next.slug}" data-cursor-item data-cursor="Siguiente"><span class="p-pager-name">${esc(next.title)}</span> <span class="num">${next.index}</span> <span>→</span></a>
+                    <a href="${projectUrl(prev.slug)}" data-cursor-item data-cursor="Anterior"><span>←</span> <span class="num">${prev.index}</span> <span class="p-pager-name">${esc(prev.title)}</span></a>
+                    <a href="${projectUrl(next.slug)}" data-cursor-item data-cursor="Siguiente"><span class="p-pager-name">${esc(next.title)}</span> <span class="num">${next.index}</span> <span>→</span></a>
                 </nav>
             </aside>
             <section class="p-gallery">${cover}${manual ? sections + result : result + sections}</section>
         </div>
-        <a class="p-next" href="/proyecto.html?p=${next.slug}" data-cursor-item data-cursor="Siguiente">
+        <a class="p-next" href="${projectUrl(next.slug)}" data-cursor-item data-cursor="Siguiente">
             <span class="mono p-next-label"><span>Siguiente — ${next.index}</span><span>↗</span></span>
             <span class="p-next-title">${esc(next.title)}</span>
         </a>`;

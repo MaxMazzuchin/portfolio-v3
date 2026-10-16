@@ -59,6 +59,9 @@ export const projects = [...v2.filter((p) => !HIDDEN.has(p.slug)), ...extras]
 
 export const bySlug = (slug) => projects.find((p) => p.slug === slug);
 
+/** URL de la página de un proyecto. Al compilar, vite.config.js genera una página real en esta ruta (con su título e imagen para compartir). */
+export const projectUrl = (slug) => `/proyecto/${slug}/`;
+
 /** Un dato del caso se muestra solo si está cargado: vacío o con [CONFIRMAR] queda oculto. */
 export const known = (v) => {
     if (Array.isArray(v)) return v.filter(known).length > 0;

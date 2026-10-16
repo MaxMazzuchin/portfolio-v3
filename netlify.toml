@@ -2,6 +2,16 @@
   command = "npm run build"
   publish = "dist"
 
+# Links viejos de proyecto: /proyecto.html?p=<slug> pasa a /proyecto/<slug>/.
+# force = true porque proyecto.html existe en dist/ y sin eso el archivo le gana a la regla.
+# Si el hosting reescribiera la ruta antes de la regla, project.js también lee ?p= y corrige la barra de direcciones.
+[[redirects]]
+  from = "/proyecto.html"
+  to = "/proyecto/:p/"
+  status = 301
+  force = true
+  query = {p = ":p"}
+
 # Los archivos de /assets/ llevan hash en el nombre: se pueden cachear para siempre.
 [[headers]]
   for = "/assets/*"
@@ -20,5 +30,10 @@
 
 [[headers]]
   for = "/og.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/og/*"
   [headers.values]
     Cache-Control = "public, max-age=86400"
