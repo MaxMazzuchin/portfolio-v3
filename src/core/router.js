@@ -39,6 +39,20 @@ export function initRouter({ mount }) {
         if (el) scroll.to(el, immediate ? { immediate: true } : { duration: 1.4 });
     }
 
+    // Después de cambiar de página el foco pasa a su título (o a la vista) y se anuncia el título nuevo, como haría una carga completa.
+    function focusView() {
+        const v = view();
+        // El título puede estar oculto todavía (data-reveal arranca con visibility:hidden) y un elemento oculto no recibe foco: en ese caso, la vista.
+        for (const target of [v.querySelector('h1'), v]) {
+            if (!target) continue;
+            if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+            target.focus({ preventScroll: true });
+            if (document.activeElement === target) break;
+        }
+        const live = document.querySelector('[data-announce]');
+        if (live) live.textContent = document.title;
+    }
+
     async function go(href, { push = true } = {}) {
         if (busy) return;
         const url = new URL(href, location.href);
@@ -70,6 +84,7 @@ export function initRouter({ mount }) {
 
             scroll.top();
             await mount(view());
+            focusView();
             scrollToHash(url.hash, true);
 
             gl.enableReveal(true);

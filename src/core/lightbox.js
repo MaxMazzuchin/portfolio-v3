@@ -155,7 +155,15 @@ export function openLightbox({ images, index = 0, title = '' }) {
             },
         });
     };
-    const onEsc = (e) => { if (e.key === 'Escape') close(); };
+    // Escape cierra; Tab y Shift+Tab giran entre los botones del visor, el foco no se escapa a la página de atrás.
+    const onEsc = (e) => {
+        if (e.key === 'Escape') { close(); return; }
+        if (e.key !== 'Tab') return;
+        const f = [...root.querySelectorAll('button')];
+        const at = f.indexOf(document.activeElement);
+        e.preventDefault();
+        f[at < 0 ? (e.shiftKey ? f.length - 1 : 0) : (at + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+    };
     document.addEventListener('keydown', onEsc);
     closeBtn.addEventListener('click', close);
 

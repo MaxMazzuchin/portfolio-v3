@@ -37,8 +37,8 @@ export function mountProject(view) {
         const i = n++;
         // The first piece is the first thing on screen: load it right away; the rest wait until they get close.
         const load = i === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"';
-        return `<figure class="${cls}" style="--ar:${s.w}/${s.h}" data-cursor-item data-cursor="Ampliar" data-open="${i}">
-            <img data-gl-img src="${s.src}" alt="${esc(p.title)} — ${i + 1}" width="${s.w}" height="${s.h}" ${load} decoding="async">
+        return `<figure class="${cls}" style="--ar:${s.w}/${s.h}" data-cursor-item data-cursor="Ampliar" data-open="${i}" tabindex="0" role="button" aria-label="Ampliar ${esc(p.title)} — ${i + 1}">
+            <img data-gl-img src="${s.src}" alt="" width="${s.w}" height="${s.h}" ${load} decoding="async">
         </figure>`;
     };
 
@@ -134,12 +134,24 @@ export function mountProject(view) {
         });
     }
 
+    const open = (t) => openLightbox({ images: shots, index: Number(t.dataset.open), title: p.title });
     const onClick = (e) => {
         const t = e.target.closest('[data-open]');
-        if (!t) return;
-        openLightbox({ images: shots, index: Number(t.dataset.open), title: p.title });
+        if (t) open(t);
+    };
+    // Con teclado (Enter o Espacio) la pieza se abre al SOLTAR la tecla. Si abriera al apretar, el visor le pasa el foco a su botón
+    // "Cerrar" y el resto de la pulsación (el keypress de Enter, el soltado de Espacio) cae sobre ese botón y lo cierra al instante.
+    // `armed` evita que un soltado suelto (por ejemplo al cerrar el visor con Enter) lo vuelva a abrir.
+    let armed = null;
+    const onKey = (e) => {
+        const t = e.target;
+        if (!t.matches?.('[data-open]') || (e.key !== 'Enter' && e.key !== ' ')) return;
+        if (e.type === 'keydown') { e.preventDefault(); armed = e.repeat ? null : t; }
+        else if (armed === t) { armed = null; open(t); }
     };
     view.addEventListener('click', onClick);
+    view.addEventListener('keydown', onKey);
+    view.addEventListener('keyup', onKey);
 
     // The dither rule in the side column doubles as a scroll progress bar (--p goes 0 → 1 down the page).
     const side = view.querySelector('.p-side');
@@ -170,6 +182,8 @@ export function mountProject(view) {
         gone = true;
         manualCleanup?.();
         view.removeEventListener('click', onClick);
+        view.removeEventListener('keydown', onKey);
+        view.removeEventListener('keyup', onKey);
         removeEventListener('scroll', onScroll);
         removeEventListener('resize', onScroll);
         io.disconnect();
